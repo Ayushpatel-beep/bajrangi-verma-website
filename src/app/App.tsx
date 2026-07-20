@@ -848,6 +848,7 @@ function PracticePage({ nav }: { nav: (p: Page) => void }) {
 function BookingPage() {
   const [step, setStep] = useState(1);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", email: "", caseType: "", description: "" });
   const [receiptDone, setReceiptDone] = useState(false);
@@ -862,6 +863,7 @@ function BookingPage() {
       `*Name:* ${form.name}`,
       `*Phone:* ${form.phone}`,
       form.email ? `*Email:* ${form.email}` : null,
+      `*Date:* ${selectedDate}`,
       `*Day:* ${selectedDay}`,
       `*Time:* ${selectedSlot}`,
       `*Case Type:* ${form.caseType}`,
@@ -887,7 +889,9 @@ function BookingPage() {
             Your booking details and payment receipt have been sent to the chamber on WhatsApp.
           </p>
           <div className="bg-secondary border border-border p-4 text-left space-y-1.5 mb-8 text-xs font-sans">
-            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground font-semibold">{selectedDay} · {selectedSlot}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground font-semibold">
+  {selectedDate} · {selectedDay} · {selectedSlot}
+</span></div>
             <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground font-semibold">{form.name}</span></div>
             <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground font-semibold">{form.caseType}</span></div>
             <div className="flex justify-between border-t border-border pt-1.5 mt-1.5"><span className="text-muted-foreground">Fee Paid</span><span className="text-primary font-bold">₹2,000</span></div>
@@ -936,6 +940,19 @@ function BookingPage() {
         <div>
           <h3 className="font-serif text-xl font-bold text-foreground mb-6">Select a Day</h3>
           <div className="mb-8">
+  <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-2">
+    Select Date
+  </label>
+
+  <input
+    type="date"
+    value={selectedDate}
+    onChange={(e) => setSelectedDate(e.target.value)}
+    min={new Date().toISOString().split("T")[0]}
+    className="w-full sm:w-80 bg-input-background border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary"
+  />
+</div>
+          <div className="mb-8">
             <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">Monday – Saturday <span className="text-primary">6:00 – 9:00 PM</span></div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {WEEKDAYS.map(d => (
@@ -955,7 +972,7 @@ function BookingPage() {
               Sunday
             </button>
           </div>
-          <button onClick={() => { if (selectedDay) setStep(2); }} disabled={!selectedDay}
+          <button onClick={() => { if (selectedDay) setStep(2); }} disabled={!selectedDay || !selectedDate}
             className="mt-10 flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent transition-colors">
             Continue <ArrowRight size={16} />
           </button>
@@ -994,8 +1011,14 @@ function BookingPage() {
           <div className="flex items-center gap-3 mb-6">
             <button onClick={() => setStep(2)} className="text-xs font-sans text-muted-foreground hover:text-primary transition-colors">← Back</button>
             <div className="text-sm font-sans text-foreground">
-              <span className="text-primary font-semibold">{selectedDay}</span> at <span className="text-primary font-semibold">{selectedSlot}</span>
-            </div>
+  <span className="text-primary font-semibold">
+    {selectedDate} · {selectedDay}
+  </span>{" "}
+  at{" "}
+  <span className="text-primary font-semibold">
+    {selectedSlot}
+  </span>
+</div>
           </div>
           <h3 className="font-serif text-xl font-bold text-foreground mb-6">Your Details & Case Brief</h3>
           <form onSubmit={(e) => { e.preventDefault(); setStep(4); }} className="space-y-5">
@@ -1073,7 +1096,13 @@ function BookingPage() {
           <div className="flex items-center gap-3 mb-6">
             <button onClick={() => setStep(3)} className="text-xs font-sans text-muted-foreground hover:text-primary transition-colors">← Back</button>
             <div className="text-sm font-sans text-foreground">
-              <span className="text-primary font-semibold">{selectedDay}</span> at <span className="text-primary font-semibold">{selectedSlot}</span>
+              <span className="text-primary font-semibold">
+  {selectedDate} · {selectedDay}
+</span>{" "}
+at{" "}
+<span className="text-primary font-semibold">
+  {selectedSlot}
+</span>
             </div>
           </div>
           <h3 className="font-serif text-xl font-bold text-foreground mb-2">Pay Consultation Fee</h3>
@@ -1083,7 +1112,9 @@ function BookingPage() {
           <div className="bg-secondary border border-border p-5 mb-6 space-y-2 text-sm font-sans">
             <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">Booking Summary</div>
             <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground">{form.name}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground">{selectedDay} · {selectedSlot}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground">
+  {selectedDate} · {selectedDay} · {selectedSlot}
+</span></div>
             <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground">{form.caseType}</span></div>
             <div className="flex justify-between border-t border-border pt-3 mt-2">
               <span className="text-muted-foreground font-semibold">Consultation Fee</span>
