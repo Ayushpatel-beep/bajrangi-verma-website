@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lively-lokum-acec9d.netlify.app/sitemap.xml
