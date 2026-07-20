@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
-import upiQR from "@/imports/upi_1784531235435.png";
+import upiQR from "@/imports/qrcode.jpg";
 import {
   Phone, MessageCircle, MapPin, Star, ChevronDown, ChevronUp,
   Menu, X, Scale, FileText, Award, Clock, Calendar, CheckCircle,
@@ -10,11 +10,16 @@ import {
 
 type Page = "home" | "practice" | "booking" | "privacy" | "terms" | "disclaimer";
 
-const PHONE = "9415786469";
+const PHONE = "9415786469";           // Bajrangi Verma
+const PHONE_ASHWANI = "8707394242";   // Ashwani Kumar
+
 const WA_NUMBER = "8707394242";
 const UPI_ID = "8707394242@upi";
+
 const WA_LINK = `https://wa.me/91${WA_NUMBER}`;
+
 const CALL_LINK = `tel:+91${PHONE}`;
+const CALL_LINK_ASHWANI = `tel:+91${PHONE_ASHWANI}`;
 const MAP_LINK = "https://maps.google.com/?q=Bajrangi+Verma+Advocate,+8/732,+Matinpurwa,+Sector+8,+Vikas+Nagar,+Lucknow,+Uttar+Pradesh+226022";
 
 const REVIEWS = [
@@ -495,8 +500,8 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           {/* Junior */}
           <div className="bg-card border border-border p-7 hover:border-primary/30 transition-colors">
             <div className="flex items-start gap-4 mb-5">
-              <div className="w-12 h-12 bg-secondary border border-border flex items-center justify-center shrink-0">
-                <BookOpen size={20} className="text-muted-foreground" />
+              <div className="w-12 h-12 bg-secondary/10 border border-secondary/40 flex items-center justify-center shrink-0">
+                <BookOpen size={20} className="text-primary" />
               </div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-foreground">Ashwani Kumar</h3>
@@ -508,6 +513,8 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
               <div className="flex items-center gap-2"><Building2 size={13} className="text-muted-foreground shrink-0" /> District Court & High Court – Lucknow</div>
               <div className="flex items-center gap-2"><FileText size={13} className="text-muted-foreground shrink-0" /> Civil · Criminal · Document Drafting</div>
             </div>
+            <div className="mt-5 pt-4 border-t border-border flex gap-3"></div>
+              <a href={CALL_LINK_ASHWANI} className="flex items-center gap-1.5 text-xs font-sans font-semibold text-primary hover:underline"><Phone size={12} /> Call Now</a>
           </div>
         </div>
       </section>
