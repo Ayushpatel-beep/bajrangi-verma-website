@@ -8,7 +8,7 @@ import {
   Users, TrendingUp, Quote
 } from "lucide-react";
 
-type Page = "home" | "practice" | "booking";
+type Page = "home" | "practice" | "booking" | "privacy" | "terms" | "disclaimer";
 
 const PHONE = "9415786469";
 const WA_NUMBER = "8707394242";
@@ -68,10 +68,13 @@ const SUNDAY_SLOTS = (() => {
 function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const [open, setOpen] = useState(false);
   const links: { label: string; page: Page }[] = [
-    { label: "Home", page: "home" },
-    { label: "Practice Areas", page: "practice" },
-    { label: "Book Consultation", page: "booking" },
-  ];
+  { label: "Home", page: "home" },
+  { label: "Practice Areas", page: "practice" },
+  { label: "Book Consultation", page: "booking" },
+  { label: "Privacy Policy", page: "privacy" },
+  { label: "Terms & Conditions", page: "terms" },
+  { label: "Disclaimer", page: "disclaimer" },
+];
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -160,13 +163,48 @@ function Footer({ nav }: { nav: (p: Page) => void }) {
         <div>
           <h4 className="font-serif text-sm font-bold text-foreground mb-4 tracking-widest uppercase">Quick Links</h4>
           <div className="space-y-2">
-            {(["home", "practice", "booking"] as Page[]).map(p => (
-              <button key={p} onClick={() => nav(p)}
-                className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors capitalize">
-                {p === "home" ? "Home" : p === "practice" ? "Practice Areas" : "Book Consultation"}
-              </button>
-            ))}
-          </div>
+  <button
+    onClick={() => nav("home")}
+    className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
+  >
+    Home
+  </button>
+
+  <button
+    onClick={() => nav("practice")}
+    className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
+  >
+    Practice Areas
+  </button>
+
+  <button
+    onClick={() => nav("booking")}
+    className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
+  >
+    Book Consultation
+  </button>
+
+  <button
+    onClick={() => nav("privacy")}
+    className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
+  >
+    Privacy Policy
+  </button>
+
+  <button
+    onClick={() => nav("terms")}
+    className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
+  >
+    Terms & Conditions
+  </button>
+
+  <button
+    onClick={() => nav("disclaimer")}
+    className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
+  >
+    Disclaimer
+  </button>
+</div>
           <div className="mt-4 flex gap-3">
             <a href={CALL_LINK} className="flex items-center gap-2 text-xs bg-primary text-primary-foreground px-3 py-2 font-semibold font-sans hover:bg-accent transition-colors">
               <Phone size={12} /> Call Now
@@ -182,6 +220,107 @@ function Footer({ nav }: { nav: (p: Page) => void }) {
         © {new Date().getFullYear()} Bajrangi Verma, Advocate. All rights reserved.
       </div>
     </footer>
+  );
+}
+function PrivacyPage() {
+  return (
+    <div className="max-w-5xl mx-auto px-6 pt-28 pb-20">
+      <h1 className="font-serif text-4xl font-bold mb-6">
+        Privacy Policy
+      </h1>
+
+      <p className="mb-4">
+        We respect your privacy. Any information shared with Bajrangi Verma
+        Advocate through this website is kept confidential and used only for
+        providing legal consultation.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-8 mb-3">
+        Information We Collect
+      </h2>
+
+      <ul className="list-disc ml-6 space-y-2">
+        <li>Name</li>
+        <li>Phone Number</li>
+        <li>Email Address (if provided)</li>
+        <li>Case Details submitted through forms</li>
+      </ul>
+
+      <h2 className="text-2xl font-semibold mt-8 mb-3">
+        How We Use Your Information
+      </h2>
+
+      <ul className="list-disc ml-6 space-y-2">
+        <li>To contact you regarding your legal matter.</li>
+        <li>To schedule consultations.</li>
+        <li>To improve our legal services.</li>
+      </ul>
+
+      <h2 className="text-2xl font-semibold mt-8 mb-3">
+        Contact
+      </h2>
+
+      <p>
+        Bajrangi Verma Advocate
+        <br />
+        Lucknow, Uttar Pradesh
+        <br />
+        Phone: +91 9415786469
+      </p>
+    </div>
+  );
+}
+
+function TermsPage() {
+  return (
+    <div className="max-w-5xl mx-auto px-6 pt-28 pb-20">
+      <h1 className="font-serif text-4xl font-bold mb-6">
+        Terms & Conditions
+      </h1>
+
+      <ul className="list-disc ml-6 space-y-3">
+        <li>
+          Information on this website is for general legal awareness only.
+        </li>
+        <li>
+          Submitting a form does not create an advocate-client relationship.
+        </li>
+        <li>
+          Legal advice is provided only after consultation.
+        </li>
+        <li>
+          Fees are discussed separately before engagement.
+        </li>
+        <li>
+          Users should provide accurate information while booking consultations.
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+function DisclaimerPage() {
+  return (
+    <div className="max-w-5xl mx-auto px-6 pt-28 pb-20">
+      <h1 className="font-serif text-4xl font-bold mb-6">
+        Disclaimer
+      </h1>
+
+      <p className="mb-4">
+        This website complies with the Bar Council of India Rules.
+      </p>
+
+      <p className="mb-4">
+        The content published on this website is intended solely for
+        informational purposes and should not be interpreted as legal advice,
+        solicitation, or advertisement.
+      </p>
+
+      <p className="mb-4">
+        Visitors should seek independent legal advice before acting upon any
+        information available on this website.
+      </p>
+    </div>
   );
 }
 
@@ -1009,10 +1148,13 @@ export default function App() {
     <div className="min-h-screen bg-background text-foreground" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>
       <Navbar current={page} nav={nav} />
       <main>
-        {page === "home" && <HomePage nav={nav} />}
-        {page === "practice" && <PracticePage nav={nav} />}
-        {page === "booking" && <BookingPage />}
-      </main>
+  {page === "home" && <HomePage nav={nav} />}
+  {page === "practice" && <PracticePage nav={nav} />}
+  {page === "booking" && <BookingPage />}
+  {page === "privacy" && <PrivacyPage />}
+  {page === "terms" && <TermsPage />}
+  {page === "disclaimer" && <DisclaimerPage />}
+</main>
       <Footer nav={nav} />
     </div>
   );
