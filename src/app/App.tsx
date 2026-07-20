@@ -1,15 +1,19 @@
 import { useState } from "react";
+import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import upiQR from "@/imports/upi_1784531235435.png";
 import {
   Phone, MessageCircle, MapPin, Star, ChevronDown, ChevronUp,
   Menu, X, Scale, FileText, Award, Clock, Calendar, CheckCircle,
-  ArrowRight, Mail, Send, Building2, Gavel, BookOpen, Shield,
+  ArrowRight, Send, Building2, Gavel, BookOpen, Shield,
   Users, TrendingUp, Quote
 } from "lucide-react";
 
 type Page = "home" | "practice" | "booking";
 
 const PHONE = "9415786469";
-const WA_LINK = `https://wa.me/91${PHONE}`;
+const WA_NUMBER = "8707394242";
+const UPI_ID = "8707394242@upi";
+const WA_LINK = `https://wa.me/91${WA_NUMBER}`;
 const CALL_LINK = `tel:+91${PHONE}`;
 const MAP_LINK = "https://maps.google.com/?q=Bajrangi+Verma+Advocate,+8/732,+Matinpurwa,+Sector+8,+Vikas+Nagar,+Lucknow,+Uttar+Pradesh+226022";
 
@@ -91,7 +95,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
           ))}
           <a href={CALL_LINK} className="ml-2 flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold font-sans tracking-wide hover:bg-accent transition-colors">
             <Phone size={14} />
-            {PHONE}
+            Call Now
           </a>
         </nav>
         {/* Mobile menu */}
@@ -108,7 +112,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
             </button>
           ))}
           <a href={CALL_LINK} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold font-sans w-fit">
-            <Phone size={14} /> {PHONE}
+            <Phone size={14} /> Call Now
           </a>
         </div>
       )}
@@ -237,7 +241,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
               </button>
               <a href={CALL_LINK}
                 className="flex items-center gap-2 border border-primary text-primary px-6 py-3 font-semibold font-sans text-sm tracking-wide hover:bg-primary/10 transition-colors">
-                <Phone size={15} /> {PHONE}
+                <Phone size={15} /> Call Now
               </a>
               <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 border border-border text-muted-foreground px-6 py-3 font-semibold font-sans text-sm tracking-wide hover:border-primary hover:text-primary transition-colors">
@@ -346,7 +350,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
               <div className="flex items-center gap-2"><Gavel size={13} className="text-primary shrink-0" /> Civil · Criminal · Matrimonial</div>
             </div>
             <div className="mt-5 pt-4 border-t border-border flex gap-3">
-              <a href={CALL_LINK} className="flex items-center gap-1.5 text-xs font-sans font-semibold text-primary hover:underline"><Phone size={12} /> {PHONE}</a>
+              <a href={CALL_LINK} className="flex items-center gap-1.5 text-xs font-sans font-semibold text-primary hover:underline"><Phone size={12} /> Call Now</a>
             </div>
           </div>
           {/* Junior */}
@@ -422,7 +426,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
                 </div>
                 <div>
                   <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-0.5">Call Directly</div>
-                  <div className="font-serif text-base text-foreground font-semibold">+91 {PHONE}</div>
+                  <div className="font-serif text-base text-primary font-bold tracking-wide">Call Now →</div>
                 </div>
               </a>
               <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
@@ -431,7 +435,9 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
                 </div>
                 <div>
                   <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-0.5">WhatsApp</div>
-                  <div className="font-serif text-base text-foreground font-semibold">+91 {PHONE}</div>
+                  <div className="font-serif text-base text-primary font-bold tracking-wide flex items-center gap-2">
+                    <MessageCircle size={16} /> Chat on WhatsApp →
+                  </div>
                 </div>
               </a>
               <a href={MAP_LINK} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
@@ -460,7 +466,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
               onSubmit={(e) => {
                 e.preventDefault();
                 const msg = `Hello Bajrangi Verma Advocate,%0A%0A*Name:* ${encodeURIComponent(formData.name)}%0A*Phone:* ${encodeURIComponent(formData.phone)}%0A*Subject:* ${encodeURIComponent(formData.subject)}%0A%0A*Description:*%0A${encodeURIComponent(formData.message)}`;
-                window.open(`https://wa.me/91${PHONE}?text=${msg}`, "_blank");
+                window.open(`https://wa.me/91${WA_NUMBER}?text=${msg}`, "_blank");
               }}
               className="space-y-4"
             >
@@ -684,7 +690,7 @@ function PracticePage({ nav }: { nav: (p: Page) => void }) {
           </button>
           <a href={CALL_LINK}
             className="flex items-center gap-2 border border-primary text-primary px-8 py-3 font-sans font-semibold text-sm tracking-wide hover:bg-primary/10 transition-colors">
-            <Phone size={15} /> Call +91 {PHONE}
+            <Phone size={15} /> Call Now
           </a>
         </div>
       </div>
@@ -698,43 +704,58 @@ function BookingPage() {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", email: "", caseType: "", description: "" });
-  const [confirmed, setConfirmed] = useState(false);
+  const [receiptDone, setReceiptDone] = useState(false);
 
   const isSunday = selectedDay === "Sunday";
   const slots = isSunday ? SUNDAY_SLOTS : WEEKDAY_SLOTS;
-  const allDays = [...WEEKDAYS, ...SUNDAY];
 
-  const handleConfirm = (e: React.FormEvent) => {
-    e.preventDefault();
-    setConfirmed(true);
+  const sendReceiptOnWhatsApp = () => {
+    const msg = [
+      `🗓 *New Consultation Booking*`,
+      ``,
+      `*Name:* ${form.name}`,
+      `*Phone:* ${form.phone}`,
+      form.email ? `*Email:* ${form.email}` : null,
+      `*Day:* ${selectedDay}`,
+      `*Time:* ${selectedSlot}`,
+      `*Case Type:* ${form.caseType}`,
+      ``,
+      `*Case Description:*`,
+      form.description,
+      ``,
+      `*Fee Paid:* ₹2,000 via UPI (${UPI_ID})`,
+    ].filter(Boolean).join("%0A");
+    window.open(`https://wa.me/91${WA_NUMBER}?text=${msg}`, "_blank");
+    setReceiptDone(true);
   };
 
-  if (confirmed) {
+  // Step 4 — Receipt confirmed screen
+  if (receiptDone) {
     return (
       <div className="min-h-screen flex items-center justify-center px-6 pt-16">
-        <div className="max-w-lg w-full text-center border border-primary/40 p-12 bg-card">
-          <CheckCircle size={48} className="text-primary mx-auto mb-6" />
-          <h2 className="font-serif text-3xl font-black text-foreground mb-3">Booking Confirmed</h2>
+        <div className="max-w-md w-full text-center border border-primary/40 p-12 bg-card">
+          <CheckCircle size={48} className="text-primary mx-auto mb-5" />
+          <h2 className="font-serif text-3xl font-black text-foreground mb-3">Booking Complete</h2>
           <div className="w-12 h-0.5 bg-primary mx-auto mb-6" />
-          <p className="font-sans text-muted-foreground text-sm leading-relaxed mb-8">
-            Your consultation has been requested for <span className="text-foreground font-semibold">{selectedDay}</span> at <span className="text-foreground font-semibold">{selectedSlot}</span>.<br /><br />
-            Consultation fee: <span className="text-primary font-bold">₹2,000</span> (payable at the office).<br />
-            You will receive confirmation on WhatsApp at <span className="text-foreground font-semibold">+91 {form.phone}</span>.
+          <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-4">
+            Your booking details and payment receipt have been sent to the chamber on WhatsApp.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href={CALL_LINK}
-              className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-sans font-semibold text-sm hover:bg-accent transition-colors">
-              <Phone size={15} /> Call to Confirm
-            </a>
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 border border-border text-muted-foreground px-6 py-3 font-sans font-semibold text-sm hover:border-primary hover:text-primary transition-colors">
-              <MessageCircle size={15} /> WhatsApp
-            </a>
+          <div className="bg-secondary border border-border p-4 text-left space-y-1.5 mb-8 text-xs font-sans">
+            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground font-semibold">{selectedDay} · {selectedSlot}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground font-semibold">{form.name}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground font-semibold">{form.caseType}</span></div>
+            <div className="flex justify-between border-t border-border pt-1.5 mt-1.5"><span className="text-muted-foreground">Fee Paid</span><span className="text-primary font-bold">₹2,000</span></div>
           </div>
+          <a href={CALL_LINK}
+            className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-sans font-semibold text-sm hover:bg-accent transition-colors w-full">
+            <Phone size={15} /> Call Now to Confirm
+          </a>
         </div>
       </div>
     );
   }
+
+  const STEP_LABELS = ["Select Day", "Select Time", "Your Details", "Payment"];
 
   return (
     <div className="max-w-4xl mx-auto px-6 pt-28 pb-20">
@@ -749,17 +770,17 @@ function BookingPage() {
       </div>
 
       {/* Step indicators */}
-      <div className="flex items-center gap-0 mb-12">
-        {[1, 2, 3].map((s, idx) => (
-          <div key={s} className="flex items-center">
+      <div className="flex items-center mb-12 overflow-x-auto pb-1">
+        {[1, 2, 3, 4].map((s, idx) => (
+          <div key={s} className="flex items-center shrink-0">
             <div className={`w-8 h-8 flex items-center justify-center text-xs font-sans font-bold transition-colors
               ${step > s ? "bg-primary text-primary-foreground" : step === s ? "border-2 border-primary text-primary" : "border border-border text-muted-foreground"}`}>
               {step > s ? <CheckCircle size={14} /> : s}
             </div>
-            <div className="font-sans text-xs ml-2 mr-6 hidden sm:block text-muted-foreground">
-              {s === 1 ? "Select Day" : s === 2 ? "Select Time" : "Your Details"}
+            <div className="font-sans text-xs ml-2 mr-4 hidden sm:block text-muted-foreground whitespace-nowrap">
+              {STEP_LABELS[s - 1]}
             </div>
-            {idx < 2 && <div className={`flex-1 h-px w-8 mr-2 ${step > s ? "bg-primary" : "bg-border"}`} />}
+            {idx < 3 && <div className={`h-px w-6 mr-2 ${step > s ? "bg-primary" : "bg-border"}`} />}
           </div>
         ))}
       </div>
@@ -788,9 +809,7 @@ function BookingPage() {
               Sunday
             </button>
           </div>
-          <button
-            onClick={() => { if (selectedDay) setStep(2); }}
-            disabled={!selectedDay}
+          <button onClick={() => { if (selectedDay) setStep(2); }} disabled={!selectedDay}
             className="mt-10 flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent transition-colors">
             Continue <ArrowRight size={16} />
           </button>
@@ -816,9 +835,7 @@ function BookingPage() {
               </button>
             ))}
           </div>
-          <button
-            onClick={() => { if (selectedSlot) setStep(3); }}
-            disabled={!selectedSlot}
+          <button onClick={() => { if (selectedSlot) setStep(3); }} disabled={!selectedSlot}
             className="flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent transition-colors">
             Continue <ArrowRight size={16} />
           </button>
@@ -834,28 +851,37 @@ function BookingPage() {
               <span className="text-primary font-semibold">{selectedDay}</span> at <span className="text-primary font-semibold">{selectedSlot}</span>
             </div>
           </div>
-          <h3 className="font-serif text-xl font-bold text-foreground mb-2">Your Details & Case Brief</h3>
-          <div className="bg-card border border-primary/30 px-5 py-3 mb-8 flex items-center gap-3">
-            <CheckCircle size={16} className="text-primary shrink-0" />
-            <p className="font-sans text-xs text-muted-foreground">
-              Consultation fee: <span className="text-primary font-bold">₹2,000</span> — payable at the office. Your details are kept strictly confidential.
-            </p>
-          </div>
-          <form onSubmit={handleConfirm} className="space-y-5">
+          <h3 className="font-serif text-xl font-bold text-foreground mb-6">Your Details & Case Brief</h3>
+          <form onSubmit={(e) => { e.preventDefault(); setStep(4); }} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {[
-                { id: "name", label: "Full Name", type: "text", placeholder: "Your full name" },
-                { id: "phone", label: "Mobile Number", type: "tel", placeholder: "+91 XXXXX XXXXX" },
-              ].map(f => (
-                <div key={f.id}>
-                  <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-1.5">{f.label} *</label>
-                  <input type={f.type} required placeholder={f.placeholder}
-                    value={(form as any)[f.id]}
-                    onChange={e => setForm(v => ({ ...v, [f.id]: e.target.value }))}
-                    className="w-full bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              <div>
+                <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-1.5">Full Name *</label>
+                <input type="text" required placeholder="Your full name"
+                  value={form.name}
+                  onChange={e => setForm(v => ({ ...v, name: e.target.value }))}
+                  className="w-full bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-1.5">Mobile Number *</label>
+                <div className="flex">
+                  <span className="flex items-center px-3 bg-secondary border border-r-0 border-border font-sans text-sm text-muted-foreground select-none">+91</span>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="XXXXXXXXXX"
+                    value={form.phone}
+                    maxLength={10}
+                    pattern="\d{10}"
+                    title="Please enter a valid 10-digit mobile number"
+                    onChange={e => {
+                      const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+                      setForm(v => ({ ...v, phone: digits }));
+                    }}
+                    className="flex-1 bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
-              ))}
+              </div>
             </div>
             <div>
               <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-1.5">Email Address (optional)</label>
@@ -889,9 +915,81 @@ function BookingPage() {
             </div>
             <button type="submit"
               className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-4 font-sans font-bold text-sm tracking-wide hover:bg-accent transition-colors">
-              <CheckCircle size={16} /> Confirm Consultation — ₹2,000
+              Proceed to Payment <ArrowRight size={16} />
             </button>
           </form>
+        </div>
+      )}
+
+      {/* Step 4 — Payment */}
+      {step === 4 && (
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+            <button onClick={() => setStep(3)} className="text-xs font-sans text-muted-foreground hover:text-primary transition-colors">← Back</button>
+            <div className="text-sm font-sans text-foreground">
+              <span className="text-primary font-semibold">{selectedDay}</span> at <span className="text-primary font-semibold">{selectedSlot}</span>
+            </div>
+          </div>
+          <h3 className="font-serif text-xl font-bold text-foreground mb-2">Pay Consultation Fee</h3>
+          <p className="font-sans text-sm text-muted-foreground mb-8">Complete your payment via UPI to confirm your appointment.</p>
+
+          {/* Booking summary */}
+          <div className="bg-secondary border border-border p-5 mb-6 space-y-2 text-sm font-sans">
+            <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">Booking Summary</div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground">{form.name}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground">{selectedDay} · {selectedSlot}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground">{form.caseType}</span></div>
+            <div className="flex justify-between border-t border-border pt-3 mt-2">
+              <span className="text-muted-foreground font-semibold">Consultation Fee</span>
+              <span className="text-primary font-black text-base">₹2,000</span>
+            </div>
+          </div>
+
+          {/* UPI payment box */}
+          <div className="border border-primary/50 bg-card p-7 mb-6">
+            <div className="font-sans text-xs tracking-widest text-primary uppercase font-semibold mb-5">Pay via UPI</div>
+            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+              {/* UPI QR Code */}
+              <div className="shrink-0 bg-white p-2 border border-primary/30">
+                <ImageWithFallback
+                  src={upiQR}
+                  alt="UPI QR Code – Bajrangi Verma Advocate – 8707394242@upi"
+                  className="w-36 h-36 object-contain"
+                />
+              </div>
+              <div className="space-y-4 flex-1">
+                <div>
+                  <div className="font-sans text-xs text-muted-foreground uppercase tracking-widest mb-1">UPI ID</div>
+                  <div className="font-mono text-lg font-bold text-primary border border-primary/30 px-4 py-2 bg-background inline-block select-all">
+                    {UPI_ID}
+                  </div>
+                </div>
+                <div>
+                  <div className="font-sans text-xs text-muted-foreground uppercase tracking-widest mb-1">Pay To</div>
+                  <div className="font-serif text-base text-foreground font-semibold">Bajrangi Verma Advocate</div>
+                </div>
+                <div>
+                  <div className="font-sans text-xs text-muted-foreground uppercase tracking-widest mb-1">Amount</div>
+                  <div className="font-serif text-2xl font-black text-primary">₹2,000</div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-5 pt-4 border-t border-border">
+              <p className="font-sans text-xs text-muted-foreground">
+                You can pay using <span className="text-foreground">Paytm, PhonePe, Google Pay, BHIM</span> or any UPI app. Once paid, click the button below to send your receipt on WhatsApp.
+              </p>
+            </div>
+          </div>
+
+          {/* Confirm payment button → WhatsApp */}
+          <button
+            onClick={sendReceiptOnWhatsApp}
+            className="w-full flex items-center justify-center gap-3 bg-primary text-primary-foreground py-4 font-sans font-bold text-sm tracking-wide hover:bg-accent transition-colors">
+            <MessageCircle size={18} /> I Have Paid — Send Receipt on WhatsApp
+          </button>
+          <p className="font-sans text-xs text-muted-foreground text-center mt-3">
+            Clicking above will open WhatsApp with your booking details pre-filled to send to the chamber.
+          </p>
         </div>
       )}
     </div>
