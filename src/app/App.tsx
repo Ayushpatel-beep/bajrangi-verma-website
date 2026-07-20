@@ -500,9 +500,9 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           {/* Junior */}
           <div className="bg-card border border-border p-7 hover:border-primary/30 transition-colors">
             <div className="flex items-start gap-4 mb-5">
-              <div className="w-12 h-12 bg-secondary/10 border border-secondary/40 flex items-center justify-center shrink-0">
-                <BookOpen size={20} className="text-primary" />
-              </div>
+              <div className="w-12 h-12 bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
+  <Scale size={20} className="text-primary" />
+</div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-foreground">Ashwani Kumar</h3>
                 <p className="font-sans text-xs text-primary tracking-widest uppercase mt-0.5">Junior Advocate</p>
