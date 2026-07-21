@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lively-lokum-acec9d.netlify.app/sitemap.xml
+Sitemap: https://bajrangi-verma-advocate.netlify.app/sitemap.xml
