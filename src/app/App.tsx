@@ -949,44 +949,45 @@ const currentQR =
         ))}
       </div>
 
-      {/* Step 1 — Select Day */}
+      {/* Step 1 — Choose Your Consultation Date */}
       {step === 1 && (
         <div>
-          <h3 className="font-serif text-xl font-bold text-foreground mb-6">Select a Day</h3>
+          <h3 className="font-serif text-xl font-bold text-foreground mb-6">Select Consultation Date</h3>
           <div className="mb-8">
-  <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-2">
-    Select Date
-  </label>
+  <label className="flex items-center gap-2 font-sans text-xs tracking-widest text-primary uppercase mb-2">
+  <Calendar size={14} />
+  Select Consultation Date
+</label>
 
   <input
-    type="date"
-    value={selectedDate}
-    onChange={(e) => setSelectedDate(e.target.value)}
-    min={new Date().toISOString().split("T")[0]}
-    className="w-full sm:w-80 bg-input-background border border-border px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary"
-  />
+  type="date"
+  value={selectedDate}
+  onChange={(e) => {
+    const date = e.target.value;
+    setSelectedDate(date);
+
+    const day = new Date(date).toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+
+    setSelectedDay(day);
+  }}
+  min={new Date().toISOString().split("T")[0]}
+  className="w-full sm:w-96 bg-primary/5 border-2 border-primary rounded-lg px-4 py-3 text-sm font-semibold text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+/>
+
+{selectedDate && (
+  <div className="mt-3 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-lg px-3 py-2">
+    <Calendar size={16} className="text-primary" />
+    <span className="text-sm font-semibold text-primary">
+      {selectedDate} • {selectedDay}
+    </span>
+  </div>
+)}
+
 </div>
-          <div className="mb-8">
-            <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">Monday – Saturday <span className="text-primary">6:00 – 9:00 PM</span></div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {WEEKDAYS.map(d => (
-                <button key={d} onClick={() => setSelectedDay(d)}
-                  className={`py-4 px-5 text-sm font-sans font-semibold border transition-all
-                    ${selectedDay === d ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"}`}>
-                  {d}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">Sunday <span className="text-primary">4:00 – 9:00 PM</span></div>
-            <button onClick={() => setSelectedDay("Sunday")}
-              className={`py-4 px-8 text-sm font-sans font-semibold border transition-all
-                ${selectedDay === "Sunday" ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"}`}>
-              Sunday
-            </button>
-          </div>
-          <button onClick={() => { if (selectedDay) setStep(2); }} disabled={!selectedDay || !selectedDate}
+          
+          <button onClick={() => { if (selectedDate) setStep(2); }} disabled={!selectedDate}
             className="mt-10 flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent transition-colors">
             Continue <ArrowRight size={16} />
           </button>
