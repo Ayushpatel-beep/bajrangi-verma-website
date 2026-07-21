@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import upiQR from "@/imports/qrcode.jpg";
+import upiQR3500 from "@/imports/qrcode3500.jpg";
 import {
   Phone, MessageCircle, MapPin, Star, ChevronDown, ChevronUp,
   Menu, X, Scale, FileText, Award, Clock, Calendar, CheckCircle,
@@ -21,6 +22,9 @@ const WA_LINK = `https://wa.me/91${WA_NUMBER}`;
 const CALL_LINK = `tel:+91${PHONE}`;
 const CALL_LINK_ASHWANI = `tel:+91${PHONE_ASHWANI}`;
 const MAP_LINK = "https://maps.google.com/?q=Bajrangi+Verma+Advocate,+8/732,+Matinpurwa,+Sector+8,+Vikas+Nagar,+Lucknow,+Uttar+Pradesh+226022";
+
+const HIGH_COURT_FEE = 3500;
+const NORMAL_FEE = 2000;
 
 const REVIEWS = [
   { name: "Rohit Maurya", role: "Local Guide · 7 reviews", stars: 5, time: "3 years ago", text: "Best Civil Advocate in Lucknow for High Court as well as District Court. Extremely knowledgeable and always prepared." },
@@ -856,6 +860,16 @@ function BookingPage() {
   const isSunday = selectedDay === "Sunday";
   const slots = isSunday ? SUNDAY_SLOTS : WEEKDAY_SLOTS;
 
+  const consultationFee =
+  form.caseType === "High Court Writ / Appeal"
+    ? HIGH_COURT_FEE
+    : NORMAL_FEE;
+
+const currentQR =
+  form.caseType === "High Court Writ / Appeal"
+    ? upiQR3500
+    : upiQR;
+
   const sendReceiptOnWhatsApp = () => {
     const msg = [
       `🗓 *New Consultation Booking*`,
@@ -871,7 +885,7 @@ function BookingPage() {
       `*Case Description:*`,
       form.description,
       ``,
-      `*Fee Paid:* ₹2,000 via UPI (${UPI_ID})`,
+      `*Fee Paid:* ₹${consultationFee.toLocaleString("en-IN")} via UPI (${UPI_ID})`,
     ].filter(Boolean).join("%0A");
     window.open(`https://wa.me/91${WA_NUMBER}?text=${msg}`, "_blank");
     setReceiptDone(true);
@@ -915,7 +929,7 @@ function BookingPage() {
         <h1 className="font-serif text-4xl md:text-5xl font-black text-foreground mb-4">Book a Consultation</h1>
         <div className="w-16 h-0.5 bg-primary mb-5" />
         <p className="font-sans text-muted-foreground text-sm">
-          Initial consultation fee: <span className="text-primary font-semibold">₹2,000</span>. Available Mon–Sat 6–9 PM · Sunday 4–9 PM.
+          Initial consultation fee: <span className="text-primary font-semibold">₹{consultationFee.toLocaleString("en-IN")}</span>. Available Mon–Sat 6–9 PM · Sunday 4–9 PM.
         </p>
       </div>
 
@@ -1118,7 +1132,9 @@ at{" "}
             <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground">{form.caseType}</span></div>
             <div className="flex justify-between border-t border-border pt-3 mt-2">
               <span className="text-muted-foreground font-semibold">Consultation Fee</span>
-              <span className="text-primary font-black text-base">₹2,000</span>
+              <span className="text-primary font-black text-base">
+  ₹{consultationFee.toLocaleString("en-IN")}
+</span>
             </div>
           </div>
 
@@ -1129,7 +1145,7 @@ at{" "}
               {/* UPI QR Code */}
               <div className="shrink-0 bg-white p-2 border border-primary/30">
                 <ImageWithFallback
-                  src={upiQR}
+                  src={currentQR}
                   alt="UPI QR Code – Bajrangi Verma Advocate – 8707394242@upi"
                   className="w-36 h-36 object-contain"
                 />
@@ -1146,12 +1162,17 @@ at{" "}
                   <div className="font-serif text-base text-foreground font-semibold">Bajrangi Verma Advocate</div>
                 </div>
                 <div>
-                  <div className="font-sans text-xs text-muted-foreground uppercase tracking-widest mb-1">Amount</div>
-                  <div className="font-serif text-2xl font-black text-primary">₹2,000</div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-5 pt-4 border-t border-border">
+  <div className="font-sans text-xs text-muted-foreground uppercase tracking-widest mb-1">
+    Amount
+  </div>
+  <div className="font-serif text-2xl font-black text-primary">
+    ₹{consultationFee.toLocaleString("en-IN")}
+  </div>
+    </div>
+  </div>
+</div>
+
+<div className="mt-5 pt-4 border-t border-border">
               <p className="font-sans text-xs text-muted-foreground">
                 You can pay using <span className="text-foreground">Paytm, PhonePe, Google Pay, BHIM</span> or any UPI app. Once paid, click the button below to send your receipt on WhatsApp.
               </p>
