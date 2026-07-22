@@ -6,12 +6,12 @@ import {
   Phone, MessageCircle, MapPin, Star, ChevronDown, ChevronUp,
   Menu, X, Scale, FileText, Award, Clock, Calendar, CheckCircle,
   ArrowRight, Send, Building2, Gavel, BookOpen, Shield,
-  Users, TrendingUp, Quote
+  Users, TrendingUp, Quote, Library, Newspaper, BookMarked
 } from "lucide-react";
 
-import LegalRepository from "./components/LegalRepository";
-
 type Page = "home" | "practice" | "booking" | "repository" | "privacy" | "terms" | "disclaimer";
+
+type RepoTab = "research" | "current" | "caselaws";
 
 const PHONE = "9415786469";           // Bajrangi Verma
 const PHONE_ASHWANI = "8707394242";   // Ashwani Kumar
@@ -74,6 +74,119 @@ const SUNDAY_SLOTS = (() => {
   }
   return slots;
 })();
+
+// ─── LEGAL REPOSITORY DATA & PAGE ────────────────────────────────────────────
+
+// ── Static seed data ──
+const SEED_PAPERS = [
+  { id: "s1", title: "Understanding Civil Procedure Code, 1908 — A Practical Guide", category: "Civil Law", summary: "A comprehensive overview of the CPC covering plaint filing, written statements, framing of issues, trial procedure, decrees, and execution. Essential reading for litigants in District Courts.", readTime: "12 min read", authors: "Adv. Bajrangi Verma", tags: "CPC, Civil Procedure, District Court" },
+  { id: "s2", title: "Bail Jurisprudence in India — Principles & Recent Trends", category: "Criminal Law", summary: "Examines the grant and refusal of bail under Sections 436–439 CrPC (now BNSS 2023), the triple test, anticipatory bail, and the evolving approach of the Supreme Court and High Courts.", readTime: "15 min read", authors: "Adv. Bajrangi Verma", tags: "Bail, CrPC, BNSS 2023" },
+  { id: "s3", title: "Property Rights of Women Under Hindu Succession Act", category: "Matrimonial Law", summary: "Analysis of the 2005 amendment granting daughters coparcenary rights, the Vineeta Sharma judgment, and practical implications for inheritance disputes in Uttar Pradesh.", readTime: "10 min read", authors: "Adv. Bajrangi Verma", tags: "Hindu Succession Act, Women's Rights, Property" },
+  { id: "s4", title: "Writ Jurisdiction of High Courts — Article 226 Explained", category: "Constitutional Law", summary: "A detailed examination of the five writs — Habeas Corpus, Mandamus, Certiorari, Prohibition, and Quo Warranto — with focus on the Allahabad High Court's writ jurisdiction.", readTime: "18 min read", authors: "Adv. Bajrangi Verma", tags: "Article 226, High Court, Writs" },
+  { id: "s5", title: "Matrimonial Remedies Under Hindu Marriage Act, 1955", category: "Matrimonial Law", summary: "Covers divorce grounds (Sections 13–13B), judicial separation, restitution of conjugal rights, nullity, maintenance, and child custody with reference to Lucknow Family Courts.", readTime: "14 min read", authors: "Adv. Bajrangi Verma", tags: "HMA 1955, Divorce, Family Court" },
+  { id: "s6", title: "Cheque Dishonour Cases — Section 138 NI Act Procedure", category: "Criminal Law", summary: "Step-by-step procedure from legal notice to trial under Section 138 NI Act, including Supreme Court guidelines on speedy disposal and compounding.", readTime: "9 min read", authors: "Adv. Bajrangi Verma", tags: "Section 138, NI Act, Cheque Bounce" },
+];
+
+const SEED_ARTICLES = [
+  { id: "a1", title: "How to File a Writ Petition in Allahabad High Court — Step by Step", author: "Adv. Bajrangi Verma", date: "July 2025", category: "High Court", body: "A writ petition under Article 226 is filed before the High Court to enforce fundamental rights or challenge unlawful state action. The petitioner must: (1) Draft the writ petition stating facts, legal grounds, and relief sought. (2) Attach supporting documents and an affidavit. (3) Pay court fees. (4) File before the appropriate bench. The Lucknow Bench handles matters arising from 27 districts of UP. Interim orders (stay/injunction) can be sought on the first date itself." },
+  { id: "a2", title: "What Is Anticipatory Bail and How to Apply for It", author: "Adv. Bajrangi Verma", date: "June 2025", category: "Criminal Law", body: "Anticipatory bail under Section 438 CrPC (now Section 482 BNSS) protects a person from arrest in anticipation of accusation. It is granted by the Sessions Court or High Court. Key points: The applicant need not be arrested. The court considers the nature of offence, antecedents, likelihood of fleeing, and possibility of tampering. Conditions may be imposed. Anticipatory bail does not lapse on arrest — it continues until the trial court grants regular bail." },
+  { id: "a3", title: "Tenant Rights Under the U.P. Urban Buildings (Regulation of Letting, Rent and Eviction) Act", author: "Adv. Bajrangi Verma", date: "May 2025", category: "Civil Law", body: "Tenants in Uttar Pradesh are protected under the UP Rent Control Act. Key rights include: Protection from arbitrary eviction — a landlord can only evict on prescribed grounds (default in rent, subletting without consent, bonafide need, etc.). The prescribed authority (not civil court) handles eviction applications. Rent cannot be increased beyond permissible limits. Tenants in Lucknow should be aware that the Act applies to urban areas and buildings constructed before 1995." },
+  { id: "a4", title: "Maintenance Rights Under Section 125 CrPC — Who Can Claim and How Much", author: "Adv. Bajrangi Verma", date: "April 2025", category: "Matrimonial Law", body: "Section 125 CrPC (now Section 144 BNSS) provides maintenance to wives, children, and parents who are unable to maintain themselves. A wife can claim maintenance even during divorce proceedings. The court considers the husband's income and the wife's needs. There is no maximum cap — courts have awarded ₹50,000+ per month in high-income cases. Maintenance is payable from the date of application. Non-payment can result in imprisonment of up to one month per default." },
+];
+
+const SEED_CASES = [
+  { id: "c1", citation: "AIR 2020 SC 3717", title: "Vineeta Sharma v. Rakesh Sharma", court: "Supreme Court of India", year: "2020", subject: "Hindu Succession — Daughters' Coparcenary Rights", ratio: "Daughters have equal coparcenary rights in ancestral property by birth, irrespective of whether the father was alive on 9 September 2005. This right is not defeated by the father's death before the amendment.", category: "Civil", analysis: "This judgment settled a long-standing dispute and overruled earlier conflicting decisions. It has major implications for property disputes in UP where partition suits are common. Courts must now reopen settled matters if a daughter's rights were overlooked." },
+  { id: "c2", citation: "AIR 2022 SC 4190", title: "Satender Kumar Antil v. CBI", court: "Supreme Court of India", year: "2022", subject: "Bail — Default Bail — Delay in Trial", ratio: "Bail is the rule and jail is the exception. The court issued comprehensive guidelines for bail in cases involving delay, directing that undertrial prisoners not charged with heinous offences should not remain incarcerated for long periods.", category: "Criminal", analysis: "This decision empowered defence advocates to cite delay as a standalone ground for bail. Particularly relevant in Sessions Court and High Court bail applications in UP where trials often extend for years." },
+  { id: "c3", citation: "(2021) 2 SCC 1", title: "In Re: Expeditious Trial of Cases under Section 138 NI Act", court: "Supreme Court of India", year: "2021", subject: "Section 138 NI Act — Speedy Disposal", ratio: "Directed creation of dedicated courts for Section 138 cases. Mediation to be attempted before trial. Model timelines issued: summons within 30 days, trial completion within 6 months.", category: "Criminal", analysis: "This suo motu order transformed the handling of cheque bounce cases. Lucknow has seen dedicated courts set up under this order. Advocates must now comply with strict timelines and attempt mediation before proceeding to full trial." },
+  { id: "c4", citation: "AIR 2023 All 210", title: "Ram Chandra v. State of U.P.", court: "Allahabad High Court — Lucknow Bench", year: "2023", subject: "Anticipatory Bail — FIR under Section 307 IPC", ratio: "Anticipatory bail granted where the dispute was primarily civil in nature and criminal complaint appeared to be an afterthought. Custodial interrogation held unnecessary given the accused's cooperation.", category: "Criminal", analysis: "A significant local precedent from the Lucknow Bench. Demonstrates that courts look beyond the FIR to the underlying dispute. Useful in cases where property or matrimonial disputes are being criminalised." },
+  { id: "c5", citation: "(2019) 8 SCC 730", title: "Joseph Shine v. Union of India", court: "Supreme Court of India", year: "2019", subject: "Adultery — Section 497 IPC — Unconstitutional", ratio: "Section 497 IPC struck down as unconstitutional for treating wives as property of husbands. Adultery cannot be a criminal offence in a constitutional democracy.", category: "Constitutional", analysis: "While adultery is no longer a crime, it remains relevant as a ground for divorce under matrimonial law. The conduct can still be cited in divorce proceedings and may influence maintenance orders." },
+  { id: "c6", citation: "AIR 2024 SC 1020", title: "XYZ v. State of Uttar Pradesh", court: "Supreme Court of India", year: "2024", subject: "Writ of Habeas Corpus — Illegal Detention", ratio: "Any detention beyond the period prescribed by law is unconstitutional. A writ of Habeas Corpus must be entertained even where a detenu is held under an executive order without proper judicial review.", category: "Constitutional", analysis: "Reaffirms the strong position of Habeas Corpus as a writ. Relevant in cases of illegal police detention in UP. Advocates should file before the Lucknow Bench without delay — courts have entertained such writs even on weekends." },
+];
+
+type ResearchFilter = "All" | "Civil" | "Criminal" | "Matrimonial" | "Constitutional";
+
+// ── Generic Admin Modal ──
+function AdminModal({ title, fields, onSave, onClose }: {
+  title: string;
+  fields: { key: string; label: string; type: "text" | "textarea" | "select"; options?: string[] }[];
+  onSave: (data: Record<string, string>) => void;
+  onClose: () => void;
+}) {
+  const [data, setData] = useState<Record<string, string>>(
+    Object.fromEntries(fields.map(f => [f.key, ""]))
+  );
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(data);
+  };
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-background/80 backdrop-blur-sm pt-16 pb-8 px-4">
+      <div className="w-full max-w-2xl bg-card border border-primary/50 shadow-2xl">
+        <div className="flex items-center justify-between px-7 py-5 border-b border-border">
+          <h3 className="font-serif text-lg font-bold text-foreground">{title}</h3>
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors"><X size={18} /></button>
+        </div>
+        <form onSubmit={handleSubmit} className="px-7 py-6 space-y-4">
+          {fields.map(f => (
+            <div key={f.key}>
+              <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-1.5">{f.label} *</label>
+              {f.type === "textarea" ? (
+                <textarea required rows={4} value={data[f.key]}
+                  onChange={e => setData(v => ({ ...v, [f.key]: e.target.value }))}
+                  className="w-full bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none" />
+              ) : f.type === "select" ? (
+                <select required value={data[f.key]}
+                  onChange={e => setData(v => ({ ...v, [f.key]: e.target.value }))}
+                  className="w-full bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground focus:outline-none focus:border-primary transition-colors appearance-none">
+                  <option value="">Select…</option>
+                  {f.options?.map(o => <option key={o}>{o}</option>)}
+                </select>
+              ) : (
+                <input type="text" required value={data[f.key]}
+                  onChange={e => setData(v => ({ ...v, [f.key]: e.target.value }))}
+                  className="w-full bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
+              )}
+            </div>
+          ))}
+          <div className="flex gap-3 pt-2">
+            <button type="submit" className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-sans font-semibold text-sm hover:bg-accent transition-colors">
+              <CheckCircle size={14} /> Save Entry
+            </button>
+            <button type="button" onClick={onClose} className="px-6 py-3 border border-border text-muted-foreground font-sans text-sm hover:border-primary transition-colors">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ── localStorage helpers ──
+function useRepoStore<T extends { id: string }>(key: string, seed: T[]) {
+  const [userItems, setUserItems] = useState<T[]>(() => {
+    try { const s = localStorage.getItem(key); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+
+  const add = (item: T) => {
+    setUserItems(prev => {
+      const next = [item, ...prev];
+      localStorage.setItem(key, JSON.stringify(next));
+      return next;
+    });
+  };
+  const remove = (id: string) => {
+    setUserItems(prev => {
+      const next = prev.filter(i => i.id !== id);
+      localStorage.setItem(key, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const all = [...userItems, ...seed.filter(s => !userItems.find(u => u.id === s.id))];
+  return { all, userItems, add, remove };
+}
+
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
@@ -195,6 +308,13 @@ function Footer({ nav }: { nav: (p: Page) => void }) {
   >
     Book Consultation
   </button>
+
+  <button
+  onClick={() => nav("repository")}
+  className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
+>
+  Legal Repository
+</button>
 
   <button
     onClick={() => nav("privacy")}
@@ -1214,7 +1334,7 @@ export default function App() {
   {page === "home" && <HomePage nav={nav} />}
   {page === "practice" && <PracticePage nav={nav} />}
   {page === "booking" && <BookingPage />}
-  {page === "repository" && <LegalRepository />}
+  {page === "repository" && <RepositoryPage nav={nav} />}
   {page === "privacy" && <PrivacyPage />}
   {page === "terms" && <TermsPage />}
   {page === "disclaimer" && <DisclaimerPage />}
