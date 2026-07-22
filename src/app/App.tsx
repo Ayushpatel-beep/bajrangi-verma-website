@@ -9,7 +9,9 @@ import {
   Users, TrendingUp, Quote
 } from "lucide-react";
 
-type Page = "home" | "practice" | "booking" | "privacy" | "terms" | "disclaimer";
+import LegalRepository from "./components/LegalRepository";
+
+type Page = "home" | "practice" | "booking" | "repository" | "privacy" | "terms" | "disclaimer";
 
 const PHONE = "9415786469";           // Bajrangi Verma
 const PHONE_ASHWANI = "8707394242";   // Ashwani Kumar
@@ -80,6 +82,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   { label: "Home", page: "home" },
   { label: "Practice Areas", page: "practice" },
   { label: "Book Consultation", page: "booking" },
+  { label: "Legal Repository", page: "repository" },
   { label: "Privacy Policy", page: "privacy" },
   { label: "Terms & Conditions", page: "terms" },
   { label: "Disclaimer", page: "disclaimer" },
@@ -1211,6 +1214,7 @@ export default function App() {
   {page === "home" && <HomePage nav={nav} />}
   {page === "practice" && <PracticePage nav={nav} />}
   {page === "booking" && <BookingPage />}
+  {page === "repository" && <LegalRepository />}
   {page === "privacy" && <PrivacyPage />}
   {page === "terms" && <TermsPage />}
   {page === "disclaimer" && <DisclaimerPage />}
