@@ -8,6 +8,45 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+type ResearchPaper = {
+  id: number;
+  title: string;
+  category: string;
+  author: string;
+  date: string;
+  description: string;
+};
+
+const researchPapers: ResearchPaper[] = [
+  {
+    id: 1,
+    title: "Fundamental Rights under the Constitution of India",
+    category: "Constitutional Law",
+    author: "Bajrangi Verma",
+    date: "2026",
+    description:
+      "A detailed study of Fundamental Rights and landmark constitutional judgments.",
+  },
+  {
+    id: 2,
+    title: "Civil Procedure Code – Practical Analysis",
+    category: "Civil Law",
+    author: "Bajrangi Verma",
+    date: "2026",
+    description:
+      "Important provisions of CPC explained with practical courtroom examples.",
+  },
+  {
+    id: 3,
+    title: "Criminal Procedure Code – Recent Developments",
+    category: "Criminal Law",
+    author: "Bajrangi Verma",
+    date: "2026",
+    description:
+      "Analysis of recent procedural changes and important criminal law judgments.",
+  },
+];
+
 export default function LegalRepository() {
   const [activeTab, setActiveTab] = useState("research");
   const [search, setSearch] = useState("");
@@ -81,7 +120,51 @@ export default function LegalRepository() {
             Case Laws
           </button>
 
-        </div>
+                </div>
+
+        {/* Research Papers */}
+
+        {activeTab === "research" && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {researchPapers
+              .filter(
+                (paper) =>
+                  paper.title.toLowerCase().includes(search.toLowerCase()) ||
+                  paper.category.toLowerCase().includes(search.toLowerCase())
+              )
+              .map((paper) => (
+                <div
+                  key={paper.id}
+                  className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
+                >
+                  <div className="flex items-center gap-2 text-primary mb-3">
+                    <BookOpen size={18} />
+                    <span className="text-xs uppercase tracking-wider">
+                      {paper.category}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-serif font-bold text-foreground mb-3">
+                    {paper.title}
+                  </h3>
+
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {paper.description}
+                  </p>
+
+                  <div className="flex justify-between text-xs text-muted-foreground mb-4">
+                    <span>{paper.author}</span>
+                    <span>{paper.date}</span>
+                  </div>
+
+                  <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+                    Read More
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              ))}
+          </div>
+        )}
 
       </div>
     </section>
