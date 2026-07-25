@@ -1,4 +1,5 @@
 import { useState } from "react";
+import LegalRepository from "@/app/components/LegalRepository";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import upiQR from "@/imports/qrcode.jpg";
 import upiQR3500 from "@/imports/qrcode3500.jpg";
@@ -186,6 +187,7 @@ function useRepoStore<T extends { id: string }>(key: string, seed: T[]) {
   const all = [...userItems, ...seed.filter(s => !userItems.find(u => u.id === s.id))];
   return { all, userItems, add, remove };
 }
+
 
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
@@ -1334,7 +1336,7 @@ export default function App() {
   {page === "home" && <HomePage nav={nav} />}
   {page === "practice" && <PracticePage nav={nav} />}
   {page === "booking" && <BookingPage />}
-  {page === "repository" && <RepositoryPage nav={nav} />}
+  {page === "repository" && <LegalRepository />}
   {page === "privacy" && <PrivacyPage />}
   {page === "terms" && <TermsPage />}
   {page === "disclaimer" && <DisclaimerPage />}
