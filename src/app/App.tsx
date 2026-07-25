@@ -198,9 +198,6 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   { label: "Practice Areas", page: "practice" },
   { label: "Book Consultation", page: "booking" },
   { label: "Legal Repository", page: "repository" },
-  { label: "Privacy Policy", page: "privacy" },
-  { label: "Terms & Conditions", page: "terms" },
-  { label: "Disclaimer", page: "disclaimer" },
 ];
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
