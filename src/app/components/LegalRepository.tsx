@@ -47,6 +47,61 @@ const researchPapers: ResearchPaper[] = [
   },
 ];
 
+type Article = {
+  id: number;
+  title: string;
+  description: string;
+};
+
+const articles: Article[] = [
+  {
+    id: 1,
+    title: "Understanding Property Rights in India",
+    description:
+      "An overview of ownership rights, property disputes and legal remedies available under Indian law.",
+  },
+  {
+    id: 2,
+    title: "Importance of Legal Documentation",
+    description:
+      "A practical guide explaining the importance of agreements, notices and proper documentation.",
+  },
+  {
+    id: 3,
+    title: "Constitutional Remedies and Writ Jurisdiction",
+    description:
+      "A brief analysis of writ remedies available under the Constitution of India.",
+  },
+];
+
+
+type CaseLaw = {
+  id: number;
+  title: string;
+  description: string;
+};
+
+const caseLaws: CaseLaw[] = [
+  {
+    id: 1,
+    title: "Kesavananda Bharati v. State of Kerala",
+    description:
+      "A landmark Supreme Court judgment establishing the Basic Structure Doctrine.",
+  },
+  {
+    id: 2,
+    title: "Maneka Gandhi v. Union of India",
+    description:
+      "A landmark decision interpreting Article 21 and expanding personal liberty protections.",
+  },
+  {
+    id: 3,
+    title: "Vishaka v. State of Rajasthan",
+    description:
+      "Supreme Court guidelines relating to workplace harassment prevention.",
+  },
+];
+
 export default function LegalRepository() {
   const [activeTab, setActiveTab] = useState("research");
   const [search, setSearch] = useState("");
@@ -165,6 +220,76 @@ export default function LegalRepository() {
               ))}
           </div>
         )}
+
+        {/* Articles */}
+
+{activeTab === "articles" && (
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {articles.map((article) => (
+      <div
+        key={article.id}
+        className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
+      >
+
+        <div className="flex items-center gap-2 text-primary mb-3">
+          <FileText size={18} />
+          <span className="text-xs uppercase tracking-wider">
+            Legal Article
+          </span>
+        </div>
+
+        <h3 className="text-xl font-serif font-bold text-foreground mb-3">
+          {article.title}
+        </h3>
+
+        <p className="text-sm text-muted-foreground mb-4">
+          {article.description}
+        </p>
+
+        <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+          Read More
+          <ChevronRight size={16} />
+        </button>
+
+      </div>
+    ))}
+  </div>
+)}
+
+{/* Case Laws */}
+
+{activeTab === "caselaw" && (
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {caseLaws.map((law) => (
+      <div
+        key={law.id}
+        className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
+      >
+
+        <div className="flex items-center gap-2 text-primary mb-3">
+          <Scale size={18} />
+          <span className="text-xs uppercase tracking-wider">
+            Supreme Court Case Law
+          </span>
+        </div>
+
+        <h3 className="text-xl font-serif font-bold text-foreground mb-3">
+          {law.title}
+        </h3>
+
+        <p className="text-sm text-muted-foreground mb-4">
+          {law.description}
+        </p>
+
+        <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+          Read Judgment
+          <ChevronRight size={16} />
+        </button>
+
+      </div>
+    ))}
+  </div>
+)}
 
       </div>
     </section>
