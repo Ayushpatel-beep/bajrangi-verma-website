@@ -1,0 +1,20 @@
+paths:
+  static: ''
+  uploads: uploads
+timezone: Asia/Calcutta
+markdown:
+  engine: commonmark
+  options: {}
+collections_config:
+  pages:
+    path: ''
+    icon: wysiwyg
+  articles:
+    path: content/articles
+    icon: article
+  caselaws:
+    path: content/caselaws
+    icon: cases
+  research:
+    path: content/research
+    icon: search
