@@ -7,4 +7,4 @@ summary: Sample article for testing.
 ---
 # Sample Legal Article
 
-This is a sample article .  hello  and hi
+This is a sample article.
