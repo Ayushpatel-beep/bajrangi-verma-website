@@ -1,4 +1,13 @@
 import { useState } from "react";
+
+import LegalArticleDetail from "./LegalArticleDetail";
+
+import {
+  researchPapers,
+  articles,
+  caseLaws,
+} from "../utils/markdownLoader";
+
 import {
   Search,
   BookOpen,
@@ -9,102 +18,46 @@ import {
 } from "lucide-react";
 
 type ResearchPaper = {
-  id: number;
   title: string;
-  category: string;
-  author: string;
-  date: string;
-  description: string;
+  category?: string;
+  author?: string;
+  date?: string;
+  summary?: string;
 };
 
-const researchPapers: ResearchPaper[] = [
-  {
-    id: 1,
-    title: "Fundamental Rights under the Constitution of India",
-    category: "Constitutional Law",
-    author: "Bajrangi Verma",
-    date: "2026",
-    description:
-      "A detailed study of Fundamental Rights and landmark constitutional judgments.",
-  },
-  {
-    id: 2,
-    title: "Civil Procedure Code – Practical Analysis",
-    category: "Civil Law",
-    author: "Bajrangi Verma",
-    date: "2026",
-    description:
-      "Important provisions of CPC explained with practical courtroom examples.",
-  },
-  {
-    id: 3,
-    title: "Criminal Procedure Code – Recent Developments",
-    category: "Criminal Law",
-    author: "Bajrangi Verma",
-    date: "2026",
-    description:
-      "Analysis of recent procedural changes and important criminal law judgments.",
-  },
-];
 
 type Article = {
-  id: number;
   title: string;
-  description: string;
+  category?: string;
+  author?: string;
+  date?: string;
+  summary?: string;
 };
-
-const articles: Article[] = [
-  {
-    id: 1,
-    title: "Understanding Property Rights in India",
-    description:
-      "An overview of ownership rights, property disputes and legal remedies available under Indian law.",
-  },
-  {
-    id: 2,
-    title: "Importance of Legal Documentation",
-    description:
-      "A practical guide explaining the importance of agreements, notices and proper documentation.",
-  },
-  {
-    id: 3,
-    title: "Constitutional Remedies and Writ Jurisdiction",
-    description:
-      "A brief analysis of writ remedies available under the Constitution of India.",
-  },
-];
 
 
 type CaseLaw = {
-  id: number;
   title: string;
-  description: string;
+  court?: string;
+  citation?: string;
+  date?: string;
+  summary?: string;
 };
 
-const caseLaws: CaseLaw[] = [
-  {
-    id: 1,
-    title: "Kesavananda Bharati v. State of Kerala",
-    description:
-      "A landmark Supreme Court judgment establishing the Basic Structure Doctrine.",
-  },
-  {
-    id: 2,
-    title: "Maneka Gandhi v. Union of India",
-    description:
-      "A landmark decision interpreting Article 21 and expanding personal liberty protections.",
-  },
-  {
-    id: 3,
-    title: "Vishaka v. State of Rajasthan",
-    description:
-      "Supreme Court guidelines relating to workplace harassment prevention.",
-  },
-];
+
 
 export default function LegalRepository() {
   const [activeTab, setActiveTab] = useState("research");
   const [search, setSearch] = useState("");
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+
+  if (selectedItem) {
+  return (
+    <LegalArticleDetail
+      item={selectedItem}
+      onBack={() => setSelectedItem(null)}
+    />
+  );
+}
 
   return (
     <section className="pt-28 pb-20 px-6 bg-background min-h-screen">
@@ -182,14 +135,16 @@ export default function LegalRepository() {
         {activeTab === "research" && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {researchPapers
-              .filter(
-                (paper) =>
-                  paper.title.toLowerCase().includes(search.toLowerCase()) ||
-                  paper.category.toLowerCase().includes(search.toLowerCase())
-              )
-              .map((paper) => (
+  .filter(
+    (paper) =>
+      paper.title.toLowerCase().includes(search.toLowerCase()) ||
+      (paper.category || "")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+  )
+  .map((paper) => (
                 <div
-                  key={paper.id}
+                  key={paper.title}
                   className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
                 >
                   <div className="flex items-center gap-2 text-primary mb-3">
@@ -204,7 +159,7 @@ export default function LegalRepository() {
                   </h3>
 
                   <p className="text-sm text-muted-foreground mb-4">
-                    {paper.description}
+                    {paper.summary}
                   </p>
 
                   <div className="flex justify-between text-xs text-muted-foreground mb-4">
@@ -212,10 +167,13 @@ export default function LegalRepository() {
                     <span>{paper.date}</span>
                   </div>
 
-                  <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
-                    Read More
-                    <ChevronRight size={16} />
-                  </button>
+                  <button
+  onClick={() => setSelectedItem(paper)}
+  className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+>
+  Read More
+  <ChevronRight size={16} />
+</button>
                 </div>
               ))}
           </div>
@@ -227,7 +185,7 @@ export default function LegalRepository() {
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
     {articles.map((article) => (
       <div
-        key={article.id}
+        key={article.title}
         className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
       >
 
@@ -243,13 +201,16 @@ export default function LegalRepository() {
         </h3>
 
         <p className="text-sm text-muted-foreground mb-4">
-          {article.description}
+          {article.summary}
         </p>
 
-        <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
-          Read More
-          <ChevronRight size={16} />
-        </button>
+        <button
+  onClick={() => setSelectedItem(article)}
+  className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+>
+  Read More
+  <ChevronRight size={16} />
+</button>
 
       </div>
     ))}
@@ -261,8 +222,8 @@ export default function LegalRepository() {
 {activeTab === "caselaw" && (
   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
     {caseLaws.map((law) => (
-      <div
-        key={law.id}
+  <div
+    key={law.title}
         className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
       >
 
@@ -278,13 +239,16 @@ export default function LegalRepository() {
         </h3>
 
         <p className="text-sm text-muted-foreground mb-4">
-          {law.description}
+          {law.summary}
         </p>
 
-        <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
-          Read Judgment
-          <ChevronRight size={16} />
-        </button>
+        <button
+  onClick={() => setSelectedItem(law)}
+  className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+>
+  Read Judgment
+  <ChevronRight size={16} />
+</button>
 
       </div>
     ))}
