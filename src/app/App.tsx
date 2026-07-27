@@ -339,7 +339,7 @@ function Footer({ nav }: { nav: (p: Page) => void }) {
   </button>
 </div>
           <div className="mt-4 flex gap-3">
-            <a href={CALL_LINK} className="flex items-center gap-2 text-xs bg-primary text-primary-foreground px-3 py-2 font-semibold font-sans hover:bg-accent transition-colors">
+            <a href={CALL_LINK_HEADER} className="flex items-center gap-2 text-xs bg-primary text-primary-foreground px-3 py-2 font-semibold font-sans hover:bg-accent transition-colors">
               <Phone size={12} /> Call Now
             </a>
             <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
@@ -514,7 +514,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
                 className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-semibold font-sans text-sm tracking-wide hover:bg-accent transition-colors">
                 Book Consultation <ArrowRight size={16} />
               </button>
-              <a href={CALL_LINK}
+              <a href={CALL_LINK_HEADER}
                 className="flex items-center gap-2 border border-primary text-primary px-6 py-3 font-semibold font-sans text-sm tracking-wide hover:bg-primary/10 transition-colors">
                 <Phone size={15} /> Call Now
               </a>
@@ -697,7 +697,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">Reach Out Directly</h2>
             <div className="w-16 h-0.5 bg-primary mb-8" />
             <div className="space-y-5">
-              <a href={CALL_LINK} className="flex items-center gap-4 group">
+              <a href={CALL_LINK_HEADER} className="flex items-center gap-4 group">
                 <div className="w-11 h-11 border border-primary/40 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                   <Phone size={18} className="text-primary" />
                 </div>
@@ -965,7 +965,7 @@ function PracticePage({ nav }: { nav: (p: Page) => void }) {
             className="flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm tracking-wide hover:bg-accent transition-colors">
             <Calendar size={15} /> Book Consultation
           </button>
-          <a href={CALL_LINK}
+          <a href={CALL_LINK_HEADER}
             className="flex items-center gap-2 border border-primary text-primary px-8 py-3 font-sans font-semibold text-sm tracking-wide hover:bg-primary/10 transition-colors">
             <Phone size={15} /> Call Now
           </a>
