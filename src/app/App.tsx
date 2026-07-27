@@ -7,7 +7,7 @@ import {
   Phone, MessageCircle, MapPin, Star, ChevronDown, ChevronUp,
   Menu, X, Scale, FileText, Award, Clock, Calendar, CheckCircle,
   ArrowRight, Send, Building2, Gavel, BookOpen, Shield,
-  Users, TrendingUp, Quote, Library, Newspaper, BookMarked
+  Users, TrendingUp, Quote, Library, Newspaper, BookMarked, Printer
 } from "lucide-react";
 
 type Page = "home" | "practice" | "booking" | "repository" | "privacy" | "terms" | "disclaimer";
@@ -1022,7 +1022,10 @@ const currentQR =
   if (receiptDone) {
     return (
       <div className="min-h-screen flex items-center justify-center px-6 pt-16">
-        <div className="max-w-md w-full text-center border border-primary/40 p-12 bg-card">
+        <div
+  id="booking-receipt"
+  className="max-w-md w-full text-center border border-primary/40 p-12 bg-card"
+>
           <CheckCircle size={48} className="text-primary mx-auto mb-5" />
           <h2 className="font-serif text-3xl font-black text-foreground mb-3">Booking Complete</h2>
           <div className="w-12 h-0.5 bg-primary mx-auto mb-6" />
@@ -1045,6 +1048,112 @@ const currentQR =
             className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-sans font-semibold text-sm hover:bg-accent transition-colors w-full">
             <Phone size={15} /> Call Now to Confirm
           </a>
+          <button
+  onClick={() => {
+    const receipt = document.getElementById("booking-receipt");
+    if (!receipt) return;
+
+    const printWindow = window.open("", "_blank", "width=800,height=900");
+    const receiptNo = `BV-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(new Date().getDate()).padStart(2, "0")}-${Math.floor(Math.random() * 9000 + 1000)}`;
+
+const currentDate = new Date().toLocaleDateString("en-IN", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+    if (!printWindow) return;
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Booking Receipt</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              padding: 30px;
+              display: flex;
+              justify-content: center;
+              background: #fff;
+            }
+            #receipt {
+              width: 100%;
+              max-width: 500px;
+              border: 1px solid #ccc;
+              padding: 24px;
+            }
+          </style>
+        </head>
+        <body>
+          <div id="receipt">
+
+  <div style="text-align:center; margin-bottom:20px;">
+    <h2 style="margin:0;">Bajrangi Verma Advocate</h2>
+    <div style="font-size:15px; font-weight:bold;">
+      Advocate Chamber
+    </div>
+
+    <div style="margin-top:10px; font-size:14px;">
+      8/732, Sector 8, Matinpurwa,<br>
+      Vikas Nagar, Lucknow, Uttar Pradesh – 226022
+    </div>
+
+    <div style="margin-top:8px; font-size:14px;">
+      Mobile: +91 8707394242
+    </div>
+
+    <div style="margin-top:15px; display:flex; justify-content:space-between; font-size:13px;">
+  <span><strong>Receipt No.</strong>: ${receiptNo}</span>
+  <span><strong>Date</strong>: ${currentDate}</span>
+</div>
+
+<hr style="margin-top:18px;">
+
+    <hr style="margin-top:18px;">
+  </div>
+
+  ${receipt.innerHTML}
+
+  <hr style="margin-top:25px;">
+
+  <div style="text-align:center; margin-top:18px;">
+    <h3 style="margin:0;">
+      Thank You for Choosing
+    </h3>
+
+    <div style="font-weight:bold; margin-top:6px;">
+      Bajrangi Verma Advocate
+    </div>
+
+    <div style="margin-top:12px; font-size:13px; color:#555;">
+      This receipt confirms your consultation booking.
+      Please keep it for your records and bring it during your visit.
+    </div>
+    <hr style="margin:20px 0;">
+
+<div style="font-size:11px; color:#666; line-height:1.6;">
+  <strong>Note:</strong><br>
+  This is a computer-generated consultation receipt and does not require a physical signature or stamp.<br><br>
+
+  For appointment-related queries, please contact the chamber at
+  <strong>+91 8707394242</strong>.
+</div>
+  </div>
+
+</div>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  }}
+  className="mt-3 flex items-center justify-center gap-2 border border-primary text-primary px-6 py-3 font-sans font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-colors w-full"
+>
+  <Printer size={15} />
+  Print Receipt
+</button>
         </div>
       </div>
     );
