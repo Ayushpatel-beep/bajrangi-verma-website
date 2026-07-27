@@ -16,6 +16,7 @@ type RepoTab = "research" | "current" | "caselaws";
 
 const PHONE = "9415786469";           // Bajrangi Verma
 const PHONE_ASHWANI = "8707394242";   // Ashwani Kumar
+const PHONE_HEADER = "9452029548";   // Ayush Patel
 
 const WA_NUMBER = "8707394242";
 const UPI_ID = "8707394242@upi";
@@ -24,6 +25,7 @@ const WA_LINK = `https://wa.me/91${WA_NUMBER}`;
 
 const CALL_LINK = `tel:+91${PHONE}`;
 const CALL_LINK_ASHWANI = `tel:+91${PHONE_ASHWANI}`;
+const CALL_LINK_HEADER = `tel:+91${PHONE_HEADER}`;
 const MAP_LINK = "https://maps.google.com/?q=Bajrangi+Verma+Advocate,+8/732,+Matinpurwa,+Sector+8,+Vikas+Nagar,+Lucknow,+Uttar+Pradesh+226022";
 
 const HIGH_COURT_FEE = 3500;
@@ -220,7 +222,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
               {l.label}
             </button>
           ))}
-          <a href={CALL_LINK} className="ml-2 flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold font-sans tracking-wide hover:bg-accent transition-colors">
+          <a href={CALL_LINK_HEADER} className="ml-2 flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold font-sans tracking-wide hover:bg-accent transition-colors">
             <Phone size={14} />
             Call Now
           </a>
@@ -238,7 +240,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
               {l.label}
             </button>
           ))}
-          <a href={CALL_LINK} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold font-sans w-fit">
+          <a href={CALL_LINK_HEADER} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold font-sans w-fit">
             <Phone size={14} /> Call Now
           </a>
         </div>
@@ -1033,9 +1035,13 @@ const currentQR =
 </span></div>
             <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground font-semibold">{form.name}</span></div>
             <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground font-semibold">{form.caseType}</span></div>
-            <div className="flex justify-between border-t border-border pt-1.5 mt-1.5"><span className="text-muted-foreground">Fee Paid</span><span className="text-primary font-bold">₹2,000</span></div>
+            <div className="flex justify-between border-t border-border pt-1.5 mt-1.5"><span className="text-muted-foreground">Fee Paid</span><span className="text-primary font-bold">
+  ₹{form.caseType === "High Court Writ / Appeal"
+    ? HIGH_COURT_FEE.toLocaleString("en-IN")
+    : NORMAL_FEE.toLocaleString("en-IN")}
+</span></div>
           </div>
-          <a href={CALL_LINK}
+          <a href={CALL_LINK_ASHWANI}
             className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-sans font-semibold text-sm hover:bg-accent transition-colors w-full">
             <Phone size={15} /> Call Now to Confirm
           </a>
