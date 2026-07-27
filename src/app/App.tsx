@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 import LegalRepository from "@/app/components/LegalRepository";
+import PrintReceipt from "@/app/components/PrintReceipt";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import upiQR from "@/imports/qrcode.jpg";
 import upiQR3500 from "@/imports/qrcode3500.jpg";
@@ -984,6 +986,12 @@ function BookingPage() {
   const [form, setForm] = useState({ name: "", phone: "", email: "", caseType: "", description: "" });
   const [receiptDone, setReceiptDone] = useState(false);
 
+  const receiptRef = useRef<HTMLDivElement>(null);
+
+const handlePrint = useReactToPrint({
+  contentRef: receiptRef,
+});
+
   const isSunday = selectedDay === "Sunday";
   const slots = isSunday ? SUNDAY_SLOTS : WEEKDAY_SLOTS;
 
@@ -1049,111 +1057,34 @@ const currentQR =
             <Phone size={15} /> Call Now to Confirm
           </a>
           <button
-  onClick={() => {
-    const receipt = document.getElementById("booking-receipt");
-    if (!receipt) return;
-
-    const printWindow = window.open("", "_blank", "width=800,height=900");
-    const receiptNo = `BV-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(new Date().getDate()).padStart(2, "0")}-${Math.floor(Math.random() * 9000 + 1000)}`;
-
-const currentDate = new Date().toLocaleDateString("en-IN", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-});
-    if (!printWindow) return;
-
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Booking Receipt</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              padding: 30px;
-              display: flex;
-              justify-content: center;
-              background: #fff;
-            }
-            #receipt {
-              width: 100%;
-              max-width: 500px;
-              border: 1px solid #ccc;
-              padding: 24px;
-            }
-          </style>
-        </head>
-        <body>
-          <div id="receipt">
-
-  <div style="text-align:center; margin-bottom:20px;">
-    <h2 style="margin:0;">Bajrangi Verma Advocate</h2>
-    <div style="font-size:15px; font-weight:bold;">
-      Advocate Chamber
-    </div>
-
-    <div style="margin-top:10px; font-size:14px;">
-      8/732, Sector 8, Matinpurwa,<br>
-      Vikas Nagar, Lucknow, Uttar Pradesh – 226022
-    </div>
-
-    <div style="margin-top:8px; font-size:14px;">
-      Mobile: +91 8707394242
-    </div>
-
-    <div style="margin-top:15px; display:flex; justify-content:space-between; font-size:13px;">
-  <span><strong>Receipt No.</strong>: ${receiptNo}</span>
-  <span><strong>Date</strong>: ${currentDate}</span>
-</div>
-
-<hr style="margin-top:18px;">
-
-    <hr style="margin-top:18px;">
-  </div>
-
-  ${receipt.innerHTML}
-
-  <hr style="margin-top:25px;">
-
-  <div style="text-align:center; margin-top:18px;">
-    <h3 style="margin:0;">
-      Thank You for Choosing
-    </h3>
-
-    <div style="font-weight:bold; margin-top:6px;">
-      Bajrangi Verma Advocate
-    </div>
-
-    <div style="margin-top:12px; font-size:13px; color:#555;">
-      This receipt confirms your consultation booking.
-      Please keep it for your records and bring it during your visit.
-    </div>
-    <hr style="margin:20px 0;">
-
-<div style="font-size:11px; color:#666; line-height:1.6;">
-  <strong>Note:</strong><br>
-  This is a computer-generated consultation receipt and does not require a physical signature or stamp.<br><br>
-
-  For appointment-related queries, please contact the chamber at
-  <strong>+91 8707394242</strong>.
-</div>
-  </div>
-
-</div>
-        </body>
-      </html>
-    `);
-
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-  }}
+  onClick={handlePrint}
   className="mt-3 flex items-center justify-center gap-2 border border-primary text-primary px-6 py-3 font-sans font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-colors w-full"
 >
   <Printer size={15} />
   Print Receipt
 </button>
+
+<div style={{ display: "none" }}>
+  <div ref={receiptRef}>
+    <PrintReceipt
+      receiptNo={`BV-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(new Date().getDate()).padStart(2, "0")}-${Math.floor(Math.random() * 9000 + 1000)}`}
+      currentDate={new Date().toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })}
+      appointment={`${selectedDate} · ${selectedDay} · ${selectedSlot}`}
+      name={form.name}
+      caseType={form.caseType}
+      fee={
+        form.caseType === "High Court Writ / Appeal"
+          ? HIGH_COURT_FEE.toLocaleString("en-IN")
+          : NORMAL_FEE.toLocaleString("en-IN")
+      }
+    />
+  </div>
+</div>
+
         </div>
       </div>
     );
