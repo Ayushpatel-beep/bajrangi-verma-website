@@ -495,9 +495,12 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
               Enrolled Advocate · Bar Council of U.P.
             </div>
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.05] mb-2">
-              Bajrangi<br />Verma
-            </h1>
-            <p className="text-primary font-sans text-lg tracking-[0.15em] uppercase font-semibold mb-6">Advocate</p>
+  Bajrangi Verma
+</h1>
+
+<p className="text-primary font-sans text-lg tracking-[0.15em] uppercase font-semibold mb-6">
+  Advocate in Lucknow
+</p>
             <p className="font-serif text-xl text-muted-foreground leading-relaxed mb-4 italic max-w-lg">
               "Trusted legal counsel across Civil, Criminal & Matrimonial matters for over three and a half decades."
             </p>
