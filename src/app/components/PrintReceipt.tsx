@@ -16,7 +16,32 @@ export default function PrintReceipt({
   fee,
 }: PrintReceiptProps) {
   return (
+   <>
+    <style>
+      {`
+        @page {
+          size: A4;
+          margin: 10mm;
+        }
+
+        @media print {
+          html,
+          body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+          }
+
+          #print-receipt {
+            width: 100% !important;
+            min-height: auto !important;
+          }
+        }
+      `}
+    </style>
+
     <div
+      id="print-receipt"
       style={{
         width: "210mm",
         minHeight: "297mm",
@@ -263,7 +288,7 @@ export default function PrintReceipt({
 </div>
 
 </div>
-
+</>
 
   );
 }
