@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import { useReactToPrint } from "react-to-print";
 import LegalRepository from "@/app/components/LegalRepository";
 import PrintReceipt from "@/app/components/PrintReceipt";
@@ -988,9 +990,34 @@ function BookingPage() {
 
   const receiptRef = useRef<HTMLDivElement>(null);
 
-const handlePrint = useReactToPrint({
-  contentRef: receiptRef,
+const handlePrint = async () => {
+  if (!receiptRef.current) return;
+
+  const canvas = await html2canvas(receiptRef.current, {
+  scale: window.devicePixelRatio > 2 ? 2 : window.devicePixelRatio,
+  useCORS: true,
+  backgroundColor: "#ffffff",
+  logging: false,
 });
+
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4",
+  });
+
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+
+  const imgWidth = pageWidth;
+  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+  pdf.save("Consultation-Receipt.pdf");
+};
 
   const isSunday = selectedDay === "Sunday";
   const slots = isSunday ? SUNDAY_SLOTS : WEEKDAY_SLOTS;
