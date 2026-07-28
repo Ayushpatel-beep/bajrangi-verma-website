@@ -1064,7 +1064,16 @@ const currentQR =
   Print Receipt
 </button>
 
-<div style={{ display: "none" }}>
+<div
+  style={{
+    position: "fixed",
+    left: "-99999px",
+    top: "0",
+    width: "210mm",
+    background: "#fff",
+    zIndex: -1,
+  }}
+>
   <div ref={receiptRef}>
     <PrintReceipt
       receiptNo={`BV-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(new Date().getDate()).padStart(2, "0")}-${Math.floor(Math.random() * 9000 + 1000)}`}
