@@ -1166,22 +1166,31 @@ const currentQR =
   Select Consultation Date
 </label>
 
+  <div className="relative w-full sm:w-96">
+
   <input
-  type="date"
-  value={selectedDate}
-  onChange={(e) => {
-    const date = e.target.value;
-    setSelectedDate(date);
+    type="date"
+    value={selectedDate}
+    onChange={(e) => {
+      const date = e.target.value;
+      setSelectedDate(date);
 
-    const day = new Date(date).toLocaleDateString("en-US", {
-      weekday: "long",
-    });
+      const day = new Date(date).toLocaleDateString("en-US", {
+        weekday: "long",
+      });
 
-    setSelectedDay(day);
-  }}
-  min={new Date().toISOString().split("T")[0]}
-  className="w-full sm:w-96 bg-primary/5 border-2 border-primary rounded-lg px-4 py-3 text-sm font-semibold text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-/>
+      setSelectedDay(day);
+    }}
+    min={new Date().toISOString().split("T")[0]}
+    className="w-full bg-primary/5 border-2 border-primary rounded-lg px-4 pr-12 py-3 text-sm font-semibold text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+  />
+
+  <Calendar
+    size={20}
+    className="absolute right-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none"
+  />
+
+</div>
 
 {selectedDate && (
   <div className="mt-3 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-lg px-3 py-2">
