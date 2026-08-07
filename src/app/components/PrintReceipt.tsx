@@ -5,6 +5,8 @@ type PrintReceiptProps = {
   name: string;
   caseType: string;
   fee: string;
+  paymentMode: string;
+  paymentStatus: string;
 };
 
 export default function PrintReceipt({
@@ -14,6 +16,8 @@ export default function PrintReceipt({
   name,
   caseType,
   fee,
+  paymentMode,
+  paymentStatus,
 }: PrintReceiptProps) {
   return (
    <>
@@ -199,6 +203,31 @@ export default function PrintReceipt({
           ₹{fee}
         </td>
       </tr>
+
+<tr>
+  <td style={{ padding: "14px", fontWeight: "bold" }}>
+    Payment Mode
+  </td>
+  <td style={{ padding: "14px" }}>
+    {paymentMode}
+  </td>
+</tr>
+
+<tr>
+  <td style={{ padding: "14px", fontWeight: "bold" }}>
+    Payment Status
+  </td>
+  <td
+    style={{
+      padding: "14px",
+      fontWeight: "bold",
+      color: paymentStatus === "Paid" ? "#15803d" : "#ca8a04",
+    }}
+  >
+    {paymentStatus}
+  </td>
+</tr>
+
     </tbody>
   </table>
 </div>

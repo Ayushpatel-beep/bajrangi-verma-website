@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useReactToPrint } from "react-to-print";
@@ -1034,26 +1034,53 @@ const currentQR =
     ? upiQR3500
     : upiQR;
 
+    const bookingId = useMemo(() => {
+  return `${
+    paymentMode === "online" ? "P" : "N"
+  }-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}-${Math.floor(
+    1000 + Math.random() * 9000
+  )}`;
+}, [paymentMode]);
+
   const sendReceiptOnWhatsApp = () => {
-    const msg = [
-      `🗓 *New Consultation Booking*`,
-      ``,
-      `*Name:* ${form.name}`,
-      `*Phone:* ${form.phone}`,
-      form.email ? `*Email:* ${form.email}` : null,
-      `*Date:* ${selectedDate}`,
-      `*Day:* ${selectedDay}`,
-      `*Time:* ${selectedSlot}`,
-      `*Case Type:* ${form.caseType}`,
-      ``,
-      `*Case Description:*`,
-      form.description,
-      ``,
-      `*Fee Paid:* ₹${consultationFee.toLocaleString("en-IN")} via UPI (${UPI_ID})`,
-    ].filter(Boolean).join("%0A");
-    window.open(`https://wa.me/91${WA_NUMBER}?text=${msg}`, "_blank");
-    setReceiptDone(true);
-  };
+
+  const paymentText =
+    paymentMode === "online"
+      ? `*Payment Mode:* UPI
+*Payment Status:* Paid
+*Fee Paid:* ₹${consultationFee.toLocaleString("en-IN")} via UPI (${UPI_ID})`
+      : `*Payment Mode:* Pay at Chamber
+*Payment Status:* Pending
+*Consultation Fee:* ₹${consultationFee.toLocaleString("en-IN")}
+*Note:* Consultation fee will be paid at the chamber.`;
+
+  const msg = [
+    `🗓 *New Consultation Booking*`,
+    ``,
+    `*Name:* ${form.name}`,
+    `*Phone:* ${form.phone}`,
+    `*Booking ID:* ${bookingId}`,
+    form.email ? `*Email:* ${form.email}` : null,
+    `*Date:* ${selectedDate}`,
+    `*Day:* ${selectedDay}`,
+    `*Time:* ${selectedSlot}`,
+    `*Case Type:* ${form.caseType}`,
+    ``,
+    `*Case Description:*`,
+    form.description,
+    ``,
+    paymentText,
+  ]
+    .filter(Boolean)
+    .join("%0A");
+
+  window.open(
+    `https://wa.me/91${WA_NUMBER}?text=${msg}`,
+    "_blank"
+  );
+
+  setReceiptDone(true);
+};
 
   // Step 4 — Receipt confirmed screen
   if (receiptDone) {
@@ -1067,19 +1094,43 @@ const currentQR =
           <h2 className="font-serif text-3xl font-black text-foreground mb-3">Booking Complete</h2>
           <div className="w-12 h-0.5 bg-primary mx-auto mb-6" />
           <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-4">
-            Your booking details and payment receipt have been sent to the chamber on WhatsApp.
-          </p>
+  {paymentMode === "online"
+    ? "Your booking details and payment receipt have been sent to the chamber on WhatsApp."
+    : "Your booking request has been sent to the chamber on WhatsApp. Consultation fee will be paid at the chamber."}
+</p>
           <div className="bg-secondary border border-border p-4 text-left space-y-1.5 mb-8 text-xs font-sans">
             <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground font-semibold">
   {selectedDate} · {selectedDay} · {selectedSlot}
 </span></div>
             <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground font-semibold">{form.name}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground font-semibold">{form.caseType}</span></div>
-            <div className="flex justify-between border-t border-border pt-1.5 mt-1.5"><span className="text-muted-foreground">Fee Paid</span><span className="text-primary font-bold">
-  ₹{form.caseType === "High Court Writ / Appeal"
-    ? HIGH_COURT_FEE.toLocaleString("en-IN")
-    : NORMAL_FEE.toLocaleString("en-IN")}
-</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Booking ID</span><span className="text-primary font-semibold">{bookingId}</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground font-semibold">{form.caseType}</span></div>
+            <div className="flex justify-between border-t border-border pt-1.5 mt-1.5">
+  <span className="text-muted-foreground">Payment Mode</span>
+  <span className="text-foreground font-semibold">
+    {paymentMode === "online" ? "UPI" : "Pay at Chamber"}
+  </span>
+</div>
+
+<div className="flex justify-between">
+  <span className="text-muted-foreground">Payment Status</span>
+  <span
+    className={
+      paymentMode === "online"
+        ? "text-green-500 font-semibold"
+        : "text-yellow-500 font-semibold"
+    }
+  >
+    {paymentMode === "online" ? "Paid" : "Pending"}
+  </span>
+</div>
+
+<div className="flex justify-between">
+  <span className="text-muted-foreground">Consultation Fee</span>
+  <span className="text-foreground font-semibold">
+    ₹{consultationFee.toLocaleString("en-IN")}
+  </span>
+</div>
           </div>
           <a href={CALL_LINK_ASHWANI}
             className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-sans font-semibold text-sm hover:bg-accent transition-colors w-full">
@@ -1105,7 +1156,7 @@ const currentQR =
 >
   <div ref={receiptRef}>
     <PrintReceipt
-      receiptNo={`BV-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(new Date().getDate()).padStart(2, "0")}-${Math.floor(Math.random() * 9000 + 1000)}`}
+      receiptNo={bookingId}
       currentDate={new Date().toLocaleDateString("en-IN", {
         day: "2-digit",
         month: "long",
@@ -1114,11 +1165,9 @@ const currentQR =
       appointment={`${selectedDate} · ${selectedDay} · ${selectedSlot}`}
       name={form.name}
       caseType={form.caseType}
-      fee={
-        form.caseType === "High Court Writ / Appeal"
-          ? HIGH_COURT_FEE.toLocaleString("en-IN")
-          : NORMAL_FEE.toLocaleString("en-IN")
-      }
+      fee={consultationFee.toLocaleString("en-IN")}
+      paymentMode={paymentMode === "online" ? "UPI" : "Pay at Chamber"}
+paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
     />
   </div>
 </div>
