@@ -149,8 +149,18 @@ export default function PrintReceipt({
       fontWeight: "bold",
       fontSize: "18px",
     }}
-  >
-    CONSULTATION BOOKING RECEIPT
+  ><h1
+  style={{
+    margin: 0,
+    fontSize: "30px",
+    color: "#ffffff",
+    fontWeight: "bold",
+  }}
+>
+  {paymentMode === "UPI"
+    ? "Consultation Payment Receipt"
+    : "Consultation Booking Confirmation"}
+</h1>
   </div>
 
   <table
@@ -208,8 +218,23 @@ export default function PrintReceipt({
   <td style={{ padding: "14px", fontWeight: "bold" }}>
     Payment Mode
   </td>
+
   <td style={{ padding: "14px" }}>
-    {paymentMode}
+    <span
+      style={{
+        display: "inline-block",
+        padding: "6px 14px",
+        borderRadius: "999px",
+        backgroundColor:
+          paymentMode === "UPI" ? "#dbeafe" : "#ede9fe",
+        color:
+          paymentMode === "UPI" ? "#1d4ed8" : "#6d28d9",
+        fontWeight: "bold",
+        fontSize: "13px",
+      }}
+    >
+      {paymentMode}
+    </span>
   </td>
 </tr>
 
@@ -217,14 +242,23 @@ export default function PrintReceipt({
   <td style={{ padding: "14px", fontWeight: "bold" }}>
     Payment Status
   </td>
-  <td
-    style={{
-      padding: "14px",
-      fontWeight: "bold",
-      color: paymentStatus === "Paid" ? "#15803d" : "#ca8a04",
-    }}
-  >
-    {paymentStatus}
+
+  <td style={{ padding: "14px" }}>
+    <span
+      style={{
+        display: "inline-block",
+        padding: "6px 14px",
+        borderRadius: "999px",
+        backgroundColor:
+          paymentStatus === "Paid" ? "#dcfce7" : "#fef3c7",
+        color:
+          paymentStatus === "Paid" ? "#166534" : "#92400e",
+        fontWeight: "bold",
+        fontSize: "13px",
+      }}
+    >
+      {paymentStatus}
+    </span>
   </td>
 </tr>
 
@@ -287,7 +321,7 @@ export default function PrintReceipt({
     <strong>Important Note</strong>
 
     <br /><br />
-
+    
     • This is a computer-generated consultation receipt.
 
     <br />
