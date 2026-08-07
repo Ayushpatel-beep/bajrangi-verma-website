@@ -986,7 +986,9 @@ function BookingPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", email: "", caseType: "", description: "" });
-  const [receiptDone, setReceiptDone] = useState(false);
+  const [paymentMode, setPaymentMode] =
+  useState<"online" | "offline">("online");
+   const [receiptDone, setReceiptDone] = useState(false);
 
   const receiptRef = useRef<HTMLDivElement>(null);
 
@@ -1339,6 +1341,47 @@ at{" "}
           <h3 className="font-serif text-xl font-bold text-foreground mb-2">Pay Consultation Fee</h3>
           <p className="font-sans text-sm text-muted-foreground mb-8">Complete your payment via UPI to confirm your appointment.</p>
 
+          <div className="border border-primary/30 bg-secondary p-5 rounded-lg mb-6">
+
+  <div className="font-sans text-xs tracking-widest text-primary uppercase font-semibold mb-4">
+    Choose Payment Method
+  </div>
+
+  <label className="flex items-center gap-3 mb-4 cursor-pointer">
+    <input
+      type="radio"
+      checked={paymentMode === "online"}
+      onChange={() => setPaymentMode("online")}
+    />
+    <div>
+      <div className="font-semibold text-foreground">
+        Pay Online (Recommended)
+      </div>
+      <div className="text-xs text-muted-foreground">
+        Pay instantly using UPI QR Code.
+      </div>
+    </div>
+  </label>
+
+  <label className="flex items-center gap-3 cursor-pointer">
+    <input
+      type="radio"
+      checked={paymentMode === "offline"}
+      onChange={() => setPaymentMode("offline")}
+    />
+    <div>
+      <div className="font-semibold text-foreground">
+        Pay at Chamber
+      </div>
+      <div className="text-xs text-muted-foreground">
+        Consultation fee will be paid during your visit.
+      </div>
+    </div>
+  </label>
+
+</div>
+
+
           {/* Booking summary */}
           <div className="bg-secondary border border-border p-5 mb-6 space-y-2 text-sm font-sans">
             <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">Booking Summary</div>
@@ -1356,6 +1399,8 @@ at{" "}
           </div>
 
           {/* UPI payment box */}
+          {paymentMode === "online" && (
+
           <div className="border border-primary/50 bg-card p-7 mb-6">
             <div className="font-sans text-xs tracking-widest text-primary uppercase font-semibold mb-5">Pay via UPI</div>
             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
@@ -1395,16 +1440,65 @@ at{" "}
               </p>
             </div>
           </div>
+          )}
+          {paymentMode === "offline" && (
+
+<div className="border border-primary/50 bg-card p-7 mb-6">
+
+  <div className="font-sans text-xs tracking-widest text-primary uppercase font-semibold mb-5">
+    Pay at Chamber
+  </div>
+
+  <div className="space-y-4">
+
+    <div className="flex justify-between">
+      <span className="text-muted-foreground">Consultation Fee</span>
+      <span className="font-bold text-primary">
+        ₹{consultationFee.toLocaleString("en-IN")}
+      </span>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="text-muted-foreground">Payment Status</span>
+      <span className="font-semibold text-yellow-500">
+        Pending
+      </span>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="text-muted-foreground">Payment Mode</span>
+      <span className="font-semibold">
+        Pay at Chamber
+      </span>
+    </div>
+
+    <p className="text-xs text-muted-foreground border-t border-border pt-4">
+      Please visit the chamber on your selected date and time.
+      Consultation fee will be collected at the chamber.
+    </p>
+
+  </div>
+
+</div>
+
+)}
 
           {/* Confirm payment button → WhatsApp */}
           <button
-            onClick={sendReceiptOnWhatsApp}
-            className="w-full flex items-center justify-center gap-3 bg-primary text-primary-foreground py-4 font-sans font-bold text-sm tracking-wide hover:bg-accent transition-colors">
-            <MessageCircle size={18} /> I Have Paid — Send Receipt on WhatsApp
-          </button>
-          <p className="font-sans text-xs text-muted-foreground text-center mt-3">
-            Clicking above will open WhatsApp with your booking details pre-filled to send to the chamber.
-          </p>
+  onClick={sendReceiptOnWhatsApp}
+  className="w-full flex items-center justify-center gap-3 bg-primary text-primary-foreground py-4 font-sans font-bold text-sm tracking-wide hover:bg-accent transition-colors"
+>
+  <MessageCircle size={18} />
+
+  {paymentMode === "online"
+    ? "I Have Paid — Send Receipt on WhatsApp"
+    : "Confirm Booking — Send on WhatsApp"}
+
+</button>
+
+<p className="font-sans text-xs text-muted-foreground text-center mt-3">
+  Clicking above will open WhatsApp with your booking details pre-filled to send to the chamber.
+</p>
         </div>
       )}
     </div>
