@@ -1,4 +1,5 @@
 import { useState, useRef, useMemo } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useReactToPrint } from "react-to-print";
@@ -1555,27 +1556,67 @@ at{" "}
 }
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
-export default function App() {
-  const [page, setPage] = useState<Page>("home");
+function AppContent() {
+  const navigate = useNavigate();
 
   const nav = (p: Page) => {
-    setPage(p);
+    const routes: Record<Page, string> = {
+      home: "/",
+      practice: "/practice-areas",
+      booking: "/book-consultation",
+      repository: "/legal-repository",
+      privacy: "/privacy-policy",
+      terms: "/terms-and-conditions",
+      disclaimer: "/disclaimer",
+    };
+
+    navigate(routes[p]);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const currentPath = window.location.pathname;
+
+  const currentPage: Page =
+    currentPath === "/practice-areas"
+      ? "practice"
+      : currentPath === "/book-consultation"
+      ? "booking"
+      : currentPath === "/legal-repository"
+      ? "repository"
+      : currentPath === "/privacy-policy"
+      ? "privacy"
+      : currentPath === "/terms-and-conditions"
+      ? "terms"
+      : currentPath === "/disclaimer"
+      ? "disclaimer"
+      : "home";
+
   return (
-    <div className="min-h-screen bg-background text-foreground" style={{ fontFamily: "'Nunito Sans', sans-serif" }}>
-      <Navbar current={page} nav={nav} />
+    <div
+      className="min-h-screen bg-background text-foreground"
+      style={{ fontFamily: "'Nunito Sans', sans-serif" }}
+    >
+      <Navbar current={currentPage} nav={nav} />
+
       <main>
-  {page === "home" && <HomePage nav={nav} />}
-  {page === "practice" && <PracticePage nav={nav} />}
-  {page === "booking" && <BookingPage />}
-  {page === "repository" && <LegalRepository />}
-  {page === "privacy" && <PrivacyPage />}
-  {page === "terms" && <TermsPage />}
-  {page === "disclaimer" && <DisclaimerPage />}
-</main>
+        {currentPage === "home" && <HomePage nav={nav} />}
+        {currentPage === "practice" && <PracticePage nav={nav} />}
+        {currentPage === "booking" && <BookingPage />}
+        {currentPage === "repository" && <LegalRepository />}
+        {currentPage === "privacy" && <PrivacyPage />}
+        {currentPage === "terms" && <TermsPage />}
+        {currentPage === "disclaimer" && <DisclaimerPage />}
+      </main>
+
       <Footer nav={nav} />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
