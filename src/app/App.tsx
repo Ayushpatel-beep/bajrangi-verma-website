@@ -1581,7 +1581,7 @@ function AppContent() {
       ? "practice"
       : currentPath === "/book-consultation"
       ? "booking"
-      : currentPath === "/legal-repository"
+      : currentPath.startsWith("/legal-repository")
       ? "repository"
       : currentPath === "/privacy-policy"
       ? "privacy"

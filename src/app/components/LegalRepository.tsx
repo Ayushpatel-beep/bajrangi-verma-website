@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import LegalArticleDetail from "./LegalArticleDetail";
 
@@ -46,7 +46,55 @@ type CaseLaw = {
 
 
 export default function LegalRepository() {
-  const [activeTab, setActiveTab] = useState("research");
+  const getTabFromPath = () => {
+  const path = window.location.pathname;
+
+  if (path === "/legal-repository/articles") {
+    return "articles";
+  }
+
+  if (path === "/legal-repository/case-laws") {
+    return "caselaw";
+  }
+
+  return "research";
+};
+
+const [activeTab, setActiveTab] = useState(getTabFromPath);
+
+const changeTab = (tab: string) => {
+  setActiveTab(tab);
+
+  let path = "/legal-repository";
+
+  if (tab === "articles") {
+    path = "/legal-repository/articles";
+  }
+
+  if (tab === "caselaw") {
+    path = "/legal-repository/case-laws";
+  }
+
+  if (tab === "research") {
+    path = "/legal-repository/research-papers";
+  }
+
+  window.history.pushState({}, "", path);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+useEffect(() => {
+  const handlePopState = () => {
+    setActiveTab(getTabFromPath());
+  };
+
+  window.addEventListener("popstate", handlePopState);
+
+  return () => {
+    window.removeEventListener("popstate", handlePopState);
+  };
+}, []);
+
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState<any>(null);
 
@@ -96,7 +144,7 @@ export default function LegalRepository() {
         <div className="flex flex-wrap justify-center gap-4 mb-10">
 
           <button
-            onClick={() => setActiveTab("research")}
+            onClick={() => changeTab("research")}
             className={`px-5 py-2 rounded-lg ${
               activeTab === "research"
                 ? "bg-primary text-primary-foreground"
@@ -107,7 +155,7 @@ export default function LegalRepository() {
           </button>
 
           <button
-            onClick={() => setActiveTab("articles")}
+            onClick={() => changeTab("articles")}
             className={`px-5 py-2 rounded-lg ${
               activeTab === "articles"
                 ? "bg-primary text-primary-foreground"
@@ -118,7 +166,7 @@ export default function LegalRepository() {
           </button>
 
           <button
-            onClick={() => setActiveTab("caselaw")}
+            onClick={() => changeTab("caselaw")}
             className={`px-5 py-2 rounded-lg ${
               activeTab === "caselaw"
                 ? "bg-primary text-primary-foreground"
