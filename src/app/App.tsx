@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useReactToPrint } from "react-to-print";
@@ -1107,7 +1107,17 @@ function PracticePage({ nav }: { nav: (p: Page) => void }) {
 
 // ─── BOOKING PAGE ─────────────────────────────────────────────────────────────
 function BookingPage() {
-  const [step, setStep] = useState(1);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const step =
+    location.pathname === "/book-consultation/time-slot"
+      ? 2
+      : location.pathname === "/book-consultation/details"
+      ? 3
+      : location.pathname === "/book-consultation/payment"
+      ? 4
+      : 1;
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
@@ -1380,10 +1390,17 @@ paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
 
 </div>
           
-          <button onClick={() => { if (selectedDate) setStep(2); }} disabled={!selectedDate}
-            className="mt-10 flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent transition-colors">
-            Continue <ArrowRight size={16} />
-          </button>
+          <button
+  onClick={() => {
+    if (selectedDate) {
+      navigate("/book-consultation/time-slot");
+    }
+  }}
+  disabled={!selectedDate}
+  className="mt-10 flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent transition-colors"
+>
+  Continue <ArrowRight size={16} />
+</button>
         </div>
       )}
 
@@ -1391,7 +1408,7 @@ paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
       {step === 2 && (
         <div>
           <div className="flex items-center gap-3 mb-6">
-            <button onClick={() => setStep(1)} className="text-xs font-sans text-muted-foreground hover:text-primary transition-colors">← Back</button>
+            <button onClick={() => navigate("/book-consultation")} className="flex items-center gap-2 border border-primary/60 text-primary px-5 py-2.5 font-sans font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-colors">← Back</button>
             <div className="text-sm font-sans text-foreground">
               <span className="text-primary font-semibold">{selectedDay}</span> — select a time slot
             </div>
@@ -1406,7 +1423,13 @@ paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
               </button>
             ))}
           </div>
-          <button onClick={() => { if (selectedSlot) setStep(3); }} disabled={!selectedSlot}
+          <button
+  onClick={() => {
+    if (selectedSlot) {
+      navigate("/book-consultation/details");
+    }
+  }}
+  disabled={!selectedSlot}
             className="flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 font-sans font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed hover:bg-accent transition-colors">
             Continue <ArrowRight size={16} />
           </button>
@@ -1417,7 +1440,7 @@ paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
       {step === 3 && (
         <div>
           <div className="flex items-center gap-3 mb-6">
-            <button onClick={() => setStep(2)} className="text-xs font-sans text-muted-foreground hover:text-primary transition-colors">← Back</button>
+            <button onClick={() => navigate("/book-consultation/time-slot")} className="flex items-center gap-2 border border-primary/60 text-primary px-5 py-2.5 font-sans font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-colors">← Back</button>
             <div className="text-sm font-sans text-foreground">
   <span className="text-primary font-semibold">
     {selectedDate} · {selectedDay}
@@ -1429,7 +1452,13 @@ paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
 </div>
           </div>
           <h3 className="font-serif text-xl font-bold text-foreground mb-6">Your Details & Case Brief</h3>
-          <form onSubmit={(e) => { e.preventDefault(); setStep(4); }} className="space-y-5">
+          <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    navigate("/book-consultation/payment");
+  }}
+  className="space-y-5"
+>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label className="block font-sans text-xs tracking-widest text-muted-foreground uppercase mb-1.5">Full Name *</label>
@@ -1502,7 +1531,7 @@ paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
       {step === 4 && (
         <div>
           <div className="flex items-center gap-3 mb-6">
-            <button onClick={() => setStep(3)} className="text-xs font-sans text-muted-foreground hover:text-primary transition-colors">← Back</button>
+            <button onClick={() => navigate("/book-consultation/details")} className="flex items-center gap-2 border border-primary/60 text-primary px-5 py-2.5 font-sans font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-colors">← Back</button>
             <div className="text-sm font-sans text-foreground">
               <span className="text-primary font-semibold">
   {selectedDate} · {selectedDay}
@@ -1699,13 +1728,14 @@ function AppContent() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const currentPath = window.location.pathname;
+  const location = useLocation();
+const currentPath = location.pathname;
 
   const currentPage: Page =
-    currentPath === "/practice-areas"
-      ? "practice"
-      : currentPath === "/book-consultation"
-      ? "booking"
+  currentPath === "/practice-areas"
+    ? "practice"
+    : currentPath.startsWith("/book-consultation")
+    ? "booking"
       : currentPath.startsWith("/legal-repository")
       ? "repository"
       : currentPath === "/privacy-policy"
