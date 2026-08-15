@@ -635,7 +635,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
         </div>
 
         {/* Advocate Information */}
-<div className="flex-1 px-5 py-4 md:px-7">
+<div className="flex-1 min-w-0 px-4 py-4 md:px-7">
 
   <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground">
     Bajrangi Verma
@@ -649,21 +649,21 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
   <div className="w-56 h-px bg-primary/40 mt-3 mb-3" />
 
   {/* Details */}
-  <div className="grid grid-cols-3 text-xs font-sans text-muted-foreground">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-sans text-muted-foreground">
 
     <div className="flex items-start gap-2 pr-4">
       <Award size={15} className="text-primary shrink-0 mt-0.5" />
       <span>35+ Years Experience</span>
     </div>
 
-    <div className="flex items-start gap-2 px-4 border-l border-primary/30">
+    <div className="flex items-start gap-2 md:px-4 md:border-l md:border-primary/30">
       <Building2 size={15} className="text-primary shrink-0 mt-0.5" />
       <span>
         High Court of Judicature at Allahabad – Lucknow Bench
       </span>
     </div>
 
-    <div className="flex items-start gap-2 pl-4 border-l border-primary/30">
+    <div className="flex items-start gap-2 md:pl-4 md:border-l md:border-primary/30">
       <Gavel size={15} className="text-primary shrink-0 mt-0.5" />
       <span>
         Civil · Criminal · Matrimonial
@@ -713,7 +713,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
         </div>
 
         {/* Advocate Information */}
-<div className="flex-1 px-5 py-4 md:px-7">
+<div className="flex-1 min-w-0 px-4 py-4 md:px-7">
 
   <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground">
     Ashwani Kumar
@@ -727,7 +727,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
   <div className="w-56 h-px bg-primary/40 mt-3 mb-3" />
 
   {/* Details */}
-  <div className="grid grid-cols-3 text-xs font-sans text-muted-foreground">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-sans text-muted-foreground">
 
     <div className="flex items-start gap-2 pr-4">
       <Scale size={15} className="text-primary shrink-0 mt-0.5" />
@@ -736,14 +736,14 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       </span>
     </div>
 
-    <div className="flex items-start gap-2 px-4 border-l border-primary/30">
+    <div className="flex items-start gap-2 md:px-4 md:border-l md:border-primary/30">
       <Building2 size={15} className="text-primary shrink-0 mt-0.5" />
       <span>
         District Court & High Court – Lucknow
       </span>
     </div>
 
-    <div className="flex items-start gap-2 pl-4 border-l border-primary/30">
+    <div className="flex items-start gap-2 md:pl-4 md:border-l md:border-primary/30">
       <FileText size={15} className="text-primary shrink-0 mt-0.5" />
       <span>
         Civil · Criminal · Document Drafting
