@@ -606,55 +606,180 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       {/* ── Team ── */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
-        <div className="mb-12">
-          <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Legal Team</p>
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">Meet the Advocates</h2>
-          <div className="w-16 h-0.5 bg-primary" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
-          {/* Senior */}
-          <div className="bg-card border border-primary/40 p-7">
-            <div className="flex items-start gap-4 mb-5">
-              <div className="w-12 h-12 bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
-                <Scale size={20} className="text-primary" />
-              </div>
-              <div>
-                <h3 className="font-serif text-xl font-bold text-foreground">Bajrangi Verma</h3>
-                <p className="font-sans text-xs text-primary tracking-widest uppercase mt-0.5">Senior Advocate</p>
-              </div>
-            </div>
-            <div className="space-y-2 text-sm font-sans text-muted-foreground">
-              <div className="flex items-center gap-2"><Award size={13} className="text-primary shrink-0" /> 35+ Years Experience</div>
-              <div className="flex items-center gap-2"><Building2 size={13} className="text-primary shrink-0" /> High Court of Judicature at Allahabad – Lucknow Bench</div>
-              <div className="flex items-center gap-2"><Gavel size={13} className="text-primary shrink-0" /> Civil · Criminal · Matrimonial</div>
-            </div>
-            <div className="mt-5 pt-4 border-t border-border flex gap-3">
-              <a href={CALL_LINK} className="flex items-center gap-1.5 text-xs font-sans font-semibold text-primary hover:underline"><Phone size={12} /> Call Now</a>
-            </div>
-          </div>
-          {/* Junior */}
-          <div className="bg-card border border-border p-7 hover:border-primary/30 transition-colors">
-            <div className="flex items-start gap-4 mb-5">
-              <div className="w-12 h-12 bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
-  <Scale size={20} className="text-primary" />
-</div>
-              <div>
-                <h3 className="font-serif text-xl font-bold text-foreground">Ashwani Kumar</h3>
-                <p className="font-sans text-xs text-primary tracking-widest uppercase mt-0.5">Junior Advocate</p>
-              </div>
-            </div>
-            <div className="space-y-2 text-sm font-sans text-muted-foreground">
-              <div className="flex items-center gap-2"><Scale size={13} className="text-muted-foreground shrink-0" /> Enrolled – Bar Council of Uttar Pradesh</div>
-              <div className="flex items-center gap-2"><Building2 size={13} className="text-muted-foreground shrink-0" /> District Court & High Court – Lucknow</div>
-              <div className="flex items-center gap-2"><FileText size={13} className="text-muted-foreground shrink-0" /> Civil · Criminal · Document Drafting</div>
-            </div>
-            <div className="mt-5 pt-4 border-t border-border flex gap-3"></div>
-              <a href={CALL_LINK_ASHWANI} className="flex items-center gap-1.5 text-xs font-sans font-semibold text-primary hover:underline"><Phone size={12} /> Call Now</a>
-          </div>
-        </div>
-      </section>
+<section className="max-w-6xl mx-auto px-6 py-20">
+  <div className="mb-12">
+    <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">
+      Legal Team
+    </p>
 
+    <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+      Meet the Advocates
+    </h2>
+
+    <div className="w-16 h-0.5 bg-primary" />
+  </div>
+
+  <div className="space-y-5 max-w-5xl">
+
+    {/* ── Senior Advocate ── */}
+    <div className="bg-card border border-primary/40 rounded-lg overflow-hidden">
+      <div className="flex items-center">
+
+        {/* Photo */}
+        <div className="w-28 h-32 md:w-32 md:h-36 shrink-0 flex items-center justify-center bg-primary/10 border-r border-primary/30">
+          <div className="w-20 h-24 md:w-24 md:h-28 bg-primary/10 border border-primary/50 rounded-sm flex items-center justify-center overflow-hidden">
+            <span className="text-primary font-serif text-2xl font-bold">
+              BV
+            </span>
+          </div>
+        </div>
+
+        {/* Advocate Information */}
+<div className="flex-1 px-5 py-4 md:px-7">
+
+  <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground">
+    Bajrangi Verma
+  </h3>
+
+  <p className="font-sans text-xs text-primary tracking-widest uppercase mt-0.5">
+    Senior Advocate
+  </p>
+
+  {/* Divider below name */}
+  <div className="w-56 h-px bg-primary/40 mt-3 mb-3" />
+
+  {/* Details */}
+  <div className="grid grid-cols-3 text-xs font-sans text-muted-foreground">
+
+    <div className="flex items-start gap-2 pr-4">
+      <Award size={15} className="text-primary shrink-0 mt-0.5" />
+      <span>35+ Years Experience</span>
+    </div>
+
+    <div className="flex items-start gap-2 px-4 border-l border-primary/30">
+      <Building2 size={15} className="text-primary shrink-0 mt-0.5" />
+      <span>
+        High Court of Judicature at Allahabad – Lucknow Bench
+      </span>
+    </div>
+
+    <div className="flex items-start gap-2 pl-4 border-l border-primary/30">
+      <Gavel size={15} className="text-primary shrink-0 mt-0.5" />
+      <span>
+        Civil · Criminal · Matrimonial
+      </span>
+    </div>
+
+  </div>
+</div>
+
+        {/* Call Button */}
+        <div className="hidden sm:flex items-center justify-center w-32 md:w-40 self-stretch border-l border-primary/30">
+          <a
+            href={CALL_LINK}
+            aria-label="Call Bajrangi Verma"
+            className="w-14 h-14 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+          >
+            <Phone size={22} />
+          </a>
+        </div>
+
+      </div>
+
+      {/* Mobile Call Button */}
+      <div className="sm:hidden border-t border-primary/30 p-4">
+        <a
+          href={CALL_LINK}
+          className="w-11 h-11 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+          aria-label="Call Bajrangi Verma"
+        >
+          <Phone size={18} />
+        </a>
+      </div>
+    </div>
+
+
+    {/* ── Junior Advocate ── */}
+    <div className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary/40 transition-colors">
+      <div className="flex items-center">
+
+        {/* Photo */}
+        <div className="w-28 h-32 md:w-32 md:h-36 shrink-0 flex items-center justify-center bg-primary/10 border-r border-primary/30">
+          <div className="w-20 h-24 md:w-24 md:h-28 bg-primary/10 border border-primary/50 rounded-sm flex items-center justify-center overflow-hidden">
+            <span className="text-primary font-serif text-2xl font-bold">
+              AK
+            </span>
+          </div>
+        </div>
+
+        {/* Advocate Information */}
+<div className="flex-1 px-5 py-4 md:px-7">
+
+  <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground">
+    Ashwani Kumar
+  </h3>
+
+  <p className="font-sans text-xs text-primary tracking-widest uppercase mt-0.5">
+    Junior Advocate
+  </p>
+
+  {/* Divider below name */}
+  <div className="w-56 h-px bg-primary/40 mt-3 mb-3" />
+
+  {/* Details */}
+  <div className="grid grid-cols-3 text-xs font-sans text-muted-foreground">
+
+    <div className="flex items-start gap-2 pr-4">
+      <Scale size={15} className="text-primary shrink-0 mt-0.5" />
+      <span>
+        Enrolled – Bar Council of Uttar Pradesh
+      </span>
+    </div>
+
+    <div className="flex items-start gap-2 px-4 border-l border-primary/30">
+      <Building2 size={15} className="text-primary shrink-0 mt-0.5" />
+      <span>
+        District Court & High Court – Lucknow
+      </span>
+    </div>
+
+    <div className="flex items-start gap-2 pl-4 border-l border-primary/30">
+      <FileText size={15} className="text-primary shrink-0 mt-0.5" />
+      <span>
+        Civil · Criminal · Document Drafting
+      </span>
+    </div>
+
+  </div>
+</div>
+
+        {/* Call Button */}
+        <div className="hidden sm:flex items-center justify-center w-32 md:w-40 self-stretch border-l border-primary/30">
+          <a
+            href={CALL_LINK_ASHWANI}
+            aria-label="Call Ashwani Kumar"
+            className="w-14 h-14 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+          >
+            <Phone size={22} />
+          </a>
+        </div>
+
+      </div>
+
+      {/* Mobile Call Button */}
+      <div className="sm:hidden border-t border-primary/30 p-4">
+        <a
+          href={CALL_LINK_ASHWANI}
+          className="w-11 h-11 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+          aria-label="Call Ashwani Kumar"
+        >
+          <Phone size={18} />
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
       {/* ── Reviews ── */}
       <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="mb-12">
