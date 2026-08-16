@@ -1220,98 +1220,275 @@ const currentQR =
 
   // Step 4 — Receipt confirmed screen
   if (receiptDone) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-6 pt-16">
-        <div
-  id="booking-receipt"
-  className="max-w-md w-full text-center border border-primary/40 p-12 bg-card"
->
-          <CheckCircle size={48} className="text-primary mx-auto mb-5" />
-          <h2 className="font-serif text-3xl font-black text-foreground mb-3">Booking Complete</h2>
-          <div className="w-12 h-0.5 bg-primary mx-auto mb-6" />
-          <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-4">
-  {paymentMode === "online"
-    ? "Your booking details and payment receipt have been sent to the chamber on WhatsApp."
-    : "Your booking request has been sent to the chamber on WhatsApp. Consultation fee will be paid at the chamber."}
-</p>
-          <div className="bg-secondary border border-border p-4 text-left space-y-1.5 mb-8 text-xs font-sans">
-            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground font-semibold">
-  {selectedDate} · {selectedDay} · {selectedSlot}
-</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground font-semibold">{form.name}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Booking ID</span><span className="text-primary font-semibold">{bookingId}</span></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground font-semibold">{form.caseType}</span></div>
-            <div className="flex justify-between border-t border-border pt-1.5 mt-1.5">
-  <span className="text-muted-foreground">Payment Mode</span>
-  <span className="text-foreground font-semibold">
-    {paymentMode === "online" ? "UPI" : "Pay at Chamber"}
-  </span>
+  return (
+    <div className="min-h-screen bg-background flex items-start justify-center px-4 pt-8 pb-12 sm:px-6 sm:pt-10">
+      <div
+        id="booking-receipt"
+        className="w-full max-w-[430px] bg-[#15130f] text-[#f5f1e8] border border-[#4a3b19] shadow-2xl overflow-hidden"
+      >
+        {/* BOOKING COMPLETE */}
+<div className="px-7 sm:px-9 pt-6 pb-0 text-center">
+  <CheckCircle
+    size={48}
+    strokeWidth={1.8}
+    className="text-primary mx-auto"
+  />
+
+  <h2 className="font-serif text-3xl sm:text-4xl font-black text-foreground mt-2">
+    Booking Complete
+  </h2>
+
+  <div className="w-12 h-0.5 bg-primary mx-auto mt-2" />
+</div> 
+
+        {/* RECEIPT HEADER */}
+<div className="px-7 sm:px-9 pt-0 pb-6 text-center border-b border-dashed border-[#5a4a27]">
+
+  <div className="mt-2 text-[10px] uppercase tracking-widest text-[#888]">
+  Consultation Receipt
 </div>
 
-<div className="flex justify-between">
-  <span className="text-muted-foreground">Payment Status</span>
-  <span
-    className={
-      paymentMode === "online"
-        ? "text-green-500 font-semibold"
-        : "text-yellow-500 font-semibold"
-    }
-  >
-    {paymentMode === "online" ? "Paid" : "Pending"}
-  </span>
 </div>
 
-<div className="flex justify-between">
-  <span className="text-muted-foreground">Consultation Fee</span>
-  <span className="text-foreground font-semibold">
-    ₹{consultationFee.toLocaleString("en-IN")}
-  </span>
-</div>
+        {/* RECEIPT META */}
+        <div className="px-7 sm:px-9 py-5 flex justify-between gap-4 text-xs border-b border-[#3d3527]">
+          <div>
+            <div className="text-[9px] uppercase tracking-widest text-[#aaa08f] mb-1">
+              Receipt No.
+            </div>
+
+            <div className="font-semibold text-primary">
+                {bookingId}
+            </div>
           </div>
-          <a href={CALL_LINK_ASHWANI}
-            className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-sans font-semibold text-sm hover:bg-accent transition-colors w-full">
-            <Phone size={15} /> Call Now to Confirm
-          </a>
-          <button
-  onClick={handlePrint}
-  className="mt-3 flex items-center justify-center gap-2 border border-primary text-primary px-6 py-3 font-sans font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-colors w-full"
->
-  <Printer size={15} />
-  Print Receipt
-</button>
 
+          <div className="text-right">
+            <div className="text-[9px] uppercase tracking-widest text-[#aaa08f] mb-1">
+              Date
+            </div>
+
+            <div className="font-semibold text-[#f5f1e8]">
+              {new Date().toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* APPOINTMENT */}
+        <div className="px-7 sm:px-9 py-6 border-b border-dashed border-[#5a4a27]">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-[#aaa08f] mb-3">
+            Appointment
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <div className="text-[9px] uppercase tracking-wider text-[#aaa08f] mb-1">
+                Date
+              </div>
+
+              <div className="text-xs sm:text-sm font-bold leading-tight text-[#f5f1e8]">
+                {selectedDate}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[9px] uppercase tracking-wider text-[#aaa08f] mb-1">
+                Day
+              </div>
+
+              <div className="text-xs sm:text-sm font-bold text-[#f5f1e8]">
+                {selectedDay}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[9px] uppercase tracking-wider text-[#aaa08f] mb-1">
+                Time
+              </div>
+
+              <div className="text-xs sm:text-sm font-bold text-[#f5f1e8]">
+                {selectedSlot}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CLIENT DETAILS */}
+        <div className="px-7 sm:px-9 py-6 border-b border-dashed border-[#5a4a27]">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-[#aaa08f] mb-4">
+            Client Details
+          </div>
+
+          <div className="space-y-4">
+
+            <div className="flex justify-between items-start gap-5">
+              <span className="text-[10px] uppercase tracking-wider text-[#aaa08f]">
+                Name
+              </span>
+
+              <span className="text-xs sm:text-sm font-bold text-right break-words text-[#f5f1e8]">
+                {form.name}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-start gap-5">
+              <span className="text-[10px] uppercase tracking-wider text-[#aaa08f]">
+                Case Type
+              </span>
+
+              <span className="text-xs sm:text-sm font-bold text-right text-[#f5f1e8]">
+                {form.caseType}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-start gap-5">
+              <span className="text-[10px] uppercase tracking-wider text-[#aaa08f]">
+                Payment Mode
+              </span>
+
+              <span className="text-xs sm:text-sm font-bold text-right text-[#f5f1e8]">
+                {paymentMode === "online"
+                  ? "UPI"
+                  : "Pay at Chamber"}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-start gap-5">
+              <span className="text-[10px] uppercase tracking-wider text-[#aaa08f]">
+                Payment Status
+              </span>
+
+              <span
+                className={
+                  paymentMode === "online"
+                    ? "text-xs sm:text-sm font-bold text-green-400"
+                    : "text-xs sm:text-sm font-bold text-yellow-400"
+                }
+              >
+                {paymentMode === "online"
+                  ? "PAID"
+                  : "PENDING"}
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        {/* PAYMENT SUMMARY */}
+        <div className="mx-7 sm:mx-9 border-t border-dashed border-[#5a4a27] pt-5 pb-7">
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-[10px] sm:text-xs uppercase tracking-wider text-[#aaa08f]">
+              Consultation Fee
+            </span>
+
+            <span className="text-sm sm:text-base font-bold text-[#f5f1e8]">
+              ₹{consultationFee.toLocaleString("en-IN")}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] sm:text-xs uppercase tracking-wider text-[#aaa08f]">
+              Total
+            </span>
+
+            <span className="font-serif text-2xl sm:text-3xl font-black text-primary">
+              ₹{consultationFee.toLocaleString("en-IN")}
+            </span>
+          </div>
+        </div>
+
+        {/* RECEIPT FOOTER */}
+        <div className="relative bg-[#15130f] px-7 sm:px-9 py-6 text-center border-t border-[#4a3b19]">
+          <p className="text-[10px] sm:text-xs leading-relaxed text-[#b8b0a2]">
+            {paymentMode === "online"
+              ? "Your booking details and payment receipt have been sent to the chamber on WhatsApp."
+              : "Your booking request has been sent to the chamber on WhatsApp. Consultation fee will be paid at the chamber."}
+          </p>
+
+          <div className="mt-4 pt-4 border-t border-dashed border-[#5a4a27]">
+            <div className="text-[9px] uppercase tracking-[0.2em] text-[#aaa08f]">
+              Bajrangi Verma Advocate
+            </div>
+          </div>
+        </div>
+
+        {/* SCALLOPED RECEIPT EDGE */}
 <div
+  className="relative h-4 w-full bg-[#0f0e0b]"
   style={{
-    position: "fixed",
-    left: "-99999px",
-    top: "0",
-    width: "210mm",
-    background: "#fff",
-    zIndex: -1,
+    WebkitMaskImage:
+      "radial-gradient(circle at 10px 100%, transparent 7px, #000 7.5px)",
+    maskImage:
+      "radial-gradient(circle at 10px 100%, transparent 7px, #000 7.5px)",
+    WebkitMaskSize: "20px 100%",
+    maskSize: "20px 100%",
+    WebkitMaskRepeat: "repeat-x",
+    maskRepeat: "repeat-x",
   }}
->
-  <div ref={receiptRef}>
-    <PrintReceipt
-      receiptNo={bookingId}
-      currentDate={new Date().toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      })}
-      appointment={`${selectedDate} · ${selectedDay} · ${selectedSlot}`}
-      name={form.name}
-      caseType={form.caseType}
-      fee={consultationFee.toLocaleString("en-IN")}
-      paymentMode={paymentMode === "online" ? "UPI" : "Pay at Chamber"}
-paymentStatus={paymentMode === "online" ? "Paid" : "Pending"}
-    />
-  </div>
-</div>
+/>
 
+        {/* ACTION BUTTONS */}
+        <div className="px-7 sm:px-9 py-6 bg-[#15130f] border-t border-[#3d3527]">
+          <a
+            href={CALL_LINK_ASHWANI}
+            className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3.5 font-sans font-semibold text-sm hover:bg-accent transition-colors w-full"
+          >
+            <Phone size={15} />
+            Call Now to Confirm
+          </a>
+
+          <button
+            onClick={handlePrint}
+            className="mt-3 flex items-center justify-center gap-2 border border-primary text-primary px-6 py-3.5 font-sans font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-colors w-full"
+          >
+            <Printer size={15} />
+            Print Receipt
+          </button>
+        </div>
+
+        {/* HIDDEN PRINT RECEIPT */}
+        <div
+          style={{
+            position: "fixed",
+            left: "-99999px",
+            top: "0",
+            width: "210mm",
+            background: "#fff",
+            zIndex: -1,
+          }}
+        >
+          <div ref={receiptRef}>
+            <PrintReceipt
+              receiptNo={bookingId}
+              currentDate={new Date().toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+              appointment={`${selectedDate} · ${selectedDay} · ${selectedSlot}`}
+              name={form.name}
+              caseType={form.caseType}
+              fee={consultationFee.toLocaleString("en-IN")}
+              paymentMode={
+                paymentMode === "online"
+                  ? "UPI"
+                  : "Pay at Chamber"
+              }
+              paymentStatus={
+                paymentMode === "online"
+                  ? "Paid"
+                  : "Pending"
+              }
+            />
+          </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   const STEP_LABELS = ["Select Day", "Select Time", "Your Details", "Payment"];
 
