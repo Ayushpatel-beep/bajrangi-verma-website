@@ -19,339 +19,694 @@ export default function PrintReceipt({
   paymentMode,
   paymentStatus,
 }: PrintReceiptProps) {
+  const formattedName = name
+  .toLowerCase()
+  .split(" ")
+  .filter(Boolean)
+  .map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1)
+  )
+  .join(" ");
+
+  const isPaid =
+    paymentStatus.toLowerCase() === "paid" ||
+    paymentMode.toLowerCase() === "upi";
+
+  const paymentMethod =
+    paymentMode.toLowerCase() === "upi"
+      ? "UPI / Online Transfer"
+      : "Pay at Chamber";
+
   return (
-   <>
-    <style>
-      {`
-        @page {
-          size: A4;
-          margin: 10mm;
-        }
+    <>
+      <style>
+  {`
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@700&display=swap');
 
-        @media print {
-          html,
-          body {
-            margin: 0 !important;
-            padding: 0 !important;
-            background: white !important;
-          }
+    * {
+      box-sizing: border-box;
+    }
 
-          #print-receipt {
-            width: 100% !important;
-            min-height: auto !important;
-          }
-        }
-      `}
-    </style>
+    html,
+    body,
+    #root {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: #ffffff !important;
+    }
 
-    <div
-      id="print-receipt"
-      style={{
-        width: "210mm",
-        minHeight: "297mm",
-        background: "#ffffff",
-        color: "#111827",
-        padding: "30px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+   @media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    background: #ffffff !important;
+  }
+
+  #print-receipt {
+    display: block !important;
+    position: relative !important;
+
+    width: 210mm !important;
+    height: auto !important;
+    min-height: 0 !important;
+
+    margin: 0 !important;
+    padding: 12mm !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+    color: #111827 !important;
+
+    box-shadow: none !important;
+    border-bottom: 8px solid #0f2c59 !important;
+
+    visibility: visible !important;
+
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #print-receipt * {
+    visibility: visible !important;
+  }
+}
+
+    @media screen {
+  html,
+  body,
+  #root {
+    background: #ffffff !important;
+  }
+
+  #print-receipt {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+}
+  `}
+</style>
+
       <div
+  id="print-receipt"
   style={{
-    textAlign: "center",
-    borderBottom: "2px solid #1e3a8a",
-    paddingBottom: "20px",
-    marginBottom: "30px",
+    width: "210mm",
+    minHeight: "297mm",
+    margin: "0 auto",
+    backgroundColor: "#ffffff",
+    background: "#ffffff",
+    color: "#111827",
+    padding: "42px 48px",
+    position: "relative",
+    borderBottom: "8px solid #0f2c59",
+    fontFamily: "'Segoe UI', Arial, sans-serif",
   }}
 >
-  <h1
-    style={{
-      margin: 0,
-      fontSize: "28px",
-      color: "#1e3a8a",
-      fontWeight: "bold",
-    }}
-  >
-    Bajrangi Verma Advocate
-  </h1>
 
-  <p
-    style={{
-      margin: "6px 0",
-      fontSize: "18px",
-      fontWeight: 600,
-    }}
-  >
-    Advocate Chamber
-  </p>
+        {/* ================= HEADER ================= */}
 
-  <p
-    style={{
-      margin: "6px 0",
-      fontSize: "14px",
-      color: "#444",
-      lineHeight: 1.6,
-    }}
-  >
-    8/732, Sector 8, Matinpurwa,
-    <br />
-    Vikas Nagar, Lucknow, Uttar Pradesh – 226022
-  </p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            paddingBottom: "10px",
+            gap: "30px",
+          }}
+        >
+          {/* Left Header */}
 
-  <p
-    style={{
-      marginTop: "8px",
-      fontSize: "14px",
-      fontWeight: 600,
-    }}
-  >
-    Mobile: +91 8707394242
-  </p>
-</div>
+          <div style={{ flex: 1 }}>
+            <div
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                color: "#0f2c59",
+                fontSize: "25px",
+                fontWeight: 700,
+                lineHeight: 1.2,
+                whiteSpace: "nowrap",
+              }}
+            >
+              Bajrangi Verma Advocate
+            </div>
+
+            <div
+              style={{
+                fontSize: "13px",
+                fontWeight: 700,
+                color: "#744210",
+                marginTop: "4px",
+              }}
+            >
+              Advocate Chamber
+            </div>
+
+            <div
+              style={{
+                marginTop: "8px",
+                fontSize: "13px",
+                color: "#2d3748",
+                lineHeight: 1.5,
+              }}
+            >
+              <strong style={{ color: "#000" }}>Address:</strong>{" "}
+              8/732, Sector-8, Matinpurwa, Vikas Nagar,
+              <br />
+              Lucknow, Uttar Pradesh - 226022
+              <br />
+              <strong style={{ color: "#000" }}>Mobile:</strong>{" "}
+              +91 8707394242
+            </div>
+          </div>
+
+          {/* Right Header */}
+
+          <div
+            style={{
+              textAlign: "right",
+              minWidth: "185px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "13px",
+                color: "#2d3748",
+                fontWeight: 600,
+                letterSpacing: "0.5px",
+                lineHeight: 1.2,
+                textTransform: "uppercase",
+              }}
+            >
+              Invoice / Payment Receipt
+            </div>
+
+            <div
+              style={{
+                marginTop: "10px",
+                fontSize: "13.5px",
+                color: "#000",
+                lineHeight: 1.6,
+              }}
+            >
+              <div>
+                <strong>Receipt No:</strong>{" "}
+                <span
+  style={{
+    color: "#b8860b",
+    fontWeight: 400,
+  }}
+>
+  {receiptNo}
+</span>
+              </div>
+
+              <div>
+                <strong>Date:</strong> {currentDate}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ================= DIVIDER ================= */}
+
+        <div
+          style={{
+            width: "100%",
+            height: "1.5px",
+            backgroundColor: "#cbd5e0",
+            margin: "12px 0 20px",
+          }}
+        />
+
+        {/* ================= CLIENT + PAYMENT INFORMATION ================= */}
 
 <div
   style={{
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: "30px",
+    alignItems: "flex-start",
+    marginBottom: "50px",
     fontSize: "14px",
-    borderBottom: "1px solid #d1d5db",
-    paddingBottom: "12px",
+    color: "#000",
+    lineHeight: 1.7,
+    gap: "30px",
   }}
 >
-  <div style={{ fontSize: "12px" }}>
-  <strong>Receipt No.</strong>
-  <br />
-  {receiptNo}
-</div>
+  {/* LEFT SIDE - CLIENT INFORMATION */}
 
-  <div style={{ textAlign: "right" }}>
-  <strong>Date</strong>
-  <br />
-  {currentDate}
-</div>
+  <div style={{ flex: 1 }}>
+    <div>
+      <strong
+        style={{
+          display: "inline-block",
+          width: "180px",
+        }}
+      >
+        Client Name:
+      </strong>
 
-</div>
+      {formattedName}
+    </div>
 
-<div
-  style={{
-    border: "1px solid #d1d5db",
-    borderRadius: "8px",
-    overflow: "hidden",
-    marginBottom: "30px",
-  }}
->
-  <div
-    style={{
-      background: "#1e3a8a",
-      color: "#ffffff",
-      padding: "12px",
-      textAlign: "center",
-      fontWeight: "bold",
-      fontSize: "18px",
-    }}
-  ><h1
-  style={{
-    margin: 0,
-    fontSize: "30px",
-    color: "#ffffff",
-    fontWeight: "bold",
-  }}
->
-  {paymentMode === "UPI"
-    ? "Consultation Payment Receipt"
-    : "Consultation Booking Confirmation"}
-</h1>
+    <div>
+      <strong
+        style={{
+          display: "inline-block",
+          width: "180px",
+        }}
+      >
+        Appointment Date:
+      </strong>
+
+      {appointment}
+    </div>
+
+    <div>
+      <strong
+        style={{
+          display: "inline-block",
+          width: "180px",
+        }}
+      >
+        Case Type / Service:
+      </strong>
+
+      {caseType}
+    </div>
   </div>
 
-  <table
+  {/* RIGHT SIDE - PAYMENT INFORMATION */}
+
+  <div
     style={{
-      width: "100%",
-      borderCollapse: "collapse",
-      fontSize: "15px",
+      width: "250px",
+      textAlign: "left",
     }}
   >
-    <tbody>
-      <tr>
-        <td style={{ padding: "14px", fontWeight: "bold", width: "35%", borderBottom: "1px solid #e5e7eb" }}>
-          Appointment
-        </td>
-        <td style={{ padding: "14px", borderBottom: "1px solid #e5e7eb" }}>
-          {appointment}
-        </td>
-      </tr>
-
-      <tr>
-        <td style={{ padding: "14px", fontWeight: "bold", borderBottom: "1px solid #e5e7eb" }}>
-          Client Name
-        </td>
-        <td style={{ padding: "14px", borderBottom: "1px solid #e5e7eb" }}>
-          {name}
-        </td>
-      </tr>
-
-      <tr>
-        <td style={{ padding: "14px", fontWeight: "bold", borderBottom: "1px solid #e5e7eb" }}>
-          Case Type
-        </td>
-        <td style={{ padding: "14px", borderBottom: "1px solid #e5e7eb" }}>
-          {caseType}
-        </td>
-      </tr>
-
-      <tr>
-        <td style={{ padding: "14px", fontWeight: "bold" }}>
-          Consultation Fee
-        </td>
-        <td
+    {isPaid && (
+      <div>
+        <strong
           style={{
-            padding: "14px",
-            color: "#0f766e",
-            fontWeight: "bold",
-            fontSize: "18px",
+            display: "inline-block",
+            width: "125px",
           }}
         >
-          ₹{fee}
-        </td>
-      </tr>
+          Payment Date:
+        </strong>
 
-<tr>
-  <td style={{ padding: "14px", fontWeight: "bold" }}>
-    Payment Mode
-  </td>
+        {currentDate}
+      </div>
+    )}
 
-  <td style={{ padding: "14px" }}>
-    <span
-      style={{
-        display: "inline-block",
-        padding: "6px 14px",
-        borderRadius: "999px",
-        backgroundColor:
-          paymentMode === "UPI" ? "#dbeafe" : "#ede9fe",
-        color:
-          paymentMode === "UPI" ? "#1d4ed8" : "#6d28d9",
-        fontWeight: "bold",
-        fontSize: "13px",
-      }}
-    >
-      {paymentMode}
-    </span>
-  </td>
-</tr>
+    <div>
+      <strong
+        style={{
+          display: "inline-block",
+          width: "125px",
+        }}
+      >
+        Payment Method:
+      </strong>
 
-<tr>
-  <td style={{ padding: "14px", fontWeight: "bold" }}>
-    Payment Status
-  </td>
-
-  <td style={{ padding: "14px" }}>
-    <span
-      style={{
-        display: "inline-block",
-        padding: "6px 14px",
-        borderRadius: "999px",
-        backgroundColor:
-          paymentStatus === "Paid" ? "#dcfce7" : "#fef3c7",
-        color:
-          paymentStatus === "Paid" ? "#166534" : "#92400e",
-        fontWeight: "bold",
-        fontSize: "13px",
-      }}
-    >
-      {paymentStatus}
-    </span>
-  </td>
-</tr>
-
-    </tbody>
-  </table>
+      {paymentMethod}
+    </div>
+  </div>
 </div>
 
-<div
+        {/* ================= PAYMENT TABLE ================= */}
+
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            border: "1.5px solid #4a5568",
+            marginBottom: "20px",
+          }}
+        >
+          <thead>
+            <tr>
+              <th
+                style={{
+                  width: "10%",
+                  backgroundColor: "#e2e8f0",
+                  color: "#000",
+                  fontWeight: 700,
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  textAlign: "left",
+                }}
+              >
+                S.No
+              </th>
+
+              <th
+                style={{
+                  width: "65%",
+                  backgroundColor: "#e2e8f0",
+                  color: "#000",
+                  fontWeight: 700,
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  textAlign: "left",
+                }}
+              >
+                Description
+              </th>
+
+              <th
+                style={{
+                  width: "25%",
+                  backgroundColor: "#e2e8f0",
+                  color: "#000",
+                  fontWeight: 700,
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  textAlign: "right",
+                }}
+              >
+                Amount (₹)
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {/* Consultation Fee */}
+
+            <tr>
+              <td
+                style={{
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  color: "#1a202c",
+                }}
+              >
+                1.
+              </td>
+
+              <td
+                style={{
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  color: "#1a202c",
+                }}
+              >
+                Legal Consultation Fee ({caseType})
+              </td>
+
+              <td
+                style={{
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  color: "#1a202c",
+                  textAlign: "right",
+                }}
+              >
+                ₹{fee}
+              </td>
+            </tr>
+
+            {/* Subtotal */}
+
+            <tr>
+              <td
+                colSpan={2}
+                style={{
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  color: "#1a202c",
+                  textAlign: "right",
+                  fontWeight: 700,
+                }}
+              >
+                Subtotal:
+              </td>
+
+              <td
+                style={{
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "13.5px",
+                  color: "#1a202c",
+                  textAlign: "right",
+                  fontWeight: 700,
+                }}
+              >
+                ₹{fee}
+              </td>
+            </tr>
+
+            {/* Total */}
+
+            <tr>
+              <td
+                colSpan={2}
+                style={{
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "14.5px",
+                  color: "#1a202c",
+                  textAlign: "right",
+                  fontWeight: 800,
+                  backgroundColor: "#f7fafc",
+                }}
+              >
+                Total Amount:
+              </td>
+
+              <td
+                style={{
+                  padding: "10px 12px",
+                  border: "1.5px solid #4a5568",
+                  fontSize: "14.5px",
+                  color: "#1a202c",
+                  textAlign: "right",
+                  fontWeight: 800,
+                  backgroundColor: "#f7fafc",
+                }}
+              >
+                ₹{fee}
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        {/* ================= PAYMENT STATUS ================= */}
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: "12px",
+            marginBottom: "22px",
+            paddingTop: "2px",
+          }}
+        >
+          {isPaid ? (
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                border: "2px solid #28a745",
+                color: "#28a745",
+                borderRadius: "8px",
+                padding: "5px 15px",
+                fontWeight: 800,
+                fontSize: "16px",
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+              }}
+            >
+              PAID ✓
+            </div>
+          ) : (
+            <div
   style={{
-    marginTop: "35px",
-    borderTop: "2px solid #1e3a8a",
-    paddingTop: "25px",
-    textAlign: "center",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "8px",
+    border: "2px solid #d97706",
+    color: "#d97706",
+    backgroundColor: "#fffbeb",
+    borderRadius: "8px",
+    padding: "6px 16px",
+    fontWeight: 800,
+    fontSize: "15px",
+    letterSpacing: "0.5px",
+    textTransform: "uppercase",
   }}
 >
-  <h2
+  <span
     style={{
-      margin: 0,
-      color: "#1e3a8a",
-      fontSize: "22px",
+      width: "14px",
+      height: "14px",
+      border: "2px solid #d97706",
+      borderRadius: "50%",
+      display: "inline-block",
+      position: "relative",
     }}
   >
-    Thank You for Choosing
-  </h2>
+    <span
+      style={{
+        position: "absolute",
+        width: "1.5px",
+        height: "4px",
+        backgroundColor: "#d97706",
+        left: "5px",
+        top: "2px",
+      }}
+    />
 
-  <h3
-    style={{
-      marginTop: "8px",
-      marginBottom: "18px",
-      fontSize: "24px",
-    }}
-  >
-    Bajrangi Verma Advocate
-  </h3>
+    <span
+      style={{
+        position: "absolute",
+        width: "4px",
+        height: "1.5px",
+        backgroundColor: "#d97706",
+        left: "5px",
+        top: "6px",
+        transform: "rotate(25deg)",
+        transformOrigin: "left center",
+      }}
+    />
+  </span>
 
-  <p
-    style={{
-      color: "#555",
-      lineHeight: 1.8,
-      fontSize: "15px",
-      marginBottom: "24px",
-    }}
-  >
-    This receipt confirms your consultation booking.
-    <br />
-    Please keep this receipt for your records and present it during your appointment.
-  </p>
-
-  <div
-    style={{
-      background: "#f8fafc",
-      border: "1px solid #d1d5db",
-      borderRadius: "8px",
-      padding: "18px",
-      textAlign: "left",
-      fontSize: "13px",
-      lineHeight: 1.8,
-    }}
-  >
-    <strong>Important Note</strong>
-
-    <br /><br />
-    
-    • This is a computer-generated consultation receipt.
-
-    <br />
-
-    • No physical signature or chamber stamp is required.
-
-    <br />
-
-    • Please arrive 10 minutes before your scheduled appointment.
-
-    <br />
-
-    • For appointment-related assistance, contact:
-
-    <strong> +91 8707394242</strong>
-  </div>
-
-  <p
-    style={{
-      marginTop: "30px",
-      color: "#888",
-      fontSize: "12px",
-    }}
-  >
-    © Bajrangi Verma Advocate Chamber • Lucknow
-  </p>
+  PENDING
 </div>
+          )}
+        </div>
 
-</div>
-</>
+        {/* ================= IMPORTANT NOTES ================= */}
 
+        <div
+          style={{
+            width: "100%",
+            backgroundColor: "#f8fafc",
+            border: "1px solid #cbd5e0",
+            borderLeft: "4px solid #0f2c59",
+            padding: "12px 16px",
+            borderRadius: "6px",
+            marginBottom: "25px",
+          }}
+        >
+          <h4
+            style={{
+              fontSize: "13px",
+              color: "#0f2c59",
+              margin: "0 0 6px",
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Important Notes:
+          </h4>
+
+          <ul
+            style={{
+              margin: 0,
+              paddingLeft: "18px",
+              fontSize: "12.5px",
+              color: "#4a5568",
+              lineHeight: 1.5,
+            }}
+          >
+            <li>
+              This is a computer-generated consultation receipt.
+            </li>
+
+            <li>
+              No physical signature or chamber stamp is required.
+            </li>
+
+            <li>
+              Please arrive 10 minutes before your scheduled appointment.
+            </li>
+
+            <li>
+              For appointment-related assistance contact: +91 8707394242
+            </li>
+          </ul>
+        </div>
+
+        {/* ================= SIGNATURE ================= */}
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: "14px",
+          }}
+        >
+          <div
+            style={{
+              textAlign: "right",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "13.5px",
+                fontWeight: 700,
+                color: "#000",
+              }}
+            >
+              Received with Thanks:
+            </div>
+
+            <div
+              style={{
+                fontFamily: "'Great Vibes', cursive",
+                fontSize: "28px",
+                color: "#0f2c59",
+                marginTop: "5px",
+                marginBottom: "10px",
+                lineHeight: 1.3,
+                display: "block",
+              }}
+            >
+              Bajrangi Verma
+            </div>
+
+            <div
+              style={{
+                display: "inline-block",
+                fontSize: "11px",
+                fontWeight: 700,
+                color: "#1e40af",
+                backgroundColor: "#dbeafe",
+                border: "1px solid #bfdbfe",
+                padding: "3px 10px",
+                borderRadius: "4px",
+                marginTop: "4px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
+              ✓ Digitally Signed
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

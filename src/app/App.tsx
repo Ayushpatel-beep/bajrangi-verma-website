@@ -1129,32 +1129,50 @@ function BookingPage() {
   const receiptRef = useRef<HTMLDivElement>(null);
 
 const handlePrint = async () => {
-  if (!receiptRef.current) return;
+  const receipt = document.getElementById("print-receipt");
 
-  const canvas = await html2canvas(receiptRef.current, {
-  scale: window.devicePixelRatio > 2 ? 2 : window.devicePixelRatio,
-  useCORS: true,
-  backgroundColor: "#ffffff",
-  logging: false,
-});
+  if (!receipt) {
+    console.error("Receipt element not found");
+    return;
+  }
 
-  const imgData = canvas.toDataURL("image/png");
+  try {
+    const canvas = await html2canvas(receipt, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      logging: false,
+    });
 
-  const pdf = new jsPDF({
-    orientation: "portrait",
-    unit: "mm",
-    format: "a4",
-  });
+    const imgData = canvas.toDataURL("image/png");
 
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
 
-  const imgWidth = pageWidth;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const pageWidth = 210;
+    const pageHeight = 297;
 
-  pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-  pdf.save("Consultation-Receipt.pdf");
+    pdf.addImage(
+      imgData,
+      "PNG",
+      0,
+      0,
+      imgWidth,
+      Math.min(imgHeight, pageHeight),
+      undefined,
+      "FAST"
+    );
+
+    pdf.save("Bajrangi-Verma-Receipt.pdf");
+  } catch (error) {
+    console.error("Receipt PDF generation failed:", error);
+  }
 };
 
   const isSunday = selectedDay === "Sunday";
@@ -1451,16 +1469,26 @@ const currentQR =
 
         {/* HIDDEN PRINT RECEIPT */}
         <div
-          style={{
-            position: "fixed",
-            left: "-99999px",
-            top: "0",
-            width: "210mm",
-            background: "#fff",
-            zIndex: -1,
-          }}
-        >
-          <div ref={receiptRef}>
+  style={{
+    position: "fixed",
+    left: "-99999px",
+    top: "0",
+    width: "210mm",
+    minHeight: "297mm",
+    backgroundColor: "#ffffff",
+    background: "#ffffff",
+    zIndex: 9999,
+  }}
+>
+          <div
+  ref={receiptRef}
+  style={{
+    width: "210mm",
+    minHeight: "297mm",
+    backgroundColor: "#ffffff",
+    background: "#ffffff",
+  }}
+>
             <PrintReceipt
               receiptNo={bookingId}
               currentDate={new Date().toLocaleDateString("en-IN", {
