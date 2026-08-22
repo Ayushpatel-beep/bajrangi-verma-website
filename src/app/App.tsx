@@ -12,7 +12,7 @@ import {
   Phone, MessageCircle, MapPin, Star, ChevronDown, ChevronUp,
   Menu, X, Scale, FileText, Award, Clock, Calendar, CheckCircle,
   ArrowRight, Send, Building2, Gavel, BookOpen, Shield,
-  Users, TrendingUp, Quote, Library, Newspaper, BookMarked, Printer
+  Users, TrendingUp, Quote, Library, Newspaper, BookMarked, Printer, CreditCard
 } from "lucide-react";
 
 type Page = "home" | "practice" | "booking" | "repository" | "privacy" | "terms" | "disclaimer";
@@ -363,48 +363,66 @@ function Footer({ nav }: { nav: (p: Page) => void }) {
 function PrivacyPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 pt-28 pb-20">
-      <h1 className="font-serif text-4xl font-bold mb-6">
-        Privacy Policy
-      </h1>
+      {/* Header */}
+      <div className="mb-12">
+        <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">
+          Legal Information
+        </p>
 
-      <p className="mb-4">
-        We respect your privacy. Any information shared with Bajrangi Verma
-        Advocate through this website is kept confidential and used only for
-        providing legal consultation.
-      </p>
+        <h1 className="font-serif text-4xl md:text-5xl font-black text-foreground mb-4">
+          Privacy Policy
+        </h1>
 
-      <h2 className="text-2xl font-semibold mt-8 mb-3">
-        Information We Collect
-      </h2>
+        <div className="w-16 h-0.5 bg-primary mb-6" />
 
-      <ul className="list-disc ml-6 space-y-2">
-        <li>Name</li>
-        <li>Phone Number</li>
-        <li>Email Address (if provided)</li>
-        <li>Case Details submitted through forms</li>
-      </ul>
+        <p className="font-sans text-muted-foreground max-w-2xl leading-relaxed">
+          This Privacy Policy explains how Bajrangi Verma Advocate collects,
+          uses, and protects information shared through this website.
+        </p>
+      </div>
 
-      <h2 className="text-2xl font-semibold mt-8 mb-3">
-        How We Use Your Information
-      </h2>
+      <div className="space-y-10 font-sans text-sm text-muted-foreground leading-relaxed">
 
-      <ul className="list-disc ml-6 space-y-2">
-        <li>To contact you regarding your legal matter.</li>
-        <li>To schedule consultations.</li>
-        <li>To improve our legal services.</li>
-      </ul>
+        <section>
+          <h2 className="font-serif text-2xl font-bold text-foreground mb-3">
+            Information We Collect
+          </h2>
 
-      <h2 className="text-2xl font-semibold mt-8 mb-3">
-        Contact
-      </h2>
+          <ul className="list-disc ml-6 space-y-2">
+            <li>Name</li>
+            <li>Phone Number</li>
+            <li>Email Address (if provided)</li>
+            <li>Case Details submitted through forms</li>
+          </ul>
+        </section>
 
-      <p>
-        Bajrangi Verma Advocate
-        <br />
-        Lucknow, Uttar Pradesh
-        <br />
-        Phone: +91 9415786469
-      </p>
+        <section>
+          <h2 className="font-serif text-2xl font-bold text-foreground mb-3">
+            How We Use Your Information
+          </h2>
+
+          <ul className="list-disc ml-6 space-y-2">
+            <li>To contact you regarding your legal matter.</li>
+            <li>To schedule consultations.</li>
+            <li>To improve our legal services.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="font-serif text-2xl font-bold text-foreground mb-3">
+            Contact
+          </h2>
+
+          <p>
+            Bajrangi Verma Advocate
+            <br />
+            Lucknow, Uttar Pradesh
+            <br />
+            Phone: +91 9415786469
+          </p>
+        </section>
+
+      </div>
     </div>
   );
 }
@@ -412,27 +430,48 @@ function PrivacyPage() {
 function TermsPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 pt-28 pb-20">
-      <h1 className="font-serif text-4xl font-bold mb-6">
-        Terms & Conditions
-      </h1>
+      {/* Header */}
+      <div className="mb-12">
+        <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">
+          Legal Information
+        </p>
 
-      <ul className="list-disc ml-6 space-y-3">
-        <li>
-          Information on this website is for general legal awareness only.
-        </li>
-        <li>
-          Submitting a form does not create an advocate-client relationship.
-        </li>
-        <li>
-          Legal advice is provided only after consultation.
-        </li>
-        <li>
-          Fees are discussed separately before engagement.
-        </li>
-        <li>
-          Users should provide accurate information while booking consultations.
-        </li>
-      </ul>
+        <h1 className="font-serif text-4xl md:text-5xl font-black text-foreground mb-4">
+          Terms & Conditions
+        </h1>
+
+        <div className="w-16 h-0.5 bg-primary mb-6" />
+
+        <p className="font-sans text-muted-foreground max-w-2xl leading-relaxed">
+          Please read these terms carefully before using this website or
+          submitting a consultation request.
+        </p>
+      </div>
+
+      <div className="space-y-6">
+        {[
+          "Information on this website is for general legal awareness only.",
+          "Submitting a form does not create an advocate-client relationship.",
+          "Legal advice is provided only after consultation.",
+          "Fees are discussed separately before engagement.",
+          "Users should provide accurate information while booking consultations.",
+        ].map((term, index) => (
+          <div
+            key={index}
+            className="bg-card border border-border p-5 hover:border-primary/40 transition-colors"
+          >
+            <div className="flex items-start gap-4">
+              <span className="text-primary font-serif font-bold">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <p className="font-sans text-sm text-muted-foreground leading-relaxed">
+                {term}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -440,24 +479,47 @@ function TermsPage() {
 function DisclaimerPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 pt-28 pb-20">
-      <h1 className="font-serif text-4xl font-bold mb-6">
-        Disclaimer
-      </h1>
+      {/* Header */}
+      <div className="mb-12">
+        <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">
+          Legal Information
+        </p>
 
-      <p className="mb-4">
-        This website complies with the Bar Council of India Rules.
-      </p>
+        <h1 className="font-serif text-4xl md:text-5xl font-black text-foreground mb-4">
+          Disclaimer
+        </h1>
 
-      <p className="mb-4">
-        The content published on this website is intended solely for
-        informational purposes and should not be interpreted as legal advice,
-        solicitation, or advertisement.
-      </p>
+        <div className="w-16 h-0.5 bg-primary mb-6" />
 
-      <p className="mb-4">
-        Visitors should seek independent legal advice before acting upon any
-        information available on this website.
-      </p>
+        <p className="font-sans text-muted-foreground max-w-2xl leading-relaxed">
+          Important information regarding the use of this website and its
+          legal content.
+        </p>
+      </div>
+
+      <div className="space-y-5">
+        <div className="bg-card border border-primary/30 p-6">
+          <p className="font-sans text-sm text-muted-foreground leading-relaxed">
+            This website complies with the applicable Bar Council of India
+            Rules.
+          </p>
+        </div>
+
+        <div className="bg-card border border-border p-6">
+          <p className="font-sans text-sm text-muted-foreground leading-relaxed">
+            The content published on this website is intended solely for
+            informational purposes and should not be interpreted as legal
+            advice, solicitation, or advertisement.
+          </p>
+        </div>
+
+        <div className="bg-card border border-border p-6">
+          <p className="font-sans text-sm text-muted-foreground leading-relaxed">
+            Visitors should seek independent legal advice before acting upon
+            any information available on this website.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1122,6 +1184,15 @@ function BookingPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", email: "", caseType: "", description: "" });
+  const formatName = (name: string) => {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
   const [paymentMode, setPaymentMode] =
   useState<"online" | "offline">("online");
    const [receiptDone, setReceiptDone] = useState(false);
@@ -1750,62 +1821,116 @@ at{" "}
           <h3 className="font-serif text-xl font-bold text-foreground mb-2">Pay Consultation Fee</h3>
           <p className="font-sans text-sm text-muted-foreground mb-8">Complete your payment via UPI to confirm your appointment.</p>
 
-          <div className="border border-primary/30 bg-secondary p-5 rounded-lg mb-6">
+          <div className="bg-card border border-border p-6 mb-6">
+  {/* Section Label */}
+  <div className="flex items-center gap-3 mb-5">
+    <div className="w-9 h-9 border border-primary/40 flex items-center justify-center shrink-0">
+      <CreditCard size={16} className="text-primary" />
+    </div>
 
-  <div className="font-sans text-xs tracking-widest text-primary uppercase font-semibold mb-4">
-    Choose Payment Method
+    <div>
+      <div className="font-sans text-xs tracking-[0.2em] text-primary uppercase font-semibold">
+        Payment Method
+      </div>
+      <div className="font-serif text-lg font-bold text-foreground mt-0.5">
+        Choose Payment Method
+      </div>
+    </div>
   </div>
 
-  <label className="flex items-center gap-3 mb-4 cursor-pointer">
-    <input
-      type="radio"
-      checked={paymentMode === "online"}
-      onChange={() => setPaymentMode("online")}
-    />
-    <div>
-      <div className="font-semibold text-foreground">
-        Pay Online (Recommended)
-      </div>
-      <div className="text-xs text-muted-foreground">
-        Pay instantly using UPI QR Code.
+  {/* Online Payment */}
+  <label
+    className={`block border p-4 mb-3 cursor-pointer transition-colors ${
+      paymentMode === "online"
+        ? "border-primary/60 bg-primary/5"
+        : "border-border hover:border-primary/40"
+    }`}
+  >
+    <div className="flex items-start gap-3">
+      <input
+        type="radio"
+        checked={paymentMode === "online"}
+        onChange={() => setPaymentMode("online")}
+        className="mt-1 accent-primary"
+      />
+
+      <div>
+        <div className="font-serif text-base font-bold text-foreground">
+          Pay Online
+          <span className="ml-2 font-sans text-[10px] tracking-wider uppercase text-primary font-semibold">
+            Recommended
+          </span>
+        </div>
+
+        <div className="font-sans text-xs text-muted-foreground mt-1 leading-relaxed">
+          Pay instantly using UPI QR Code.
+        </div>
       </div>
     </div>
   </label>
 
-  <label className="flex items-center gap-3 cursor-pointer">
-    <input
-      type="radio"
-      checked={paymentMode === "offline"}
-      onChange={() => setPaymentMode("offline")}
-    />
-    <div>
-      <div className="font-semibold text-foreground">
-        Pay at Chamber
-      </div>
-      <div className="text-xs text-muted-foreground">
-        Consultation fee will be paid during your visit.
+  {/* Offline Payment */}
+  <label
+    className={`block border p-4 cursor-pointer transition-colors ${
+      paymentMode === "offline"
+        ? "border-primary/60 bg-primary/5"
+        : "border-border hover:border-primary/40"
+    }`}
+  >
+    <div className="flex items-start gap-3">
+      <input
+        type="radio"
+        checked={paymentMode === "offline"}
+        onChange={() => setPaymentMode("offline")}
+        className="mt-1 accent-primary"
+      />
+
+      <div>
+        <div className="font-serif text-base font-bold text-foreground">
+          Pay at Chamber
+        </div>
+
+        <div className="font-sans text-xs text-muted-foreground mt-1 leading-relaxed">
+          Consultation fee will be paid during your visit.
+        </div>
       </div>
     </div>
   </label>
-
 </div>
 
 
           {/* Booking summary */}
-          <div className="bg-secondary border border-border p-5 mb-6 space-y-2 text-sm font-sans">
-            <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">Booking Summary</div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="text-foreground">{form.name}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Appointment</span><span className="text-foreground">
-  {selectedDate} · {selectedDay} · {selectedSlot}
-</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Case Type</span><span className="text-foreground">{form.caseType}</span></div>
-            <div className="flex justify-between border-t border-border pt-3 mt-2">
-              <span className="text-muted-foreground font-semibold">Consultation Fee</span>
-              <span className="text-primary font-black text-base">
-  ₹{consultationFee.toLocaleString("en-IN")}
-</span>
-            </div>
-          </div>
+<div className="bg-secondary border border-border p-5 mb-6 space-y-2 text-sm font-sans">
+  <div className="font-sans text-xs tracking-widest text-muted-foreground uppercase mb-3">
+    Booking Summary
+  </div>
+
+  <div className="flex justify-between">
+    <span className="text-muted-foreground">Name</span>
+    <span className="text-foreground">{formatName(form.name)}</span>
+  </div>
+
+  <div className="flex justify-between">
+    <span className="text-muted-foreground">Appointment</span>
+    <span className="text-foreground">
+      {selectedDate} · {selectedDay} · {selectedSlot}
+    </span>
+  </div>
+
+  <div className="flex justify-between">
+    <span className="text-muted-foreground">Case Type</span>
+    <span className="text-foreground">{form.caseType}</span>
+  </div>
+
+  <div className="flex justify-between border-t border-border pt-3 mt-2">
+    <span className="text-muted-foreground font-semibold">
+      Consultation Fee
+    </span>
+    <span className="text-primary font-black text-base">
+      ₹{consultationFee.toLocaleString("en-IN")}
+    </span>
+  </div>
+</div>
 
           {/* UPI payment box */}
           {paymentMode === "online" && (
