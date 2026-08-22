@@ -108,202 +108,82 @@ useEffect(() => {
 }
 
   return (
-    <section className="pt-28 pb-20 px-6 bg-background min-h-screen">
-      <div className="max-w-6xl mx-auto">
+  <section className="pt-20 pb-20 px-6 bg-background min-h-screen">
+    <div className="max-w-5xl mx-auto">
 
-        {/* Heading */}
-        <div className="text-center mb-12">
-          <h1 className="font-serif text-4xl font-bold text-foreground">
-            Legal Repository
-          </h1>
+      <div className="text-center pt-1 md:pt-4">
 
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            Research Papers, Case Laws, Legal Articles and Current Legal
-            Updates by Bajrangi Verma Advocate.
-          </p>
+        {/* Section Label */}
+        <div className="flex items-center justify-center gap-3 mb-6">
+          <div className="h-px w-10 bg-primary/40"></div>
+
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+            Legal Research & Resources
+          </span>
+
+          <div className="h-px w-10 bg-primary/40"></div>
         </div>
 
-        {/* Search Box */}
-        <div className="relative max-w-xl mx-auto mb-10">
-          <Search
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-            size={18}
-          />
+        {/* Main Heading */}
+        <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
+          Legal Repository
+        </h1>
 
-          <input
-            type="text"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-border bg-card rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:border-primary"
-          />
-        </div>
+        <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+          A dedicated collection of legal research, case laws, articles and
+          other authoritative legal resources.
+        </p>
 
-        {/* Tabs */}
+        {/* Coming Soon Card */}
+        <div className="relative mt-12 max-w-3xl mx-auto">
 
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
+          <div className="bg-card border border-border rounded-2xl px-8 py-12 md:px-14 md:py-14 shadow-sm">
 
-          <button
-            onClick={() => changeTab("research")}
-            className={`px-5 py-2 rounded-lg ${
-              activeTab === "research"
-                ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border"
-            }`}
-          >
-            Research Papers
-          </button>
+            {/* Icon */}
+            <div className="mx-auto mb-7 w-20 h-20 rounded-full border border-primary/20 bg-primary/5 flex items-center justify-center">
+              <BookOpen
+                className="text-primary"
+                size={34}
+                strokeWidth={1.5}
+              />
+            </div>
 
-          <button
-            onClick={() => changeTab("articles")}
-            className={`px-5 py-2 rounded-lg ${
-              activeTab === "articles"
-                ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border"
-            }`}
-          >
-            Articles
-          </button>
+            {/* Status */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 mb-6">
+              <span className="w-2 h-2 rounded-full bg-primary"></span>
 
-          <button
-            onClick={() => changeTab("caselaw")}
-            className={`px-5 py-2 rounded-lg ${
-              activeTab === "caselaw"
-                ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border"
-            }`}
-          >
-            Case Laws
-          </button>
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+                Coming Soon
+              </span>
+            </div>
 
-                </div>
+            {/* Message */}
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-5">
+              Our Legal Repository is Under Development
+            </h2>
 
-        {/* Research Papers */}
+            <p className="text-muted-foreground text-sm md:text-base leading-7 max-w-2xl mx-auto">
+              Our Legal Repository is currently being updated with carefully
+              curated research papers, case laws, legal articles and other
+              legal resources. We are working to create a reliable and
+              valuable knowledge resource and will be making it available
+              shortly.
+            </p>
 
-        {activeTab === "research" && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {researchPapers
-  .filter(
-    (paper) =>
-      paper.title.toLowerCase().includes(search.toLowerCase()) ||
-      (paper.category || "")
-        .toLowerCase()
-        .includes(search.toLowerCase())
-  )
-  .map((paper) => (
-                <div
-                  key={paper.title}
-                  className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
-                >
-                  <div className="flex items-center gap-2 text-primary mb-3">
-                    <BookOpen size={18} />
-                    <span className="text-xs uppercase tracking-wider">
-                      {paper.category}
-                    </span>
-                  </div>
+            {/* Bottom Line */}
+            <div className="mt-9 pt-7 border-t border-border">
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Research • Case Laws • Legal Articles • Legal Resources
+              </p>
+            </div>
 
-                  <h3 className="text-xl font-serif font-bold text-foreground mb-3">
-                    {paper.title}
-                  </h3>
-
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {paper.summary}
-                  </p>
-
-                  <div className="flex justify-between text-xs text-muted-foreground mb-4">
-                    <span>{paper.author}</span>
-                    <span>{paper.date}</span>
-                  </div>
-
-                  <button
-  onClick={() => setSelectedItem(paper)}
-  className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
->
-  Read More
-  <ChevronRight size={16} />
-</button>
-                </div>
-              ))}
           </div>
-        )}
 
-        {/* Articles */}
-
-{activeTab === "articles" && (
-  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {articles.map((article) => (
-      <div
-        key={article.title}
-        className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
-      >
-
-        <div className="flex items-center gap-2 text-primary mb-3">
-          <FileText size={18} />
-          <span className="text-xs uppercase tracking-wider">
-            Legal Article
-          </span>
         </div>
 
-        <h3 className="text-xl font-serif font-bold text-foreground mb-3">
-          {article.title}
-        </h3>
-
-        <p className="text-sm text-muted-foreground mb-4">
-          {article.summary}
-        </p>
-
-        <button
-  onClick={() => setSelectedItem(article)}
-  className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
->
-  Read More
-  <ChevronRight size={16} />
-</button>
-
       </div>
-    ))}
-  </div>
-)}
 
-{/* Case Laws */}
-
-{activeTab === "caselaw" && (
-  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {caseLaws.map((law) => (
-  <div
-    key={law.title}
-        className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-all"
-      >
-
-        <div className="flex items-center gap-2 text-primary mb-3">
-          <Scale size={18} />
-          <span className="text-xs uppercase tracking-wider">
-            Supreme Court Case Law
-          </span>
-        </div>
-
-        <h3 className="text-xl font-serif font-bold text-foreground mb-3">
-          {law.title}
-        </h3>
-
-        <p className="text-sm text-muted-foreground mb-4">
-          {law.summary}
-        </p>
-
-        <button
-  onClick={() => setSelectedItem(law)}
-  className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
->
-  Read Judgment
-  <ChevronRight size={16} />
-</button>
-
-      </div>
-    ))}
-  </div>
-)}
-
-      </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

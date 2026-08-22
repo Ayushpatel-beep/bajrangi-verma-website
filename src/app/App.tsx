@@ -482,7 +482,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
+      <section className="relative min-h-screen flex items-start overflow-hidden pt-16">
         {/* Background image with overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -495,7 +495,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
         </div>
         {/* Gold accent line */}
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-primary to-transparent z-10" />
-        <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pt-10 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-2 border border-primary/40 px-3 py-1.5 mb-8 text-[11px] tracking-[0.25em] text-primary font-sans uppercase">
               <Scale size={12} />
@@ -1005,7 +1005,7 @@ function PracticePage({ nav }: { nav: (p: Page) => void }) {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 pt-28 pb-20">
+    <div className="max-w-6xl mx-auto px-6 pt-20 pb-20">
       {/* Header */}
       <div className="mb-16">
         <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Legal Services</p>
@@ -1521,7 +1521,7 @@ const currentQR =
   const STEP_LABELS = ["Select Day", "Select Time", "Your Details", "Payment"];
 
   return (
-    <div className="max-w-4xl mx-auto px-6 pt-28 pb-20">
+    <div className="max-w-4xl mx-auto px-6 pt-20 pb-20">
       {/* Header */}
       <div className="mb-12">
         <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Schedule a Meeting</p>
