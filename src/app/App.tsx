@@ -482,7 +482,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-start overflow-hidden pt-16">
+      <section className="relative min-h-[auto] lg:min-h-screen flex items-start overflow-hidden pt-16">
         {/* Background image with overlay */}
         <div className="absolute inset-0 z-0">
           <img
