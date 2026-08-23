@@ -2046,6 +2046,31 @@ at{" "}
 }
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
+function DynamicCanonical() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const canonicalUrl =
+      `https://bajrangi-verma-advocate.netlify.app${location.pathname}`;
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+
+    canonical.setAttribute("href", canonicalUrl);
+
+    return () => {
+      // Keep the canonical tag for the current page
+    };
+  }, [location.pathname]);
+
+  return null;
+}
+
 function AppContent() {
   const navigate = useNavigate();
 
@@ -2169,6 +2194,7 @@ useEffect(() => {
 export default function App() {
   return (
     <BrowserRouter>
+      <DynamicCanonical />
       <AppContent />
     </BrowserRouter>
   );
