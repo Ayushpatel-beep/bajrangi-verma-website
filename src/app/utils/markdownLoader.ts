@@ -85,14 +85,14 @@ const caseLawFiles = import.meta.glob(
 );
 
 
-export const researchPapers = Object.values(researchFiles).map(
-  (file) => parseFile(file as string)
-);
+export const researchPapers = Object.entries(researchFiles)
+  .filter(([path]) => !path.split("/").pop()?.startsWith("_"))
+  .map(([, file]) => parseFile(file as string));
 
-export const articles = Object.values(articleFiles).map(
-  (file) => parseFile(file as string)
-);
+export const articles = Object.entries(articleFiles)
+  .filter(([path]) => !path.split("/").pop()?.startsWith("_"))
+  .map(([, file]) => parseFile(file as string));
 
-export const caseLaws = Object.values(caseLawFiles).map(
-  (file) => parseFile(file as string)
-);
+export const caseLaws = Object.entries(caseLawFiles)
+  .filter(([path]) => !path.split("/").pop()?.startsWith("_"))
+  .map(([, file]) => parseFile(file as string));

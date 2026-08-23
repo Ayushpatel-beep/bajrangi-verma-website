@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "target": "es2015",
+    "lib": ["es2017", "dom"],
+    "sourceMap": true,
+    "rootDir": "src",
+    "outDir": "dist/lib",
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src"
+  ]
+}

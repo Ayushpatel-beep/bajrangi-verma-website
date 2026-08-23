@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import LegalArticleDetail from "./LegalArticleDetail";
 
 import {
@@ -17,173 +16,318 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-type ResearchPaper = {
+type LegalItem = {
   title: string;
   category?: string;
   author?: string;
   date?: string;
   summary?: string;
-};
-
-
-type Article = {
-  title: string;
-  category?: string;
-  author?: string;
-  date?: string;
-  summary?: string;
-};
-
-
-type CaseLaw = {
-  title: string;
   court?: string;
   citation?: string;
-  date?: string;
-  summary?: string;
+  content: string;
 };
 
-
+type Tab = "research" | "articles" | "caselaw";
 
 export default function LegalRepository() {
-  const getTabFromPath = () => {
-  const path = window.location.pathname;
+  const getTabFromPath = (): Tab => {
+    const path = window.location.pathname;
 
-  if (path === "/legal-repository/articles") {
-    return "articles";
-  }
+    if (path === "/legal-repository/articles") {
+      return "articles";
+    }
 
-  if (path === "/legal-repository/case-laws") {
-    return "caselaw";
-  }
+    if (path === "/legal-repository/case-laws") {
+      return "caselaw";
+    }
 
-  return "research";
-};
-
-const [activeTab, setActiveTab] = useState(getTabFromPath);
-
-const changeTab = (tab: string) => {
-  setActiveTab(tab);
-
-  let path = "/legal-repository";
-
-  if (tab === "articles") {
-    path = "/legal-repository/articles";
-  }
-
-  if (tab === "caselaw") {
-    path = "/legal-repository/case-laws";
-  }
-
-  if (tab === "research") {
-    path = "/legal-repository/research-papers";
-  }
-
-  window.history.pushState({}, "", path);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
-useEffect(() => {
-  const handlePopState = () => {
-    setActiveTab(getTabFromPath());
+    return "research";
   };
 
-  window.addEventListener("popstate", handlePopState);
-
-  return () => {
-    window.removeEventListener("popstate", handlePopState);
-  };
-}, []);
-
+  const [activeTab, setActiveTab] = useState<Tab>(getTabFromPath);
   const [search, setSearch] = useState("");
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<LegalItem | null>(null);
+
+  const changeTab = (tab: Tab) => {
+    setActiveTab(tab);
+
+    let path = "/legal-repository/research-papers";
+
+    if (tab === "articles") {
+      path = "/legal-repository/articles";
+    }
+
+    if (tab === "caselaw") {
+      path = "/legal-repository/case-laws";
+    }
+
+    window.history.pushState({}, "", path);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setActiveTab(getTabFromPath());
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
   if (selectedItem) {
-  return (
-    <LegalArticleDetail
-      item={selectedItem}
-      onBack={() => setSelectedItem(null)}
-    />
-  );
-}
+    return (
+      <LegalArticleDetail
+        item={selectedItem}
+        onBack={() => setSelectedItem(null)}
+      />
+    );
+  }
+
+  let items: LegalItem[] = [];
+  let heading = "";
+  let description = "";
+  let Icon = BookOpen;
+
+  if (activeTab === "research") {
+    items = researchPapers as LegalItem[];
+    heading = "Research Papers";
+    description =
+      "Academic research and detailed legal studies covering important areas of law.";
+    Icon = BookOpen;
+  }
+
+  if (activeTab === "articles") {
+    items = articles as LegalItem[];
+    heading = "Legal Articles";
+    description =
+      "Legal analysis, commentary and informative articles on contemporary legal issues.";
+    Icon = FileText;
+  }
+
+  if (activeTab === "caselaw") {
+    items = caseLaws as LegalItem[];
+    heading = "Case Laws";
+    description =
+      "Important judgments, precedents and case law materials for legal research.";
+    Icon = Scale;
+  }
+
+  const filteredItems = items.filter((item) => {
+    const query = search.toLowerCase().trim();
+
+    if (!query) return true;
+
+    return (
+      item.title.toLowerCase().includes(query) ||
+      item.category?.toLowerCase().includes(query) ||
+      item.author?.toLowerCase().includes(query) ||
+      item.court?.toLowerCase().includes(query) ||
+      item.citation?.toLowerCase().includes(query) ||
+      item.summary?.toLowerCase().includes(query)
+    );
+  });
 
   return (
-  <section className="pt-20 pb-20 px-6 bg-background min-h-screen">
-    <div className="max-w-5xl mx-auto">
+    <section className="pt-24 pb-20 px-6 bg-background min-h-screen">
+      <div className="max-w-6xl mx-auto">
 
-      <div className="text-center pt-1 md:pt-4">
+        {/* Header */}
+        <div className="text-center mb-12">
 
-        {/* Section Label */}
-        <div className="flex items-center justify-center gap-3 mb-6">
-          <div className="h-px w-10 bg-primary/40"></div>
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <div className="h-px w-10 bg-primary/40" />
 
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-            Legal Research & Resources
-          </span>
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              Legal Research & Resources
+            </span>
 
-          <div className="h-px w-10 bg-primary/40"></div>
+            <div className="h-px w-10 bg-primary/40" />
+          </div>
+
+          <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
+            Legal Repository
+          </h1>
+
+          <p className="mt-4 max-w-2xl mx-auto text-muted-foreground leading-relaxed">
+            A curated collection of research papers, legal articles and
+            important case laws for legal research and reference.
+          </p>
         </div>
 
-        {/* Main Heading */}
-        <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-          Legal Repository
-        </h1>
+        {/* Category Tabs */}
+        <div className="flex flex-col md:flex-row gap-3 max-w-4xl mx-auto mb-10">
 
-        <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-          A dedicated collection of legal research, case laws, articles and
-          other authoritative legal resources.
-        </p>
+          <button
+            onClick={() => changeTab("research")}
+            className={`flex-1 flex items-center justify-center gap-3 px-5 py-4 rounded-xl border transition-all ${
+              activeTab === "research"
+                ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                : "bg-card text-foreground border-border hover:border-primary/40"
+            }`}
+          >
+            <BookOpen size={20} />
+            <span className="font-semibold">Research Papers</span>
+          </button>
 
-        {/* Coming Soon Card */}
-        <div className="relative mt-12 max-w-3xl mx-auto">
+          <button
+            onClick={() => changeTab("articles")}
+            className={`flex-1 flex items-center justify-center gap-3 px-5 py-4 rounded-xl border transition-all ${
+              activeTab === "articles"
+                ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                : "bg-card text-foreground border-border hover:border-primary/40"
+            }`}
+          >
+            <FileText size={20} />
+            <span className="font-semibold">Articles</span>
+          </button>
 
-          <div className="bg-card border border-border rounded-2xl px-8 py-12 md:px-14 md:py-14 shadow-sm">
+          <button
+            onClick={() => changeTab("caselaw")}
+            className={`flex-1 flex items-center justify-center gap-3 px-5 py-4 rounded-xl border transition-all ${
+              activeTab === "caselaw"
+                ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                : "bg-card text-foreground border-border hover:border-primary/40"
+            }`}
+          >
+            <Scale size={20} />
+            <span className="font-semibold">Case Laws</span>
+          </button>
 
-            {/* Icon */}
-            <div className="mx-auto mb-7 w-20 h-20 rounded-full border border-primary/20 bg-primary/5 flex items-center justify-center">
-              <BookOpen
-                className="text-primary"
-                size={34}
-                strokeWidth={1.5}
-              />
+        </div>
+
+        {/* Search */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <div className="relative">
+
+            <Search
+              size={20}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
+            />
+
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={`Search ${heading.toLowerCase()}...`}
+              className="w-full h-14 pl-12 pr-5 rounded-xl border border-border bg-card text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all"
+            />
+
+          </div>
+        </div>
+
+        {/* Section Heading */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
+
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Icon size={21} className="text-primary" />
+              </div>
+
+              <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
+                {heading}
+              </h2>
             </div>
 
-            {/* Status */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 mb-6">
-              <span className="w-2 h-2 rounded-full bg-primary"></span>
-
-              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-                Coming Soon
-              </span>
-            </div>
-
-            {/* Message */}
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-5">
-              Our Legal Repository is Under Development
-            </h2>
-
-            <p className="text-muted-foreground text-sm md:text-base leading-7 max-w-2xl mx-auto">
-              Our Legal Repository is currently being updated with carefully
-              curated research papers, case laws, legal articles and other
-              legal resources. We are working to create a reliable and
-              valuable knowledge resource and will be making it available
-              shortly.
+            <p className="text-sm text-muted-foreground max-w-2xl">
+              {description}
             </p>
+          </div>
 
-            {/* Bottom Line */}
-            <div className="mt-9 pt-7 border-t border-border">
-              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                Research • Case Laws • Legal Articles • Legal Resources
-              </p>
-            </div>
-
+          <div className="text-sm text-muted-foreground">
+            {filteredItems.length}{" "}
+            {filteredItems.length === 1 ? "resource" : "resources"}
           </div>
 
         </div>
 
-      </div>
+        {/* Resource Cards */}
+        {filteredItems.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-    </div>
-  </section>
-);
+            {filteredItems.map((item, index) => (
+              <article
+  key={`${item.title}-${index}`}
+  onClick={() => setSelectedItem(item)}
+  className="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+>
+
+                {/* Category */}
+                {item.category && (
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-xs font-medium text-primary mb-4">
+                    {item.category}
+                  </div>
+                )}
+
+                {/* Title */}
+                <h3 className="font-serif text-xl font-bold text-foreground leading-snug group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+
+                {/* Metadata */}
+                <div className="flex flex-wrap gap-x-5 gap-y-2 mt-4 text-xs text-muted-foreground">
+
+                  {item.author && (
+                    <span>
+                      By {item.author}
+                    </span>
+                  )}
+
+                  {item.court && (
+                    <span>
+                      {item.court}
+                    </span>
+                  )}
+
+                  {item.date && (
+                    <span className="flex items-center gap-1">
+                      <Calendar size={13} />
+                      {item.date}
+                    </span>
+                  )}
+
+                </div>
+
+                {/* Summary */}
+                {item.summary && (
+                  <p className="mt-4 text-sm text-muted-foreground leading-6 line-clamp-3">
+                    {item.summary}
+                  </p>
+                )}
+
+                {/* Read */}
+                <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
+  Read More
+  <ChevronRight size={16} />
+</div>
+
+              </article>
+            ))}
+
+          </div>
+        ) : (
+          <div className="text-center py-16 border border-dashed border-border rounded-xl bg-card/50">
+
+            <Search
+              size={32}
+              className="mx-auto text-muted-foreground mb-4"
+            />
+
+            <h3 className="font-serif text-xl font-semibold text-foreground">
+              No resources found
+            </h3>
+
+            <p className="mt-2 text-sm text-muted-foreground">
+              Try a different search term.
+            </p>
+
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
 }
