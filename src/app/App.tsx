@@ -245,10 +245,8 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
         <div className="md:hidden bg-card/90 backdrop-blur-md border-b border-border/60 px-6 py-4 flex flex-col gap-3">
           {links.map(l => (
             <button key={l.page} onClick={() => { nav(l.page); setOpen(false); }}
-              className={`text-left font-sans text-sm tracking-wide px-4 py-2.5 rounded-xl border border-border/50 bg-background/30 backdrop-blur-sm transition-all duration-200 ${
-  current === l.page
-    ? "text-primary bg-primary/10 border-primary/20"
-    : "text-muted-foreground hover:text-foreground hover:bg-background/50"
+              className={`text-left font-sans text-sm tracking-wide py-1 ${
+  current === l.page ? "text-primary" : "text-muted-foreground"
 }`}>
               {l.label}
             </button>
