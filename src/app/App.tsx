@@ -242,14 +242,18 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 </button>
       </div>
       {open && (
-        <div className="md:hidden bg-card border-b border-border px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-card/90 backdrop-blur-md border-b border-border/60 px-6 py-4 flex flex-col gap-3">
           {links.map(l => (
             <button key={l.page} onClick={() => { nav(l.page); setOpen(false); }}
-              className={`text-left font-sans text-sm tracking-wide py-1 ${current === l.page ? "text-primary" : "text-muted-foreground"}`}>
+              className={`text-left font-sans text-sm tracking-wide px-4 py-2.5 rounded-xl border border-border/50 bg-background/30 backdrop-blur-sm transition-all duration-200 ${
+  current === l.page
+    ? "text-primary bg-primary/10 border-primary/20"
+    : "text-muted-foreground hover:text-foreground hover:bg-background/50"
+}`}>
               {l.label}
             </button>
           ))}
-          <a href={CALL_LINK_HEADER} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold font-sans w-fit">
+          <a href={CALL_LINK_HEADER} className="flex items-center gap-2 bg-primary/90 backdrop-blur-sm text-primary-foreground px-4 py-2.5 text-sm font-semibold font-sans w-fit rounded-xl border border-primary/30 shadow-sm transition-all duration-200 active:scale-95">
             <Phone size={14} /> Call Now
           </a>
         </div>
