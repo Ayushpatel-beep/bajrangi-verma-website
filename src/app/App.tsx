@@ -233,9 +233,13 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
           </a>
         </nav>
         {/* Mobile menu */}
-        <button className="md:hidden text-foreground" onClick={() => setOpen(v => !v)}>
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <button
+  className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-background/40 backdrop-blur-md border border-border/60 text-foreground shadow-sm transition-all duration-200 active:scale-95"
+  onClick={() => setOpen(v => !v)}
+  aria-label={open ? "Close menu" : "Open menu"}
+>
+  {open ? <X size={21} /> : <Menu size={21} />}
+</button>
       </div>
       {open && (
         <div className="md:hidden bg-card border-b border-border px-6 py-4 flex flex-col gap-4">
