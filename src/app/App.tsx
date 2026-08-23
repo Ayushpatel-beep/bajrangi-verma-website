@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -746,7 +746,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           <a
             href={CALL_LINK}
             aria-label="Call Bajrangi Verma"
-            className="w-14 h-14 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+            className="w-14 h-14 rounded-full border border-white/20 bg-white/10 backdrop-blur-2xl shadow-lg flex items-center justify-center text-primary hover:bg-white/20 hover:border-white/30 transition-all duration-200 active:scale-95"
           >
             <Phone size={22} />
           </a>
@@ -758,7 +758,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       <div className="sm:hidden border-t border-primary/30 p-4">
         <a
           href={CALL_LINK}
-          className="w-11 h-11 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+          className="w-11 h-11 rounded-full border border-white/20 bg-white/10 backdrop-blur-2xl shadow-md flex items-center justify-center text-primary hover:bg-white/20 hover:border-white/30 transition-all duration-200 active:scale-95"
           aria-label="Call Bajrangi Verma"
         >
           <Phone size={18} />
@@ -826,7 +826,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           <a
             href={CALL_LINK_ASHWANI}
             aria-label="Call Ashwani Kumar"
-            className="w-14 h-14 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+            className="w-14 h-14 rounded-full border border-white/20 bg-white/10 backdrop-blur-2xl shadow-lg flex items-center justify-center text-primary hover:bg-white/20 hover:border-white/30 transition-all duration-200 active:scale-95"
           >
             <Phone size={22} />
           </a>
@@ -838,7 +838,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       <div className="sm:hidden border-t border-primary/30 p-4">
         <a
           href={CALL_LINK_ASHWANI}
-          className="w-11 h-11 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-background transition-colors"
+          className="w-11 h-11 rounded-full border border-white/20 bg-white/10 backdrop-blur-2xl shadow-md flex items-center justify-center text-primary hover:bg-white/20 hover:border-white/30 transition-all duration-200 active:scale-95"
           aria-label="Call Ashwani Kumar"
         >
           <Phone size={18} />
@@ -2049,6 +2049,7 @@ at{" "}
 function AppContent() {
   const navigate = useNavigate();
 
+  const [showRepositoryNotice, setShowRepositoryNotice] = useState(false);
   const nav = (p: Page) => {
     const routes: Record<Page, string> = {
       home: "/",
@@ -2067,6 +2068,21 @@ function AppContent() {
   const location = useLocation();
 const currentPath = location.pathname;
 
+useEffect(() => {
+  if (currentPath !== "/") {
+    setShowRepositoryNotice(false);
+    return;
+  }
+
+  setShowRepositoryNotice(true);
+
+  const timer = setTimeout(() => {
+    setShowRepositoryNotice(false);
+  }, 5000);
+
+  return () => clearTimeout(timer);
+}, [currentPath]);
+
   const currentPage: Page =
   currentPath === "/practice-areas"
     ? "practice"
@@ -2083,6 +2099,51 @@ const currentPath = location.pathname;
       : "home";
 
   return (
+  <>
+    {showRepositoryNotice && (
+      <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/30 backdrop-blur-md">
+        <div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl p-6 sm:p-8">
+
+<div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+
+          <button
+            onClick={() => setShowRepositoryNotice(false)}
+            className="absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-muted-foreground hover:text-foreground hover:bg-white/20 transition-all duration-200 active:scale-95"
+            aria-label="Close notice"
+          >
+            <X size={18} />
+          </button>
+
+          <div className="pr-8">
+            <p className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-primary mb-2">
+              Coming Soon
+            </p>
+
+            <h2 className="font-serif text-xl sm:text-2xl font-semibold text-foreground mb-4">
+              Our Legal Repository is Under Development
+            </h2>
+
+            <p className="font-sans text-sm sm:text-base leading-relaxed text-muted-foreground">
+              Our Legal Repository is currently being updated with carefully curated
+              research papers, case laws, legal articles and other legal resources.
+              We are working to create a reliable and valuable knowledge resource
+              and will be making it available shortly.
+            </p>
+
+            <div className="mt-5 flex flex-wrap gap-2 text-xs sm:text-sm text-muted-foreground">
+              <span>Research</span>
+              <span>•</span>
+              <span>Case Laws</span>
+              <span>•</span>
+              <span>Legal Articles</span>
+              <span>•</span>
+              <span>Legal Resources</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
     <div
       className="min-h-screen bg-background text-foreground"
       style={{ fontFamily: "'Nunito Sans', sans-serif" }}
@@ -2101,7 +2162,8 @@ const currentPath = location.pathname;
 
       <Footer nav={nav} />
     </div>
-  );
+  </>
+);
 }
 
 export default function App() {
