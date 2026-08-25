@@ -1,4 +1,5 @@
 export type MarkdownItem = {
+  slug: string;
   title: string;
   date?: string;
   summary?: string;
@@ -10,8 +11,7 @@ export type MarkdownItem = {
   content: string;
 };
 
-function parseFile(file: string): MarkdownItem {
-
+function parseFile(file: string, path: string): MarkdownItem {
   const frontmatterMatch = file.match(
     /^---\s*([\s\S]*?)\s*---/
   );
@@ -20,7 +20,6 @@ function parseFile(file: string): MarkdownItem {
     /^---\s*([\s\S]*?)\s*---/,
     ""
   ).trim();
-
 
   const metadata: Record<string, string> = {};
 
@@ -39,8 +38,17 @@ function parseFile(file: string): MarkdownItem {
       });
   }
 
+  const fileName =
+    path.split("/").pop()?.replace(/\.md$/i, "") || "";
+
+  const slug = fileName
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   return {
+    slug,
     title: metadata.title || "",
     date: metadata.date || "",
     summary: metadata.summary || "",
@@ -49,11 +57,11 @@ function parseFile(file: string): MarkdownItem {
     court: metadata.court || "",
     citation: metadata.citation || "",
     keywords: metadata.keywords
-  ? metadata.keywords
-      .split(",")
-      .map((keyword) => keyword.trim())
-      .filter(Boolean)
-  : [],
+      ? metadata.keywords
+          .split(",")
+          .map((keyword) => keyword.trim())
+          .filter(Boolean)
+      : [],
     content,
   };
 }
@@ -94,12 +102,12 @@ const caseLawFiles = import.meta.glob(
 
 export const researchPapers = Object.entries(researchFiles)
   .filter(([path]) => !path.split("/").pop()?.startsWith("_"))
-  .map(([, file]) => parseFile(file as string));
+  .map(([path, file]) => parseFile(file as string, path));
 
 export const articles = Object.entries(articleFiles)
   .filter(([path]) => !path.split("/").pop()?.startsWith("_"))
-  .map(([, file]) => parseFile(file as string));
+  .map(([path, file]) => parseFile(file as string, path));
 
 export const caseLaws = Object.entries(caseLawFiles)
   .filter(([path]) => !path.split("/").pop()?.startsWith("_"))
-  .map(([, file]) => parseFile(file as string));
+  .map(([path, file]) => parseFile(file as string, path));

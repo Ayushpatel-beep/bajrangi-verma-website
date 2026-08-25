@@ -2097,21 +2097,34 @@ function AppContent() {
 const currentPath = location.pathname;
 
 useEffect(() => {
+
   if (currentPath !== "/") {
+
     setShowRepositoryNotice(false);
+
     return;
   }
 
   setShowRepositoryNotice(true);
 
   const timer = setTimeout(() => {
+
     setShowRepositoryNotice(false);
+
   }, 5000);
 
   return () => clearTimeout(timer);
+
 }, [currentPath]);
 
-  const currentPage: Page =
+const repositoryDetailMatch = currentPath.match(
+  /^\/legal-repository\/(research-papers|articles|case-laws)\/([^/]+)$/
+);
+
+const repositorySlug = repositoryDetailMatch?.[2] || "";
+const repositoryType = repositoryDetailMatch?.[1] || "";
+
+const currentPage: Page =
   currentPath === "/practice-areas"
     ? "practice"
     : currentPath.startsWith("/book-consultation")
@@ -2182,7 +2195,12 @@ useEffect(() => {
         {currentPage === "home" && <HomePage nav={nav} />}
         {currentPage === "practice" && <PracticePage nav={nav} />}
         {currentPage === "booking" && <BookingPage />}
-        {currentPage === "repository" && <LegalRepository />}
+        {currentPage === "repository" && (
+  <LegalRepository
+  initialSlug={repositorySlug}
+  initialType={repositoryType}
+/>
+)}
         {currentPage === "privacy" && <PrivacyPage />}
         {currentPage === "terms" && <TermsPage />}
         {currentPage === "disclaimer" && <DisclaimerPage />}

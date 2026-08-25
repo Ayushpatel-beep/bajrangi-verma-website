@@ -18,6 +18,7 @@ import {
 
 type LegalItem = {
   title: string;
+    slug: string;
   category?: string;
   author?: string;
   date?: string;
@@ -29,7 +30,25 @@ type LegalItem = {
 
 type Tab = "research" | "articles" | "caselaw";
 
-export default function LegalRepository() {
+function getRepositoryPath(tab: Tab): string {
+  if (tab === "articles") {
+    return "/legal-repository/articles";
+  }
+
+  if (tab === "caselaw") {
+    return "/legal-repository/case-laws";
+  }
+
+  return "/legal-repository/research-papers";
+}
+
+export default function LegalRepository({
+  initialSlug = "",
+  initialType = "",
+}: {
+  initialSlug?: string;
+  initialType?: string;
+}) {
   const getTabFromPath = (): Tab => {
     const path = window.location.pathname;
 
@@ -48,6 +67,29 @@ export default function LegalRepository() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedItem, setSelectedItem] = useState<LegalItem | null>(null);
+  
+  useEffect(() => {
+  if (!initialSlug) {
+    setSelectedItem(null);
+    return;
+  }
+
+  let items: LegalItem[] = [];
+
+  if (initialType === "articles") {
+    items = articles as LegalItem[];
+  } else if (initialType === "case-laws") {
+    items = caseLaws as LegalItem[];
+  } else if (initialType === "research-papers") {
+    items = researchPapers as LegalItem[];
+  }
+
+  const foundItem = items.find(
+    (item) => item.slug === initialSlug
+  );
+
+  setSelectedItem(foundItem || null);
+}, [initialSlug, initialType]);
 
   const changeTab = (tab: Tab) => {
     setActiveTab(tab);
@@ -327,7 +369,18 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
             {filteredItems.map((item, index) => (
               <article
                 key={`${item.title}-${index}`}
-                onClick={() => setSelectedItem(item)}
+                onClick={() => {
+  const basePath = getRepositoryPath(activeTab);
+
+  window.history.pushState(
+    {},
+    "",
+    `${basePath}/${item.slug}`
+  );
+
+  setSelectedItem(item);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}}
                 className="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
               >
 
