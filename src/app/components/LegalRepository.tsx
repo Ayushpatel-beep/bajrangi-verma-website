@@ -63,11 +63,14 @@ export default function LegalRepository({
     return "research";
   };
 
+  const isLandingPage =
+  window.location.pathname === "/legal-repository";
+  const hasActiveTab = !isLandingPage;
   const [activeTab, setActiveTab] = useState<Tab>(getTabFromPath);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedItem, setSelectedItem] = useState<LegalItem | null>(null);
-  
+
   useEffect(() => {
   if (!initialSlug) {
     setSelectedItem(null);
@@ -107,7 +110,8 @@ export default function LegalRepository({
     }
 
     window.history.pushState({}, "", path);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+window.dispatchEvent(new PopStateEvent("popstate"));
+window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -240,7 +244,7 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
           <button
             onClick={() => changeTab("research")}
             className={`flex-1 flex items-center justify-center gap-3 px-5 py-4 rounded-xl border transition-all ${
-              activeTab === "research"
+              hasActiveTab && activeTab === "research"
                 ? "bg-primary text-primary-foreground border-primary shadow-sm"
                 : "bg-card text-foreground border-border hover:border-primary/40"
             }`}
@@ -252,7 +256,7 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
           <button
             onClick={() => changeTab("articles")}
             className={`flex-1 flex items-center justify-center gap-3 px-5 py-4 rounded-xl border transition-all ${
-              activeTab === "articles"
+              hasActiveTab && activeTab === "articles"
                 ? "bg-primary text-primary-foreground border-primary shadow-sm"
                 : "bg-card text-foreground border-border hover:border-primary/40"
             }`}
@@ -264,7 +268,7 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
           <button
             onClick={() => changeTab("caselaw")}
             className={`flex-1 flex items-center justify-center gap-3 px-5 py-4 rounded-xl border transition-all ${
-              activeTab === "caselaw"
+              hasActiveTab && activeTab === "caselaw"
                 ? "bg-primary text-primary-foreground border-primary shadow-sm"
                 : "bg-card text-foreground border-border hover:border-primary/40"
             }`}
@@ -275,67 +279,107 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
 
         </div>
 
-        {/* Search */}
-        <div className="max-w-3xl mx-auto mb-6">
-          <div className="relative">
+        {!isLandingPage && (
+  <div className="max-w-3xl mx-auto mb-6">
+    <div className="relative">
 
-            <Search
-              size={20}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-            />
+      <Search
+        size={20}
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
+      />
 
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder={`Search ${heading.toLowerCase()}...`}
-              className="w-full h-14 pl-12 pr-5 rounded-xl border border-border bg-card text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all"
-            />
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder={`Search ${heading.toLowerCase()}...`}
+        className="w-full h-14 pl-12 pr-5 rounded-xl border border-border bg-card text-foreground outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all"
+      />
 
-          </div>
-        </div>
+    </div>
+  </div>
+)}
 
         {/* Dynamic Category Filter */}
-        {categories.length > 1 && (
-          <div className="max-w-5xl mx-auto mb-12">
+{!isLandingPage && categories.length > 1 && (
+  <div className="max-w-5xl mx-auto mb-12">
 
-            <div className="flex flex-wrap items-center justify-center gap-2.5">
+    <div className="flex flex-wrap items-center justify-center gap-2.5">
 
-              {categories.map((category) => {
-                const isActive = selectedCategory === category;
+      {categories.map((category) => {
+        const isActive = selectedCategory === category;
 
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`
-                      px-4
-                      py-2
-                      rounded-full
-                      border
-                      text-sm
-                      font-medium
-                      transition-all
-                      duration-200
-                      ${
-                        isActive
-                          ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                          : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-primary"
-                      }
-                    `}
-                  >
-                    {category}
-                  </button>
-                );
-              })}
+        return (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`
+              px-4
+              py-2
+              rounded-full
+              border
+              text-sm
+              font-medium
+              transition-all
+              duration-200
+              ${
+                isActive
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-primary"
+              }
+            `}
+          >
+            {category}
+          </button>
+        );
+      })}
 
-            </div>
+    </div>
 
-          </div>
-        )}
+  </div>
+)}
+
+{isLandingPage && (
+  <div className="max-w-4xl mx-auto mt-12 mb-14">
+
+    <div className="border border-border rounded-2xl bg-card p-8 md:p-10 shadow-sm">
+
+      <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-5">
+        About the Legal Repository
+      </h2>
+
+      <div className="space-y-5 text-muted-foreground leading-7 text-[15px] md:text-base">
+
+        <p>
+          The Legal Repository is a curated legal research resource
+          developed to provide structured access to research papers,
+          legal articles and important case laws in one place.
+        </p>
+
+        <p>
+          It brings together academic research, legal analysis and
+          significant judicial decisions to support students,
+          researchers, interns and legal professionals in their study
+          and reference work.
+        </p>
+
+        <p>
+          Each section contains carefully organised legal material
+          covering important areas of law, constitutional principles,
+          judicial decisions and contemporary legal issues. Select a
+          section above to explore the available resources.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
 
         {/* Section Heading */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
+        {!isLandingPage && (
+  <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
 
           <div>
             <div className="flex items-center gap-3 mb-2">
@@ -361,9 +405,12 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
           </div>
 
         </div>
+        )}
 
         {/* Resource Cards */}
-        {filteredItems.length > 0 ? (
+{!isLandingPage && (
+  <>
+    {filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             {filteredItems.map((item, index) => (
@@ -455,6 +502,8 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
 
           </div>
         )}
+            </>
+)}
 
       </div>
     </section>
