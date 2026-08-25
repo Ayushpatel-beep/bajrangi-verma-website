@@ -2098,11 +2098,12 @@ const currentPath = location.pathname;
 
 useEffect(() => {
 
-  if (currentPath !== "/") {
+  if (currentPath !== "/legal-repository") {
 
     setShowRepositoryNotice(false);
 
     return;
+
   }
 
   setShowRepositoryNotice(true);
@@ -2170,6 +2171,10 @@ const currentPage: Page =
               We are working to create a reliable and valuable knowledge resource
               and will be making it available shortly.
             </p>
+            <p>
+  You can visit the Legal Repository and explore the resources
+  currently available.
+</p>
 
             <div className="mt-5 flex flex-wrap gap-2 text-xs sm:text-sm text-muted-foreground">
               <span>Research</span>
