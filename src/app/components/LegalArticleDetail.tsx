@@ -10,6 +10,7 @@ type LegalItem = {
   author?: string;
   court?: string;
   citation?: string;
+  keywords?: string[];
   content: string;
 };
 
@@ -222,64 +223,50 @@ export default function LegalArticleDetail({
 
 
           {/* Keywords */}
-          <section
-            className="
-              mb-10
-              pb-9
-              border-b
-              border-border
-            "
-          >
+<section
+  className="
+    mb-10
+    pb-9
+    border-b
+    border-border
+  "
+>
+  <h2
+    className="
+      font-serif
+      text-xl
+      md:text-2xl
+      font-bold
+      text-primary
+      mb-5
+    "
+  >
+    Keywords
+  </h2>
 
-            <h2
-              className="
-                font-serif
-                text-xl
-                md:text-2xl
-                font-bold
-                text-primary
-                mb-5
-              "
-            >
-              Keywords
-            </h2>
-
-            <div className="flex flex-wrap gap-2.5">
-
-              {[
-                "Fundamental Rights",
-                "Constitution of India",
-                "Constitutional Law",
-                "Article 14",
-                "Article 19",
-                "Article 21",
-                "Article 32",
-                "Supreme Court of India",
-                "Basic Structure",
-              ].map((keyword) => (
-                <span
-                  key={keyword}
-                  className="
-                    inline-flex
-                    items-center
-                    rounded-full
-                    border
-                    border-primary/20
-                    bg-primary/[0.05]
-                    px-3.5
-                    py-1.5
-                    text-xs
-                    font-medium
-                    text-primary
-                  "
-                >
-                  {keyword}
-                </span>
-              ))}
-
-            </div>
-
-          </section>
+  <div className="flex flex-wrap gap-2.5">
+    {(item.keywords || []).map((keyword) => (
+      <span
+        key={keyword}
+        className="
+          inline-flex
+          items-center
+          rounded-full
+          border
+          border-primary/20
+          bg-primary/[0.05]
+          px-3.5
+          py-1.5
+          text-xs
+          font-medium
+          text-primary
+        "
+      >
+        {keyword}
+      </span>
+    ))}
+  </div>
+</section>
 
 
           {/* Markdown Content */}
@@ -437,31 +424,31 @@ export default function LegalArticleDetail({
 
 
           {/* End */}
-          <div
-            className="
-              max-w-3xl
-              mt-20
-              pt-8
-              border-t
-              border-border
-            "
-          >
-            <p
-              className="
-                text-[10px]
-                md:text-[11px]
-                uppercase
-                tracking-[0.2em]
-                text-muted-foreground
-              "
-            >
-              Legal Repository • Ayush Patel
-            </p>
-          </div>
+<div
+  className="
+    max-w-3xl
+    mt-16
+    pt-5
+    border-t
+    border-border
+  "
+>
+  <p
+    className="
+      text-[10px]
+      md:text-[11px]
+      uppercase
+      tracking-[0.2em]
+      text-muted-foreground
+    "
+  >
+    Legal Repository • Ayush Patel
+  </p>
+</div>
 
-        </main>
+</main>
 
-      </div>
-    </section>
-  );
+</div>
+</section>
+);
 }

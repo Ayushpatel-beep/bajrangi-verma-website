@@ -6,6 +6,7 @@ export type MarkdownItem = {
   author?: string;
   court?: string;
   citation?: string;
+  keywords?: string[];
   content: string;
 };
 
@@ -47,6 +48,12 @@ function parseFile(file: string): MarkdownItem {
     author: metadata.author || "",
     court: metadata.court || "",
     citation: metadata.citation || "",
+    keywords: metadata.keywords
+  ? metadata.keywords
+      .split(",")
+      .map((keyword) => keyword.trim())
+      .filter(Boolean)
+  : [],
     content,
   };
 }

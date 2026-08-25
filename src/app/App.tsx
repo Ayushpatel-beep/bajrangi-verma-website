@@ -120,9 +120,12 @@ function AdminModal({ title, fields, onSave, onClose }: {
   onSave: (data: Record<string, string>) => void;
   onClose: () => void;
 }) {
-  const [data, setData] = useState<Record<string, string>>(
-    Object.fromEntries(fields.map(f => [f.key, ""]))
-  );
+  const [data, setData] = useState<Record<string, string>>(() =>
+  fields.reduce<Record<string, string>>((acc, f) => {
+    acc[f.key] = "";
+    return acc;
+  }, {})
+);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(data);

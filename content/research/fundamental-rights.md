@@ -4,6 +4,7 @@ author: "Ayush Patel"
 date: "2026-08-23"
 category: "Constitutional Law"
 summary: "A structured study of the Fundamental Rights guaranteed under Part III of the Constitution of India, examining their constitutional framework, judicial interpretation and significance in a democratic society."
+keywords: "Fundamental Rights, Constitution of India, Constitutional Law, Article 14, Article 19, Article 21, Article 32, Supreme Court of India, Basic Structure"
 ---
 
 # Fundamental Rights under the Constitution of India

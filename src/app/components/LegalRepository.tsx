@@ -46,10 +46,13 @@ export default function LegalRepository() {
 
   const [activeTab, setActiveTab] = useState<Tab>(getTabFromPath);
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedItem, setSelectedItem] = useState<LegalItem | null>(null);
 
   const changeTab = (tab: Tab) => {
     setActiveTab(tab);
+    setSearch("");
+    setSelectedCategory("All");
 
     let path = "/legal-repository/research-papers";
 
@@ -68,6 +71,8 @@ export default function LegalRepository() {
   useEffect(() => {
     const handlePopState = () => {
       setActiveTab(getTabFromPath());
+      setSearch("");
+      setSelectedCategory("All");
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -115,19 +120,49 @@ export default function LegalRepository() {
     Icon = Scale;
   }
 
+  /* Dynamic Categories */
+  const uniqueCategories = new Set<string>();
+
+items.forEach((item) => {
+  if (item.category?.trim()) {
+    uniqueCategories.add(item.category.trim());
+  }
+});
+
+const categories = ["All", ...Array.from(uniqueCategories).sort()];
+
+  /* Search + Category Filter */
   const filteredItems = items.filter((item) => {
-    const query = search.toLowerCase().trim();
+    const query = search.trim().toLowerCase();
 
-    if (!query) return true;
+    const matchesCategory =
+      selectedCategory === "All" ||
+      item.category?.trim().toLowerCase() ===
+        selectedCategory.toLowerCase();
 
-    return (
-      item.title.toLowerCase().includes(query) ||
-      item.category?.toLowerCase().includes(query) ||
-      item.author?.toLowerCase().includes(query) ||
-      item.court?.toLowerCase().includes(query) ||
-      item.citation?.toLowerCase().includes(query) ||
-      item.summary?.toLowerCase().includes(query)
-    );
+    if (!matchesCategory) {
+      return false;
+    }
+
+    if (!query) {
+      return true;
+    }
+
+    const searchableText = [
+      item.title,
+      item.category,
+      item.author,
+      item.date,
+      item.court,
+      item.citation,
+      item.summary,
+      item.content,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return searchableText.includes(query);
   });
 
   return (
@@ -199,7 +234,7 @@ export default function LegalRepository() {
         </div>
 
         {/* Search */}
-        <div className="max-w-3xl mx-auto mb-12">
+        <div className="max-w-3xl mx-auto mb-6">
           <div className="relative">
 
             <Search
@@ -218,11 +253,51 @@ export default function LegalRepository() {
           </div>
         </div>
 
+        {/* Dynamic Category Filter */}
+        {categories.length > 1 && (
+          <div className="max-w-5xl mx-auto mb-12">
+
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
+
+              {categories.map((category) => {
+                const isActive = selectedCategory === category;
+
+                return (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`
+                      px-4
+                      py-2
+                      rounded-full
+                      border
+                      text-sm
+                      font-medium
+                      transition-all
+                      duration-200
+                      ${
+                        isActive
+                          ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                          : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-primary"
+                      }
+                    `}
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+
+            </div>
+
+          </div>
+        )}
+
         {/* Section Heading */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
 
           <div>
             <div className="flex items-center gap-3 mb-2">
+
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Icon size={21} className="text-primary" />
               </div>
@@ -230,6 +305,7 @@ export default function LegalRepository() {
               <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
                 {heading}
               </h2>
+
             </div>
 
             <p className="text-sm text-muted-foreground max-w-2xl">
@@ -250,10 +326,10 @@ export default function LegalRepository() {
 
             {filteredItems.map((item, index) => (
               <article
-  key={`${item.title}-${index}`}
-  onClick={() => setSelectedItem(item)}
-  className="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
->
+                key={`${item.title}-${index}`}
+                onClick={() => setSelectedItem(item)}
+                className="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+              >
 
                 {/* Category */}
                 {item.category && (
@@ -300,9 +376,9 @@ export default function LegalRepository() {
 
                 {/* Read */}
                 <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
-  Read More
-  <ChevronRight size={16} />
-</div>
+                  Read More
+                  <ChevronRight size={16} />
+                </div>
 
               </article>
             ))}
@@ -321,7 +397,7 @@ export default function LegalRepository() {
             </h3>
 
             <p className="mt-2 text-sm text-muted-foreground">
-              Try a different search term.
+              Try a different search term or category.
             </p>
 
           </div>
