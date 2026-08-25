@@ -215,28 +215,33 @@ const categories = ["All", ...Array.from(uniqueCategories).sort()];
     <section className="pt-24 pb-20 px-6 bg-background min-h-screen">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
-        <div className="text-center mb-12">
 
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <div className="h-px w-10 bg-primary/40" />
+        {isLandingPage && (
+  <div className="text-center mb-12">
 
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              Legal Research & Resources
-            </span>
+    <div className="flex items-center justify-center gap-3 mb-5">
 
-            <div className="h-px w-10 bg-primary/40" />
-          </div>
+      <div className="h-px w-10 bg-primary/40" />
 
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-            Legal Repository
-          </h1>
+      <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+        Legal Research & Resources
+      </span>
 
-          <p className="mt-4 max-w-2xl mx-auto text-muted-foreground leading-relaxed">
-            A curated collection of research papers, legal articles and
-            important case laws for legal research and reference.
-          </p>
-        </div>
+      <div className="h-px w-10 bg-primary/40" />
+
+    </div>
+
+    <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
+      Legal Repository
+    </h1>
+
+    <p className="mt-4 max-w-2xl mx-auto text-muted-foreground leading-relaxed">
+      A curated collection of research papers, legal articles and
+      important case laws for legal research and reference.
+    </p>
+
+  </div>
+)}
 
         {/* Category Tabs */}
         <div className="flex flex-col md:flex-row gap-3 max-w-4xl mx-auto mb-10">
