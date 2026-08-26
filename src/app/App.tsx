@@ -8,6 +8,7 @@ import PrintReceipt from "@/app/components/PrintReceipt";
 import PrivacyPolicy from "@/app/PrivacyPolicy";
 import TermsConditions from "@/app/TermsConditions";
 import Disclaimer from "@/app/Disclaimer";
+import CookieConsent from "@/app/CookieConsent";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import upiQR from "@/imports/qrcode.jpg";
 import upiQR3500 from "@/imports/qrcode3500.jpg";
@@ -2035,22 +2036,23 @@ const currentPage: Page =
     >
       <Navbar current={currentPage} nav={nav} />
 
-      <main>
+            <main>
         {currentPage === "home" && <HomePage nav={nav} />}
         {currentPage === "practice" && <PracticePage nav={nav} />}
         {currentPage === "booking" && <BookingPage />}
         {currentPage === "repository" && (
-  <LegalRepository
-  initialSlug={repositorySlug}
-  initialType={repositoryType}
-/>
-)}
+          <LegalRepository
+            initialSlug={repositorySlug}
+            initialType={repositoryType}
+          />
+        )}
         {currentPage === "privacy" && <PrivacyPolicy />}
         {currentPage === "terms" && <TermsConditions />}
         {currentPage === "disclaimer" && <Disclaimer />}
       </main>
 
       <Footer nav={nav} />
+      <CookieConsent />
     </div>
   </>
 );
