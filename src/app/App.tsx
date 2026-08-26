@@ -335,26 +335,26 @@ function Footer({ nav }: { nav: (p: Page) => void }) {
   Legal Repository
 </button>
 
-  <button
-    onClick={() => nav("privacy")}
+    <a
+    href="/privacy-policy"
     className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
   >
     Privacy Policy
-  </button>
+  </a>
 
-  <button
-    onClick={() => nav("terms")}
+    <a
+    href="/terms-and-conditions"
     className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
   >
     Terms & Conditions
-  </button>
+  </a>
 
-  <button
-    onClick={() => nav("disclaimer")}
+    <a
+    href="/disclaimer"
     className="block text-sm font-sans text-muted-foreground hover:text-primary transition-colors"
   >
     Disclaimer
-  </button>
+  </a>
 </div>
           <div className="mt-4 flex gap-3">
             <a href={CALL_LINK_HEADER} className="flex items-center gap-2 text-xs bg-primary text-primary-foreground px-3 py-2 font-semibold font-sans hover:bg-accent transition-colors">
