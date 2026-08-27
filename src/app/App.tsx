@@ -525,6 +525,13 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
             Experienced Legal Representation in Lucknow
           </h2>
+          <p className="font-sans text-xs text-muted-foreground mb-1">
+  By <span className="font-semibold text-foreground">Adv. Bajrangi Verma</span>
+</p>
+
+<p className="font-sans text-xs text-muted-foreground mb-5">
+  Content reviewed: 27 August 2026
+</p>
 
           <div className="w-16 h-0.5 bg-primary mb-8" />
 
