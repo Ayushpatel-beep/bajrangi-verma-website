@@ -515,7 +515,58 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           </div>
         </div>
       </section>
+      {/* ── About the Practice ── */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <div className="max-w-4xl">
+          <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">
+            About the Practice
+          </p>
 
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Experienced Legal Representation in Lucknow
+          </h2>
+
+          <div className="w-16 h-0.5 bg-primary mb-8" />
+
+          <div className="space-y-5 font-sans text-sm md:text-base text-muted-foreground leading-relaxed">
+            <p>
+              Bajrangi Verma is an advocate practicing in Lucknow, Uttar Pradesh,
+              with extensive experience in civil, criminal and matrimonial matters.
+              The practice focuses on providing professional legal assistance,
+              representation and consultation based on the facts and requirements
+              of each individual matter.
+            </p>
+
+            <p>
+              Legal representation is available in matters before the District
+              Courts and Sessions Courts at Lucknow, as well as the High Court of
+              Judicature at Allahabad, Lucknow Bench. Areas of practice include
+              civil litigation, property and contractual disputes, criminal
+              defence, bail matters, matrimonial disputes, appeals, revisions
+              and other related proceedings.
+            </p>
+
+            <p>
+              The practice also provides assistance with legal documentation,
+              drafting and preparation of matters for court proceedings. Clients
+              can review the available practice areas and fee information before
+              submitting an enquiry or requesting a consultation.
+            </p>
+
+            <p>
+              The website also provides access to a Legal Repository containing
+              research papers, legal articles and case-law resources intended
+              for general legal awareness and educational purposes. Information
+              published on this website should not be considered a substitute
+              for legal advice based on the specific facts and circumstances of
+              a matter.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="border-t border-border" />
       {/* ── Team ── */}
 <section className="max-w-6xl mx-auto px-6 py-20">
   <div className="mb-12">
