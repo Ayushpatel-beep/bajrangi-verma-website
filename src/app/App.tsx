@@ -271,7 +271,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 function Footer({ nav }: { nav: (p: Page) => void }) {
   return (
     <footer className="bg-card border-t border-border mt-0">
-      <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-10">
         <div>
           <div className="flex items-center gap-3 mb-4">
             <Scale size={20} className="text-primary" />
@@ -393,7 +393,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="relative min-h-[auto] lg:min-h-screen flex items-start overflow-hidden pt-16">
+      <section className="relative min-h-[auto] lg:min-h-screen flex items-start overflow-hidden pt-12">
         {/* Background image with overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -469,7 +469,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       {/* ── Practice teaser ── */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-12">
           <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Areas of Practice</p>
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">Comprehensive Legal Services</h2>
@@ -516,7 +516,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
         </div>
       </section>
       {/* ── About the Practice ── */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section className="max-w-6xl mx-auto px-6 py-10">
         <div className="max-w-4xl">
           <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">
             About the Practice
@@ -568,7 +568,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       {/* ── Divider ── */}
       <div className="border-t border-border" />
       {/* ── Team ── */}
-<section className="max-w-6xl mx-auto px-6 py-20">
+<section className="max-w-6xl mx-auto px-6 py-10">
   <div className="mb-12">
     <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">
       Legal Team
@@ -743,7 +743,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
   </div>
 </section>
       {/* ── Reviews ── */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-6xl mx-auto px-6 py-10">
         <div className="mb-12">
           <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Client Testimonials</p>
           <div className="flex items-end gap-6">
@@ -783,7 +783,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 
       {/* ── Contact Section ── */}
       <section className="bg-card border-y border-border">
-        <div className="max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div>
             <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Get In Touch</p>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">Reach Out Directly</h2>
@@ -837,9 +837,9 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
                 const msg = `Hello Bajrangi Verma Advocate,%0A%0A*Name:* ${encodeURIComponent(formData.name)}%0A*Phone:* ${encodeURIComponent(formData.phone)}%0A*Subject:* ${encodeURIComponent(formData.subject)}%0A%0A*Description:*%0A${encodeURIComponent(formData.message)}`;
                 window.open(`https://wa.me/91${WA_NUMBER}?text=${msg}`, "_blank");
               }}
-              className="space-y-4"
+              className="space-y-2"
             >
-              <h3 className="font-serif text-xl font-bold text-foreground mb-6">Send a Query</h3>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-4">Send a Query</h3>
               {[
                 { id: "name", label: "Full Name *", type: "text", placeholder: "Your full name" },
                 { id: "phone", label: "Phone Number *", type: "tel", placeholder: "+91 XXXXX XXXXX" },
@@ -853,7 +853,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
                     required
                     value={(formData as any)[f.id]}
                     onChange={e => setFormData(v => ({ ...v, [f.id]: e.target.value }))}
-                    className="w-full bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                    className="w-full bg-input-background border border-border px-2 py-2 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
               ))}
@@ -865,7 +865,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
                   required
                   value={formData.message}
                   onChange={e => setFormData(v => ({ ...v, message: e.target.value }))}
-                  className="w-full bg-input-background border border-border px-4 py-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
+                  className="w-full bg-input-background border border-border px-2 py-2 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
                 />
               </div>
               <button type="submit"
