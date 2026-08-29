@@ -1951,10 +1951,17 @@ function DynamicCanonical() {
   const location = useLocation();
 
   useEffect(() => {
-    const canonicalUrl =
-      `https://bajrangi-verma-advocate.netlify.app${location.pathname}`;
+    const path =
+      location.pathname === "/"
+        ? "/"
+        : location.pathname.replace(/\/+$/, "");
 
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    const canonicalUrl =
+      `https://bajrangi-verma-advocate.netlify.app${path}`;
+
+    let canonical = document.querySelector(
+      'link[rel="canonical"]'
+    ) as HTMLLinkElement | null;
 
     if (!canonical) {
       canonical = document.createElement("link");
@@ -1963,10 +1970,6 @@ function DynamicCanonical() {
     }
 
     canonical.setAttribute("href", canonicalUrl);
-
-    return () => {
-      // Keep the canonical tag for the current page
-    };
   }, [location.pathname]);
 
   return null;
