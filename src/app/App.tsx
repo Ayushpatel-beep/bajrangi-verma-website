@@ -474,8 +474,19 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Areas of Practice</p>
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">Comprehensive Legal Services</h2>
           <div className="w-16 h-0.5 bg-primary" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+{/* Practice Areas Image */}
+<div className="w-full mt-10 mb-12 overflow-hidden border border-border">
+  <img
+    src="/images/practice-areas-legal-services.jpg"
+    alt="Professional legal services and legal consultation"
+    loading="lazy"
+    className="w-full h-[360px] md:h-[520px] object-cover object-center"
+  />
+  </div>
+</div>
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {services.map(({ icon: Icon, title, desc }) => (
             <div key={title} className="group bg-card border border-border p-7 hover:border-primary/60 transition-all hover:-translate-y-1">
               <div className="w-10 h-10 border border-primary/40 flex items-center justify-center mb-5 group-hover:bg-primary/10 transition-colors">
@@ -976,7 +987,7 @@ function PracticePage({ nav }: { nav: (p: Page) => void }) {
   return (
     <div className="max-w-6xl mx-auto px-6 pt-20 pb-20">
       {/* Header */}
-      <div className="mb-16">
+      <div className="mb-9">
         <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Legal Services</p>
         <h1 className="font-serif text-4xl md:text-5xl font-black text-foreground mb-4">Practice Areas</h1>
         <div className="w-16 h-0.5 bg-primary mb-6" />
@@ -984,6 +995,16 @@ function PracticePage({ nav }: { nav: (p: Page) => void }) {
           35 years of practice across Civil, Criminal, Matrimonial, and Constitutional law. Each case is handled with thorough research, strategic counsel, and committed court advocacy.
         </p>
       </div>
+
+      {/* Practice Areas Image */}
+<div className="w-full mb-9 overflow-hidden border border-border">
+  <img
+    src="/images/practice-areas-legal-practice.jpg"
+    alt="Professional legal practice and legal services"
+    loading="lazy"
+    className="w-full h-[360px] md:h-[520px] object-cover object-center"
+  />
+</div>
 
       {/* Fee transparency banner */}
       <div className="bg-card border border-primary/30 p-5 mb-12 flex flex-col md:flex-row items-start md:items-center gap-4">
