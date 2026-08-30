@@ -3,44 +3,110 @@
 
   <url>
     <loc>https://bajrangi-verma-advocate.netlify.app/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://bajrangi-verma-advocate.netlify.app/practice-areas</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://bajrangi-verma-advocate.netlify.app/book-consultation</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/research-papers</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/case-laws</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/research-papers/constitutional-morality-in-indian-constitutional-law</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/research-papers/fundamental-rights</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/research-papers/judicial-review-in-india</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/research-papers/separation-of-powers-in-india</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles/article-14-equality-before-law</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles/constitution-first-amendment-act-1951</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles/doctrine-of-basic-structure</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles/doctrine-of-natural-justice-in-indian-administrative-law</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles/doctrine-of-prospective-overruling</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles/right-to-privacy-under-article-21</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/articles/rticle-21-right-to-life-and-personal-liberty</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/case-laws/ak-gopalan-v-state-of-madras</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/case-laws/ic-golaknath-v-state-of-punjab</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/case-laws/kesavananda-bharati-v-state-of-kerala</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/case-laws/maneka-gandhi-v-union-of-india</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/case-laws/sajjan-singh-v-state-of-rajasthan</loc>
+  </url>
+
+  <url>
+    <loc>https://bajrangi-verma-advocate.netlify.app/legal-repository/case-laws/shankari-prasad-v-state-of-india</loc>
   </url>
 
   <url>
     <loc>https://bajrangi-verma-advocate.netlify.app/privacy-policy</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://bajrangi-verma-advocate.netlify.app/terms-and-conditions</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://bajrangi-verma-advocate.netlify.app/disclaimer</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 
 </urlset>
