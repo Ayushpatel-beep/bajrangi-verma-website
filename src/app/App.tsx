@@ -469,7 +469,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       {/* ── Practice teaser ── */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
+      <section className="max-w-6xl mx-auto px-6 pt-4 pb-12">
         <div className="mb-12">
           <p className="font-sans text-xs tracking-[0.3em] text-primary uppercase mb-3">Areas of Practice</p>
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">Comprehensive Legal Services</h2>
