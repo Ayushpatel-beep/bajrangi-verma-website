@@ -28,7 +28,7 @@ export default function LegalArticleDetail({
   useEffect(() => {
     const script = document.createElement("script");
 
-    script.dataset.zone = "11755460";
+    script.dataset.zone = "11755598";
     script.src = "https://nap5k.com/tag.min.js";
     script.async = true;
 
