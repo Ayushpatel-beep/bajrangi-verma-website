@@ -26,17 +26,6 @@ export default function LegalArticleDetail({
 }: Props) {
 
 useEffect(() => {
-  // Monetag zone 1
-  const monetagScript1 = document.createElement("script");
-  monetagScript1.dataset.zone = "11755598";
-  monetagScript1.src = "https://nap5k.com/tag.min.js";
-  monetagScript1.async = true;
-
-  // Monetag zone 2
-  const monetagScript2 = document.createElement("script");
-  monetagScript2.dataset.zone = "11755655";
-  monetagScript2.src = "https://al5sm.com/tag.min.js";
-  monetagScript2.async = true;
 
   // Adcash library
   const adcashScript = document.createElement("script");
@@ -53,13 +42,9 @@ useEffect(() => {
     }
   };
 
-  document.body.appendChild(monetagScript1);
-  document.body.appendChild(monetagScript2);
   document.body.appendChild(adcashScript);
 
   return () => {
-    monetagScript1.remove();
-    monetagScript2.remove();
     adcashScript.remove();
   };
 }, []);
