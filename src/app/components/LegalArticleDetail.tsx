@@ -25,19 +25,25 @@ export default function LegalArticleDetail({
   onBack,
 }: Props) {
 
-  useEffect(() => {
-    const script = document.createElement("script");
+useEffect(() => {
+  const script1 = document.createElement("script");
+  script1.dataset.zone = "11755598";
+  script1.src = "https://nap5k.com/tag.min.js";
+  script1.async = true;
 
-    script.dataset.zone = "11755598";
-    script.src = "https://nap5k.com/tag.min.js";
-    script.async = true;
+  const script2 = document.createElement("script");
+  script2.dataset.zone = "11755655";
+  script2.src = "https://al5sm.com/tag.min.js";
+  script2.async = true;
 
-    document.body.appendChild(script);
+  document.body.appendChild(script1);
+  document.body.appendChild(script2);
 
-    return () => {
-      script.remove();
-    };
-  }, []);
+  return () => {
+    script1.remove();
+    script2.remove();
+  };
+}, []);
 
   return (
     <section className="pt-28 pb-24 px-6 bg-background min-h-screen">
