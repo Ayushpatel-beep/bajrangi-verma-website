@@ -26,22 +26,41 @@ export default function LegalArticleDetail({
 }: Props) {
 
 useEffect(() => {
-  const script1 = document.createElement("script");
-  script1.dataset.zone = "11755598";
-  script1.src = "https://nap5k.com/tag.min.js";
-  script1.async = true;
+  // Monetag zone 1
+  const monetagScript1 = document.createElement("script");
+  monetagScript1.dataset.zone = "11755598";
+  monetagScript1.src = "https://nap5k.com/tag.min.js";
+  monetagScript1.async = true;
 
-  const script2 = document.createElement("script");
-  script2.dataset.zone = "11755655";
-  script2.src = "https://al5sm.com/tag.min.js";
-  script2.async = true;
+  // Monetag zone 2
+  const monetagScript2 = document.createElement("script");
+  monetagScript2.dataset.zone = "11755655";
+  monetagScript2.src = "https://al5sm.com/tag.min.js";
+  monetagScript2.async = true;
 
-  document.body.appendChild(script1);
-  document.body.appendChild(script2);
+  // Adcash library
+  const adcashScript = document.createElement("script");
+  adcashScript.id = "aclib";
+  adcashScript.type = "text/javascript";
+  adcashScript.src = "//acscdn.com/script/aclib.js";
+  adcashScript.async = true;
+
+  adcashScript.onload = () => {
+    if (window.aclib) {
+      window.aclib.runAutoTag({
+        zoneId: "cqqgsrjmuk",
+      });
+    }
+  };
+
+  document.body.appendChild(monetagScript1);
+  document.body.appendChild(monetagScript2);
+  document.body.appendChild(adcashScript);
 
   return () => {
-    script1.remove();
-    script2.remove();
+    monetagScript1.remove();
+    monetagScript2.remove();
+    adcashScript.remove();
   };
 }, []);
 
