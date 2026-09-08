@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -23,6 +24,21 @@ export default function LegalArticleDetail({
   item,
   onBack,
 }: Props) {
+
+  useEffect(() => {
+    const script = document.createElement("script");
+
+    script.dataset.zone = "11755460";
+    script.src = "https://nap5k.com/tag.min.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, []);
+
   return (
     <section className="pt-28 pb-24 px-6 bg-background min-h-screen">
       <div className="max-w-5xl mx-auto">
